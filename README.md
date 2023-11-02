@@ -1,5 +1,5 @@
 <!-- Update the title -->
-# Terraform Modules Template Project
+# Security and Compliance Center Workload Protection module
 
 <!--
 Update status and "latest release" badges:
@@ -19,7 +19,7 @@ TODO: Replace me with description of the module(s) in this repo
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-module-template](#terraform-ibm-module-template)
+* [terraform-ibm-scc-workload-protection](#terraform-ibm-scc-workload-protection)
 * [Examples](./examples)
     * [Basic example](./examples/basic)
     * [Complete example](./examples/complete)
@@ -37,7 +37,7 @@ https://terraform-ibm-modules.github.io/documentation/#/implementation-guideline
 
 
 <!-- This heading should always match the name of the root level module (aka the repo name) -->
-## terraform-ibm-module-template
+## terraform-ibm-scc-workload-protection
 
 ### Usage
 
