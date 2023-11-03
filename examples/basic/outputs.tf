@@ -2,17 +2,22 @@
 # Outputs
 ########################################################################################################################
 
-output "cos_instance_id" {
-  description = "COS instance id"
-  value       = ibm_resource_instance.cos_instance.id
+output "collector_host" {
+  description = "Collector host."
+  value       = module.scc_wp.collector_host
 }
 
-output "resource_group_name" {
-  description = "Resource group name"
-  value       = module.resource_group.resource_group_name
+output "api_endpoint" {
+  description = "API endpoint."
+  value       = module.scc_wp.api_endpoint
 }
 
-output "resource_group_id" {
-  description = "Resource group ID"
-  value       = module.resource_group.resource_group_id
+output "crn" {
+  description = "CRN of created SCC WP instance."
+  value       = module.scc_wp.crn
+}
+
+output "name" {
+  description = "Name of created SCC WP instance."
+  value       = module.scc_wp.name
 }
