@@ -3,13 +3,13 @@
 # Input Variables
 ##############################################################################
 variable "ibmcloud_api_key" {
-  description = "APIkey that's associated with the account to use, set via environment variable TF_VAR_ibmcloud_api_key"
+  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
   type        = string
   sensitive   = true
 }
 
 variable "prefix" {
-  description = "Display name of the PAG and prefix for related resources"
+  description = "Display name of the prefix for related resources"
   type        = string
   default     = "scc_wp"
 }
@@ -31,4 +31,13 @@ variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
   default     = []
+}
+
+variable "scc_wp_keys" {
+  description = "Map of name, role for resource keys that you want to create for the SCC WP instance."
+  type        = map(string)
+  default = {
+    "scc_wp_administrator" : "Administrator"
+    "scc_wp_manager" : "Manager"
+  }
 }

@@ -9,7 +9,7 @@
 ##############################################################################
 
 resource "ibm_resource_instance" "scc_wp" {
-  name              = "${var.unique_name}-scc-wp"
+  name              = "${var.name}-scc-wp"
   resource_group_id = var.resource_group_id
   service           = "sysdig-secure"
   plan              = var.scc_wp_service_plan
@@ -21,8 +21,9 @@ resource "ibm_resource_instance" "scc_wp" {
 # SCC WP Instance Key
 ##############################################################################
 
-resource "ibm_resource_key" "scc_wp_key" {
-  name                 = "${var.unique_name}-resource-key"
-  role                 = var.scc_wp_key_role
+resource "ibm_resource_key" "scc_wp_keys" {
+  for_each             = var.scc_wp_keys
+  name                 = each.key
+  role                 = each.value
   resource_instance_id = ibm_resource_instance.scc_wp.id
 }

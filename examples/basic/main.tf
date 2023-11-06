@@ -16,8 +16,9 @@ module "resource_group" {
 
 module "scc_wp" {
   source            = "../.."
-  unique_name       = var.prefix
+  name              = var.prefix
   region            = var.region
   resource_group_id = module.resource_group.resource_group_id
   scc_wp_tags       = var.resource_tags
+  scc_wp_keys       = var.scc_wp_keys
 }
