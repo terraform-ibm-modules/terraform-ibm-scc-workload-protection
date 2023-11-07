@@ -44,9 +44,9 @@ unless real values don't help users know what to change.
 
 ```hcl
 module "scc_wp" {
-  source  = "terraform-ibm-modules/scc-workload-protection/ibm"
-  version = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
-  unique_name       = "my-scc-wp-service"
+  source            = "terraform-ibm-modules/scc-workload-protection/ibm"
+  version           = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
+  name              = "my-scc-wp-service"
   region            = "us-south"
   resource_group_id = "65xxxxxxxxxxxxxxxa3fd"
   scc_wp_tags       = ["scc-wp-tag"]
