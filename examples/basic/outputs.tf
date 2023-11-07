@@ -12,14 +12,14 @@ output "name" {
   value       = module.scc_wp.name
 }
 
-output "sysdig_collector_endpoint" {
-  description = "Sysdig collector endpoint."
-  value       = module.scc_wp.sysdig_collector_endpoint
+output "ingestion_endpoint" {
+  description = "Ingestion endpoint."
+  value       = module.scc_wp.ingestion_endpoint
   sensitive   = true
 }
 
-output "sysdig_endpoint" {
-  description = "Sysdig endpoint."
-  value       = module.scc_wp.sysdig_endpoint
+output "api_endpoint" {
+  description = "API endpoint."
+  value       = module.scc_wp.api_endpoint
   sensitive   = true
 }

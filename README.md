@@ -101,16 +101,17 @@ No modules.
 | Name | Type |
 |------|------|
 | [ibm_resource_instance.scc_wp](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
-| [ibm_resource_key.scc_wp_keys](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
+| [ibm_resource_key.scc_wp_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_manager_key_name"></a> [manager\_key\_name](#input\_manager\_key\_name) | The name to give the IBM Cloud SCC WP manager key. | `string` | `"SCCWPManagerKey"` | no |
+| <a name="input_manager_key_tags"></a> [manager\_key\_tags](#input\_manager\_key\_tags) | Tags associated with the IBM Cloud SCC WP manager key. | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | A identifier used as a prefix when naming resources that will be provisioned. Must begin with a letter. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
-| <a name="input_scc_wp_keys"></a> [scc\_wp\_keys](#input\_scc\_wp\_keys) | Map of name, role for resource keys that you want to create for the SCC WP instance. | `map(string)` | `{}` | no |
 | <a name="input_scc_wp_service_plan"></a> [scc\_wp\_service\_plan](#input\_scc\_wp\_service\_plan) | IBM service pricing plan. | `string` | `"free-trial"` | no |
 | <a name="input_scc_wp_tags"></a> [scc\_wp\_tags](#input\_scc\_wp\_tags) | Optional list of tags to be added to created SCC WP instance. | `list(string)` | `[]` | no |
 
@@ -118,10 +119,10 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
 | <a name="output_id"></a> [id](#output\_id) | ID of created SCC WP instance. |
+| <a name="output_ingestion_endpoint"></a> [ingestion\_endpoint](#output\_ingestion\_endpoint) | Ingestion endpoint. |
 | <a name="output_name"></a> [name](#output\_name) | Name of created SCC WP instance. |
-| <a name="output_sysdig_collector_endpoint"></a> [sysdig\_collector\_endpoint](#output\_sysdig\_collector\_endpoint) | Sysdig collector endpoint. |
-| <a name="output_sysdig_endpoint"></a> [sysdig\_endpoint](#output\_sysdig\_endpoint) | Sysdig endpoint. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->

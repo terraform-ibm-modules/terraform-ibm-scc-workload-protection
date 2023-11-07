@@ -12,14 +12,14 @@ output "id" {
   value       = ibm_resource_instance.scc_wp.crn
 }
 
-output "sysdig_collector_endpoint" {
-  description = "Sysdig collector endpoint."
-  value       = length(var.scc_wp_keys) > 0 ? ibm_resource_key.scc_wp_keys[keys(var.scc_wp_keys)[0]].credentials["Sysdig Collector Endpoint"] : null
+output "ingestion_endpoint" {
+  description = "Ingestion endpoint."
+  value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Collector Endpoint"]
   sensitive   = true
 }
 
-output "sysdig_endpoint" {
-  description = "Sysdig endpoint."
-  value       = length(var.scc_wp_keys) > 0 ? ibm_resource_key.scc_wp_keys[keys(var.scc_wp_keys)[0]].credentials["Sysdig Endpoint"] : null
+output "api_endpoint" {
+  description = "API endpoint."
+  value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Endpoint"]
   sensitive   = true
 }

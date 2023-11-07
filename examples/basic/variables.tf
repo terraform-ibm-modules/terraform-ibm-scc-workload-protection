@@ -32,12 +32,3 @@ variable "resource_tags" {
   description = "Optional list of tags to be added to created resources"
   default     = []
 }
-
-variable "scc_wp_keys" {
-  description = "Map of name, role for resource keys that you want to create for the SCC WP instance."
-  type        = map(string)
-  default = {
-    "scc_wp_administrator" : "Administrator"
-    "scc_wp_manager" : "Manager"
-  }
-}

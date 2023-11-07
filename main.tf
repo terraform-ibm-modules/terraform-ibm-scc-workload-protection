@@ -21,9 +21,9 @@ resource "ibm_resource_instance" "scc_wp" {
 # SCC WP Instance Key
 ##############################################################################
 
-resource "ibm_resource_key" "scc_wp_keys" {
-  for_each             = var.scc_wp_keys
-  name                 = each.key
-  role                 = each.value
+resource "ibm_resource_key" "scc_wp_resource_key" {
+  name                 = var.manager_key_name
   resource_instance_id = ibm_resource_instance.scc_wp.id
+  role                 = "Manager"
+  tags                 = var.manager_key_tags
 }

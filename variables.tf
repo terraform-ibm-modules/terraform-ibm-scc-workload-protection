@@ -42,17 +42,14 @@ variable "scc_wp_tags" {
   default     = []
 }
 
-##############################################################################
-# SCC WP Instance Keys
-##############################################################################
+variable "manager_key_name" {
+  type        = string
+  description = "The name to give the IBM Cloud SCC WP manager key."
+  default     = "SCCWPManagerKey"
+}
 
-variable "scc_wp_keys" {
-  description = "Map of name, role for resource keys that you want to create for the SCC WP instance."
-  type        = map(string)
-  default     = {}
-
-  validation {
-    condition     = alltrue([for name, role in var.scc_wp_keys : contains(["Administrator", "Manager", "Writer", "Reader"], role)])
-    error_message = "Valid values for key roles are 'Administrator', 'Manager', 'Writer', and `Reader`"
-  }
+variable "manager_key_tags" {
+  type        = list(string)
+  description = "Tags associated with the IBM Cloud SCC WP manager key."
+  default     = []
 }
