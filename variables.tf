@@ -36,20 +36,20 @@ variable "scc_wp_service_plan" {
   }
 }
 
-variable "scc_wp_tags" {
+variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created SCC WP instance."
   default     = []
 }
 
-variable "manager_key_name" {
+variable "resource_key_name" {
   type        = string
-  description = "The name to give the IBM Cloud SCC WP manager key."
+  description = "The name to give the IBM Cloud SCC WP resource key."
   default     = "SCCWPManagerKey"
 }
 
-variable "manager_key_tags" {
+variable "resource_key_tags" {
   type        = list(string)
-  description = "Tags associated with the IBM Cloud SCC WP manager key."
+  description = "Tags associated with the IBM Cloud SCC WP resource key."
   default     = []
 }

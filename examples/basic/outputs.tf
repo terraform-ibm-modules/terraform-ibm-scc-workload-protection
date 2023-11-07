@@ -4,7 +4,7 @@
 
 output "crn" {
   description = "CRN of created SCC WP instance."
-  value       = module.scc_wp.id
+  value       = module.scc_wp.crn
 }
 
 output "name" {

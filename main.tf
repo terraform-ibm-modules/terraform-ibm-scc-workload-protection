@@ -14,7 +14,7 @@ resource "ibm_resource_instance" "scc_wp" {
   service           = "sysdig-secure"
   plan              = var.scc_wp_service_plan
   location          = var.region
-  tags              = var.scc_wp_tags
+  tags              = var.resource_tags
 }
 
 ##############################################################################
@@ -22,8 +22,8 @@ resource "ibm_resource_instance" "scc_wp" {
 ##############################################################################
 
 resource "ibm_resource_key" "scc_wp_resource_key" {
-  name                 = var.manager_key_name
+  name                 = var.resource_key_name
   resource_instance_id = ibm_resource_instance.scc_wp.id
   role                 = "Manager"
-  tags                 = var.manager_key_tags
+  tags                 = var.resource_key_tags
 }
