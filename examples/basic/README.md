@@ -1,11 +1,6 @@
 # Basic example
 
-<!--
-The basic example should call the module(s) stored in this repository with a basic configuration.
-Note, there is a pre-commit hook that will take the title of each example and include it in the repos main README.md.
-The text below should describe exactly what resources are provisioned / configured by the example.
--->
+An end-to-end example that uses the module's default variable values. This example uses the IBM Cloud terraform provider to:
 
-An end-to-end basic example that will provision the following:
-- A new resource group if one is not passed in.
-- A new Cloud Object Storage instance.
+- Create a new resource group if one is not passed in.
+- Create a new Security and Compliance Center Workload Protection instance.

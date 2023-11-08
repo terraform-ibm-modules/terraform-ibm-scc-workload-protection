@@ -1,33 +1,40 @@
-########################################################################################################################
-# Input variables
-########################################################################################################################
 
+##############################################################################
+# Input Variables
+##############################################################################
 variable "ibmcloud_api_key" {
+  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
   type        = string
-  description = "The IBM Cloud API Key"
   sensitive   = true
 }
 
-variable "region" {
+variable "prefix" {
+  description = "Display name of the prefix for related resources"
   type        = string
-  description = "Region to provision all resources created by this example"
-  default     = "us-south"
+  default     = "scc-wp"
 }
 
-variable "prefix" {
+variable "region" {
+  description = "Name of the Region to deploy into"
   type        = string
-  description = "Prefix to append to all resources created by this example"
-  default     = "basic"
+  default     = "us-south"
 }
 
 variable "resource_group" {
   type        = string
-  description = "The name of an existing resource group to provision resources in to. If not set a new resource group will be created using the prefix variable"
+  description = "An existing resource group name to use for this example, if unset a new resource group will be created"
   default     = null
 }
+
 
 variable "resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to created resources"
+  default     = []
+}
+
+variable "access_tags" {
+  type        = list(string)
+  description = "Optional list of access management tags to add to the SCC WP instance"
   default     = []
 }

@@ -11,14 +11,14 @@ module "resource_group" {
 }
 
 ########################################################################################################################
-# COS instance
+# SCC WP instance
 ########################################################################################################################
 
-resource "ibm_resource_instance" "cos_instance" {
-  name              = "${var.prefix}-cos"
+module "scc_wp" {
+  source            = "../.."
+  name              = var.prefix
+  region            = var.region
   resource_group_id = module.resource_group.resource_group_id
-  service           = "cloud-object-storage"
-  plan              = "standard"
-  location          = "global"
-  tags              = var.resource_tags
+  resource_tags     = var.resource_tags
+  access_tags       = var.access_tags
 }
