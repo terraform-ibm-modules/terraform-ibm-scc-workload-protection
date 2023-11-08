@@ -8,7 +8,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 <!-- Add a description of module(s) in this repo -->
-A module for provisioning an [IBM Cloud Security and Compliance Center Workload Protection instance](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started).
+A module for provisioning an [IBM Cloud Security and Compliance Center Workload Protection instance](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started). The module will always create a Manager resource key that connects to the SCC WP instance.
 
 
 <!-- Below content is automatically populated via pre-commit hook -->
