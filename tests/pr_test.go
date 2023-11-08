@@ -55,8 +55,6 @@ func TestRunBasicExample(t *testing.T) {
 }
 
 func TestRunBasicUpgradeExample(t *testing.T) {
-	// Skip upgrade test for first iteration of a module
-	t.Skip()
 	t.Parallel()
 
 	options := setupOptions(t, "scc-wp-upg", basicExampleDir)
