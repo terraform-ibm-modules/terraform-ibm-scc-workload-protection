@@ -7,9 +7,9 @@ output "name" {
   value       = ibm_resource_instance.scc_wp.name
 }
 
-output "crn" {
-  description = "CRN of created SCC WP instance."
-  value       = ibm_resource_instance.scc_wp.crn
+output "id" {
+  description = "ID of created SCC WP instance."
+  value       = ibm_resource_instance.scc_wp.id
 }
 
 output "ingestion_endpoint" {
