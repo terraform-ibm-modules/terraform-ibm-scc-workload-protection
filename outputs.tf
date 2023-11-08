@@ -12,6 +12,11 @@ output "id" {
   value       = ibm_resource_instance.scc_wp.id
 }
 
+output "crn" {
+  description = "CRN of created SCC WP instance."
+  value       = ibm_resource_instance.scc_wp.crn
+}
+
 output "ingestion_endpoint" {
   description = "Ingestion endpoint."
   value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Collector Endpoint"]

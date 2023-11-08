@@ -122,6 +122,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
+| <a name="output_crn"></a> [crn](#output\_crn) | CRN of created SCC WP instance. |
 | <a name="output_id"></a> [id](#output\_id) | ID of created SCC WP instance. |
 | <a name="output_ingestion_endpoint"></a> [ingestion\_endpoint](#output\_ingestion\_endpoint) | Ingestion endpoint. |
 | <a name="output_name"></a> [name](#output\_name) | Name of created SCC WP instance. |
