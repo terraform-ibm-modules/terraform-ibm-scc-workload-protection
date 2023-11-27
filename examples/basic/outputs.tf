@@ -31,6 +31,6 @@ output "api_endpoint" {
 
 output "access_key" {
   description = "Workload Protection instance access key."
-  value       = module.scc_wp.sysdig_access_key
+  value       = module.scc_wp.access_key
   sensitive   = true
 }
