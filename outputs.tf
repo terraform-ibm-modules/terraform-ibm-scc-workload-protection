@@ -28,3 +28,9 @@ output "api_endpoint" {
   value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Endpoint"]
   sensitive   = true
 }
+
+output "sysdig_access_key" {
+  description = "Workload Protection instance access key."
+  value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Access Key"]
+  sensitive   = true
+}
