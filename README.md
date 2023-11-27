@@ -121,12 +121,12 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Workload Protection instance access key. |
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
 | <a name="output_crn"></a> [crn](#output\_crn) | CRN of created SCC WP instance. |
 | <a name="output_id"></a> [id](#output\_id) | ID of created SCC WP instance. |
 | <a name="output_ingestion_endpoint"></a> [ingestion\_endpoint](#output\_ingestion\_endpoint) | Ingestion endpoint. |
 | <a name="output_name"></a> [name](#output\_name) | Name of created SCC WP instance. |
-| <a name="output_sysdig_access_key"></a> [sysdig\_access\_key](#output\_sysdig\_access\_key) | Workload Protection instance access key. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
