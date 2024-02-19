@@ -15,6 +15,9 @@ resource "ibm_resource_instance" "scc_wp" {
   plan              = var.scc_wp_service_plan
   location          = var.region
   tags              = var.resource_tags
+  parameters = {
+    cloud_monitoring_connected_instance : var.cloud_monitoring_instance_crn
+  }
 }
 
 ##############################################################################
