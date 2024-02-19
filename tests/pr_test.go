@@ -12,8 +12,8 @@ import (
 )
 
 // const resourceGroup = "geretain-test-resources"
-const basicExampleDir = "examples/basic"
 const advancedExampleDir = "examples/advanced"
+const basicExampleDir = "examples/basic"
 
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
