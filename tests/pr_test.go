@@ -13,6 +13,7 @@ import (
 
 // const resourceGroup = "geretain-test-resources"
 const basicExampleDir = "examples/basic"
+const advancedExampleDir = "examples/advanced"
 
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
@@ -54,10 +55,10 @@ func TestRunBasicExample(t *testing.T) {
 	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunBasicUpgradeExample(t *testing.T) {
+func TestRunAdvancedUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "scc-wp-upg", basicExampleDir)
+	options := setupOptions(t, "scc-wp-upg", advancedExampleDir)
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
