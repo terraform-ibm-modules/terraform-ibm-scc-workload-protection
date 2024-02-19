@@ -51,6 +51,9 @@ module "scc_wp" {
   region            = "us-south"
   resource_group_id = "65xxxxxxxxxxxxxxxa3fd"
   resource_key_tags = ["scc-wp-tag"]
+  parameters = {
+    cloud_monitoring_connected_instance : "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  }
 }
 ```
 
