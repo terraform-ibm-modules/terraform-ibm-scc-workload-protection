@@ -66,3 +66,9 @@ variable "access_tags" {
     error_message = "Tags must match the regular expression \"[\\w\\-_\\.]+:[\\w\\-_\\.]+\", see https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits for more details"
   }
 }
+
+variable "cloud_monitoring_instance_crn" {
+  type        = string
+  description = "The CRN of an IBM Cloud Monitoring instance to connect to the SCC Workload Protection instance."
+  default     = null
+}

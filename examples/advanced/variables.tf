@@ -11,7 +11,7 @@ variable "ibmcloud_api_key" {
 variable "prefix" {
   description = "Display name of the prefix for related resources"
   type        = string
-  default     = "scc-wp"
+  default     = "scc-wp-adv"
 }
 
 variable "region" {
