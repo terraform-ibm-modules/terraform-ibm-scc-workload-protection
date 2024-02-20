@@ -69,6 +69,6 @@ variable "access_tags" {
 
 variable "cloud_monitoring_instance_crn" {
   type        = string
-  description = "A CRN of the IBM Cloud monitoring instance to be connected to SCC WP instance."
+  description = "The CRN of an IBM Cloud Monitoring instance to connect to the SCC Workload Protection instance."
   default     = null
 }
