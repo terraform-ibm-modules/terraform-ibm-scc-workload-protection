@@ -15,7 +15,7 @@ variable "resource_group_id" {
 }
 
 variable "name" {
-  description = "A identifier used as a prefix when naming resources that will be provisioned. Must begin with a letter."
+  description = "The name to give the SCC Workload Protection instance that will be provisioned by this module."
   type        = string
 }
 
