@@ -7,6 +7,11 @@ output "id" {
   value       = module.scc_wp.id
 }
 
+output "guid" {
+  description = "GUID of created SCC WP instance."
+  value       = module.scc_wp.guid
+}
+
 output "crn" {
   description = "CRN of created SCC WP instance."
   value       = module.scc_wp.crn
