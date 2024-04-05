@@ -12,6 +12,11 @@ output "id" {
   value       = ibm_resource_instance.scc_wp.id
 }
 
+output "guid" {
+  description = "GUID of created SCC WP instance."
+  value       = ibm_resource_instance.scc_wp.guid
+}
+
 output "crn" {
   description = "CRN of created SCC WP instance."
   value       = ibm_resource_instance.scc_wp.crn

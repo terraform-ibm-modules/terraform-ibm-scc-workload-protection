@@ -127,6 +127,7 @@ No modules.
 | <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Workload Protection instance access key. |
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
 | <a name="output_crn"></a> [crn](#output\_crn) | CRN of created SCC WP instance. |
+| <a name="output_guid"></a> [guid](#output\_guid) | GUID of created SCC WP instance. |
 | <a name="output_id"></a> [id](#output\_id) | ID of created SCC WP instance. |
 | <a name="output_ingestion_endpoint"></a> [ingestion\_endpoint](#output\_ingestion\_endpoint) | Ingestion endpoint. |
 | <a name="output_name"></a> [name](#output\_name) | Name of created SCC WP instance. |
