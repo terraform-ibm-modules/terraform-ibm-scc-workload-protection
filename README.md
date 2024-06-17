@@ -67,11 +67,10 @@ Manage > Access (IAM) > Access groups > Access policies.
 
 You need the following permissions to run this module.
 
-- Account Management
-    - IAM Services
-        - **IBM Cloud Security and Compliance Center Workload Protection** service
-            - `Editor` platform access
-            - `Writer` service access
+- IAM Services
+    - **IBM Cloud Security and Compliance Center Workload Protection** service
+        - `Editor` platform access
+        - `Writer` service access
 
 <!-- NO PERMISSIONS FOR MODULE
 If no permissions are required for the module, uncomment the following
