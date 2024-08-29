@@ -4,7 +4,7 @@ terraform {
     # Pin to the lowest provider version of the range defined in the main module's version.tf to ensure lowest version still works
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = "1.58.1"
+      version = "1.65.0"
     }
   }
 }
