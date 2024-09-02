@@ -22,6 +22,36 @@ module "cloud_monitoring" {
   instance_name     = "${var.prefix}-cm"
 }
 
+##############################################################################
+# Get Cloud Account ID
+##############################################################################
+
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
+##############################################################################
+# VPC
+##############################################################################
+resource "ibm_is_vpc" "example_vpc" {
+  name           = "${var.prefix}-vpc"
+  resource_group = module.resource_group.resource_group_id
+  tags           = var.resource_tags
+}
+
+##############################################################################
+# Create CBR Zone
+##############################################################################
+module "cbr_zone" {
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-cbr//cbr-zone-module?ref=v1.2.0"
+  name             = "${var.prefix}-VPC-network-zone"
+  zone_description = "CBR Network zone representing VPC"
+  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  addresses = [{
+    type  = "vpc", # to bind a specific vpc to the zone
+    value = ibm_is_vpc.example_vpc.crn,
+  }]
+}
+
 ########################################################################################################################
 # SCC WP instance
 ########################################################################################################################
@@ -34,4 +64,23 @@ module "scc_wp" {
   resource_tags                 = var.resource_tags
   access_tags                   = var.access_tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+
+  cbr_rules = [
+    {
+      description      = "${var.prefix}-SCC-WP access only from vpc"
+      enforcement_mode = "enabled"
+      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      rule_contexts = [{
+        attributes = [
+          {
+            "name" : "endpointType",
+            "value" : "private"
+          },
+          {
+            name  = "networkZoneId"
+            value = module.cbr_zone.zone_id
+        }]
+      }]
+    }
+  ]
 }
