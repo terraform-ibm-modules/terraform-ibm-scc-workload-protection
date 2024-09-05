@@ -69,6 +69,7 @@ module "cbr_rule" {
         value    = "Security and Compliance Center Workload Protection"
         operator = "stringEquals"
       }
-    ]
+    ],
+    tags = var.cbr_rules[count.index].tags
   }]
 }

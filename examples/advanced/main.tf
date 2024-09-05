@@ -70,6 +70,12 @@ module "scc_wp" {
       description      = "${var.prefix}-SCC-WP access only from vpc"
       enforcement_mode = "enabled"
       account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      tags = [
+        {
+          name  = "test-name"
+          value = "test-value"
+        }
+      ]
       rule_contexts = [{
         attributes = [
           {
