@@ -66,7 +66,7 @@ module "cbr_rule" {
       },
       {
         name     = "serviceName"
-        value    = "Security and Compliance Center Workload Protection"
+        value    = "sysdig-secure"
         operator = "stringEquals"
       }
     ],
