@@ -41,6 +41,7 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		TerraformVars: map[string]interface{}{
 			"access_tags": permanentResources["accessTags"],
 		},
+		CheckApplyResultForUpgrade: true,
 	})
 	return options
 }
