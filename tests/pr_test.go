@@ -17,7 +17,7 @@ import (
 const resourceGroup = "geretain-test-resources"
 const standardSolutionDir = "solutions/standard"
 
-// Define a struct with fields that match the structure of the YAML data
+// Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 // Current supported SCC region
