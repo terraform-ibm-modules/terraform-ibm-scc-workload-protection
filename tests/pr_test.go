@@ -6,17 +6,27 @@ import (
 	"os"
 	"testing"
 
+	"math/rand/v2"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
-// const resourceGroup = "geretain-test-resources"
-const advancedExampleDir = "examples/advanced"
-const basicExampleDir = "examples/basic"
+const resourceGroup = "geretain-test-resources"
+const standardSolutionDir = "solutions/standard"
 
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+// Current supported SCC region
+var validRegions = []string{
+	"us-south",
+	"eu-de",
+	"ca-tor",
+	"eu-es",
+}
 
 var permanentResources map[string]interface{}
 
@@ -31,35 +41,58 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: dir,
-		Prefix:       prefix,
-		// only one `lite` instance can be provisioned for each RG. Always create a new RG.
-		// ResourceGroup: resourceGroup,
-		TerraformVars: map[string]interface{}{
-			"access_tags": permanentResources["accessTags"],
+func TestInstancesInSchematics(t *testing.T) {
+	t.Parallel()
+
+	var region = validRegions[rand.IntN(len(validRegions))]
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "wp-da",
+		TarIncludePatterns: []string{
+			"*.tf",
+			standardSolutionDir + "/*.tf",
 		},
-		CheckApplyResultForUpgrade: true,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         standardSolutionDir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
 	})
-	return options
-}
 
-func TestRunBasicExample(t *testing.T) {
-	t.Parallel()
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
+		{Name: "scc_region", Value: region, DataType: "string"},
+		{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+	}
 
-	options := setupOptions(t, "scc-wp", basicExampleDir)
-
-	output, err := options.RunTestConsistency()
+	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunAdvancedUpgradeExample(t *testing.T) {
+func TestRunUpgradeInstances(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "scc-wp-upg", advancedExampleDir)
+	var region = validRegions[rand.IntN(len(validRegions))]
+
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: standardSolutionDir,
+		Prefix:       "wp-da-upg",
+	})
+
+	options.TerraformVars = map[string]interface{}{
+		"prefix":                                options.Prefix,
+		"resource_group_name":                   options.Prefix,
+		"scc_region":                            region,
+		"scc_workload_protection_instance_tags": options.Tags,
+		"scc_workload_protection_resource_key_tags": options.Tags,
+		"scc_workload_protection_access_tags":       permanentResources["accessTags"],
+	}
 
 	output, err := options.RunTestUpgrade()
 	if !options.UpgradeTestSkipped {
