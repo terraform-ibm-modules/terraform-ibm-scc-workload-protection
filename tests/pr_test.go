@@ -20,7 +20,7 @@ const standardSolutionDir = "solutions/standard"
 // Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
-// Current supported SCC region
+// Current supported SCC Workload Protection region
 var validRegions = []string{
 	"us-south",
 	"eu-de",
@@ -41,7 +41,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestInstancesInSchematics(t *testing.T) {
+func TestDAInSchematics(t *testing.T) {
 	t.Parallel()
 
 	var region = validRegions[rand.IntN(len(validRegions))]
@@ -63,7 +63,7 @@ func TestInstancesInSchematics(t *testing.T) {
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
-		{Name: "scc_region", Value: region, DataType: "string"},
+		{Name: "region", Value: region, DataType: "string"},
 		{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
@@ -74,7 +74,7 @@ func TestInstancesInSchematics(t *testing.T) {
 	assert.Nil(t, err, "This should not have errored")
 }
 
-func TestRunUpgradeInstances(t *testing.T) {
+func TestRunUpgradeDA(t *testing.T) {
 	t.Parallel()
 
 	var region = validRegions[rand.IntN(len(validRegions))]
@@ -88,7 +88,7 @@ func TestRunUpgradeInstances(t *testing.T) {
 	options.TerraformVars = map[string]interface{}{
 		"prefix":                                options.Prefix,
 		"resource_group_name":                   options.Prefix,
-		"scc_region":                            region,
+		"region":                                region,
 		"scc_workload_protection_instance_tags": options.Tags,
 		"scc_workload_protection_resource_key_tags": options.Tags,
 		"scc_workload_protection_access_tags":       permanentResources["accessTags"],

@@ -50,10 +50,10 @@ variable "provider_visibility" {
 variable "scc_workload_protection_instance_name" {
   description = "The name for the Workload Protection instance that is created by this solution. Must begin with a letter. Applies only if `provision_scc_workload_protection` is true. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
   type        = string
-  default     = "base-security-services-scc-wp"
+  default     = "workload_protection"
 }
 
-variable "scc_region" {
+variable "region" {
   type        = string
   default     = "us-south"
   description = "The region to provision Security and Compliance Center resources in."
@@ -95,4 +95,32 @@ variable "scc_workload_protection_service_plan" {
       var.scc_workload_protection_service_plan
     )
   }
+}
+
+##############################################################
+# Context-based restriction (CBR)
+##############################################################
+variable "instance_cbr_rules" {
+  type = list(object({
+    description = string
+    account_id  = string
+    rule_contexts = list(object({
+      attributes = optional(list(object({
+        name  = string
+        value = string
+    }))) }))
+    enforcement_mode = string
+    tags = optional(list(object({
+      name  = string
+      value = string
+    })), [])
+    operations = optional(list(object({
+      api_types = list(object({
+        api_type_id = string
+      }))
+    })))
+  }))
+  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/standard/cbr-rules.md)"
+  default     = []
+  # Validation happens in the rule module
 }
