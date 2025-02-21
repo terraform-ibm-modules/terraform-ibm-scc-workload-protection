@@ -33,5 +33,5 @@ module "scc_wp" {
   cloud_monitoring_instance_crn = var.existing_monitoring_crn
   access_tags                   = var.scc_workload_protection_access_tags
   scc_wp_service_plan           = var.scc_workload_protection_service_plan
-  cbr_rules                     = var.instance_cbr_rules
+  cbr_rules                     = var.cbr_rules
 }

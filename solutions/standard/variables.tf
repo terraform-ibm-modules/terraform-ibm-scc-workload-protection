@@ -100,7 +100,7 @@ variable "scc_workload_protection_service_plan" {
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
-variable "instance_cbr_rules" {
+variable "cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
