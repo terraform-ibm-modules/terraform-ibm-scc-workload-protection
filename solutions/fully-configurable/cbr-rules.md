@@ -1,6 +1,6 @@
-# Configuring complex inputs for COS in IBM Cloud projects
+# Configuring complex inputs for Workload Protection in IBM Cloud projects
 
-Several optional input variables in the IBM Cloud [COS deployable architecture](https://cloud.ibm.com/catalog#deployable_architecture) use complex object types. You specify these inputs when you configure deployable architecture.
+Several optional input variables in the IBM Cloud [workload protection deployable architecture](https://cloud.ibm.com/catalog#deployable_architecture) use complex object types. You specify these inputs when you configure deployable architecture.
 
 * Context-Based Restrictions Rules (`cbr_rules`)
 
@@ -38,7 +38,7 @@ The `cbr_rules` input variable allows you to provide a rule for the target servi
 ```hcl
 cbr_rules = [
   {
-  description = "COS can be accessed from xyz"
+  description = "workload protection can be accessed from xyz"
   account_id = "defc0df06b644a9cabc6e44f55b3880s."
   rule_contexts= [{
       attributes = [
