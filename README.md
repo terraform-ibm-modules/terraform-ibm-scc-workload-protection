@@ -10,9 +10,6 @@
 <!-- Add a description of module(s) in this repo -->
 A module for provisioning an [IBM Cloud Security and Compliance Center Workload Protection instance](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started). The module will always create a Manager resource key that connects to the SCC WP instance.
 
-![Workload Protection](./reference-architecture/scc.svg)
-
-
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview

@@ -14,7 +14,7 @@ import (
 )
 
 const resourceGroup = "geretain-test-resources"
-const standardSolutionDir = "solutions/fully-configurable"
+const fullyConfigurableDADir = "solutions/fully-configurable"
 
 // Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
@@ -56,10 +56,10 @@ func TestDAInSchematics(t *testing.T) {
 		Prefix:  "wp-da",
 		TarIncludePatterns: []string{
 			"*.tf",
-			standardSolutionDir + "/*.tf",
+			fullyConfigurableDADir + "/*.tf",
 		},
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         standardSolutionDir,
+		TemplateFolder:         fullyConfigurableDADir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
@@ -89,10 +89,10 @@ func TestRunUpgradeDA(t *testing.T) {
 		Prefix:  "wp-da",
 		TarIncludePatterns: []string{
 			"*.tf",
-			standardSolutionDir + "/*.tf",
+			fullyConfigurableDADir + "/*.tf",
 		},
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         standardSolutionDir,
+		TemplateFolder:         fullyConfigurableDADir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,

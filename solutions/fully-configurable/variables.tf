@@ -50,7 +50,7 @@ variable "scc_workload_protection_instance_name" {
 variable "region" {
   type        = string
   default     = "us-south"
-  description = "The region to provision Security and Compliance Center resources in."
+  description = "The region to provision Security and Compliance Center Workload Protection resources in."
   validation {
     condition = contains(["us-south",
       "us-east",
