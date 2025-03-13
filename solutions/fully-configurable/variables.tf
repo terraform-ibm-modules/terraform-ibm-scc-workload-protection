@@ -8,28 +8,22 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "use_existing_resource_group" {
-  type        = bool
-  description = "Whether to use an existing resource group."
-  default     = false
-}
-
-variable "resource_group_name" {
+variable "existing_resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision resources to. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  description = "The name of a an existing resource group in which to provision resources to."
+  default     = "Default"
 }
 
 variable "existing_monitoring_crn" {
   type        = string
   nullable    = true
   default     = null
-  description = "The CRN of an IBM Cloud Monitoring instance to to send Workload Protection data. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration. Ignored if using existing Object Storage bucket and not provisioning Workload Protection."
+  description = "The CRN of an IBM Cloud Monitoring instance to to send Workload Protection data. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration."
 }
 
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can set this value to `null` or an empty string."
-  default     = "dev"
 }
 
 variable "provider_visibility" {
@@ -48,15 +42,29 @@ variable "provider_visibility" {
 ########################################################################################################################
 
 variable "scc_workload_protection_instance_name" {
-  description = "The name for the Workload Protection instance that is created by this solution. Must begin with a letter. Applies only if `provision_scc_workload_protection` is true. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  description = "The name for the Workload Protection instance that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
   type        = string
-  default     = "workload_protection"
+  default     = "scc-workload-protection"
 }
 
 variable "region" {
   type        = string
   default     = "us-south"
   description = "The region to provision Security and Compliance Center resources in."
+  validation {
+    condition = contains(["us-south",
+      "us-east",
+      "eu-de",
+      "eu-es",
+      "eu-gb",
+      "jp-osa",
+      "jp-tok",
+      "br-sao",
+      "ca-tor",
+      "au-syd",
+    ], var.region)
+    error_message = "Invalid region selected. Allowed values are `us-south` ,`us-east`, `eu-de`, `eu-es`, `eu-gb`, `jp-osa`, `jp-tok`, `br-sao`, `ca-tor`, and `au-syd`."
+  }
 }
 
 variable "scc_workload_protection_instance_tags" {
@@ -120,7 +128,7 @@ variable "cbr_rules" {
       }))
     })))
   }))
-  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/standard/cbr-rules.md)"
+  description = "The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/fully-configurable/cbr-rules.md)"
   default     = []
   # Validation happens in the rule module
 }
