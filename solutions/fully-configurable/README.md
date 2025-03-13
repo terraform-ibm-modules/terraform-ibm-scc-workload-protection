@@ -1,4 +1,4 @@
-# Security and Compliance Center Workload Protection Fully Configurable solution
+# Cloud automation for Security and Compliance Center Workload Protection
 
 This solution supports provisioning and configuring the following infrastructure:
 

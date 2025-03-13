@@ -67,43 +67,33 @@
                 "required": true,
                 "options": [
                   {
-                    "display_name": "Dallas (us-south)",
                     "value": "us-south"
                   },
                   {
-                    "display_name": "Frankfurt (eu-de)",
                     "value": "eu-de"
                   },
                   {
-                    "display_name": "London (eu-gb)",
                     "value": "eu-gb"
                   },
                   {
-                    "display_name": "Madrid (eu-es)",
                     "value": "eu-es"
                   },
                   {
-                    "display_name": "Osaka (jp-osa)",
                     "value": "jp-osa"
                   },
                   {
-                    "display_name": "Sao Paulo (br-sao)",
                     "value": "br-sao"
                   },
                   {
-                    "display_name": "Sydney (au-syd)",
                     "value": "au-syd"
                   },
                   {
-                    "display_name": "Tokyo (jp-tok)",
                     "value": "jp-tok"
                   },
                   {
-                    "display_name": "Toronto (ca-tor)",
                     "value": "ca-tor"
                   },
                   {
-                    "display_name": "Washington DC (us-east)",
                     "value": "us-east"
                   }
                 ]
