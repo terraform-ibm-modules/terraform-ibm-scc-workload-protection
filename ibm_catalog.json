@@ -65,7 +65,7 @@
                     "identifier": "rg_name"
                   }
                 }
-              },  
+              },
               {
                 "key": "prefix",
                 "required": true,
