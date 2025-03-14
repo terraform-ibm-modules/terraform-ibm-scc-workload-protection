@@ -55,7 +55,16 @@
               },
               {
                 "key": "existing_resource_group_name",
-                "required": true
+                "type": "string",
+                "required": true,
+                "custom_config": {
+                  "type": "resource_group",
+                  "grouping": "deployment",
+                  "original_grouping": "deployment",
+                  "config_constraints": {
+                    "identifier": "rg_name"
+                  }
+                }
               },
               {
                 "key": "prefix",
@@ -67,34 +76,44 @@
                 "required": true,
                 "options": [
                   {
+                    "displayname": "Dallas (us-south)",
                     "value": "us-south"
                   },
                   {
+                    "displayname": "Washington DC (us-east)",
+                    "value": "us-east"
+                  },
+                  {
+                    "displayname": "Frankfurt (eu-de)",
                     "value": "eu-de"
                   },
                   {
+                    "displayname": "London (eu-gb)",
                     "value": "eu-gb"
                   },
                   {
+                    "displayname": "Madrid (eu-es)",
                     "value": "eu-es"
                   },
                   {
+                    "displayname": "Osaka (jp-osa)",
                     "value": "jp-osa"
                   },
                   {
-                    "value": "br-sao"
-                  },
-                  {
-                    "value": "au-syd"
-                  },
-                  {
+                    "displayname": "Tokyo (jp-tok)",
                     "value": "jp-tok"
                   },
                   {
-                    "value": "ca-tor"
+                    "displayname": "Sao Paolo (br-sao)",
+                    "value": "br-sao"
                   },
                   {
-                    "value": "us-east"
+                    "displayname": "Sydney (au-syd)",
+                    "value": "au-syd"
+                  },
+                  {
+                    "displayname": "Toronto (ca-tor)",
+                    "value": "ca-tor"
                   }
                 ]
               },
@@ -102,12 +121,15 @@
                 "key": "provider_visibility",
                 "options": [
                   {
+                    "displayname": "Private",
                     "value": "private"
                   },
                   {
+                    "displayname": "Public",
                     "value": "public"
                   },
                   {
+                    "displayname": "Public and Private",
                     "value": "public-and-private"
                   }
                 ]
@@ -122,9 +144,11 @@
                 "key": "scc_workload_protection_service_plan",
                 "options": [
                   {
+                    "displayname": "Free Trial",
                     "value": "free-trial"
                   },
                   {
+                    "displayname": "Graduated Tier",
                     "value": "graduated-tier"
                   }
                 ]
