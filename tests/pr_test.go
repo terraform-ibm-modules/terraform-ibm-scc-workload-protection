@@ -6,17 +6,32 @@ import (
 	"os"
 	"testing"
 
+	"math/rand/v2"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
-// const resourceGroup = "geretain-test-resources"
-const advancedExampleDir = "examples/advanced"
-const basicExampleDir = "examples/basic"
+const resourceGroup = "geretain-test-resources"
+const fullyConfigurableDADir = "solutions/fully-configurable"
 
-// Define a struct with fields that match the structure of the YAML data
+// Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+// Current supported SCC Workload Protection region
+var validRegions = []string{
+	"us-south",
+	"us-east",
+	"eu-de",
+	"eu-es",
+	"eu-gb",
+	"jp-osa",
+	"jp-tok",
+	"br-sao",
+	"ca-tor",
+	"au-syd",
+}
 
 var permanentResources map[string]interface{}
 
@@ -31,39 +46,70 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: dir,
-		Prefix:       prefix,
-		// only one `lite` instance can be provisioned for each RG. Always create a new RG.
-		// ResourceGroup: resourceGroup,
-		TerraformVars: map[string]interface{}{
-			"access_tags": permanentResources["accessTags"],
+func TestDAInSchematics(t *testing.T) {
+	t.Parallel()
+
+	var region = validRegions[rand.IntN(len(validRegions))]
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "wp-da",
+		TarIncludePatterns: []string{
+			"*.tf",
+			fullyConfigurableDADir + "/*.tf",
 		},
-		CheckApplyResultForUpgrade: true,
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fullyConfigurableDADir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
 	})
-	return options
-}
 
-func TestRunBasicExample(t *testing.T) {
-	t.Parallel()
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
+		{Name: "region", Value: region, DataType: "string"},
+		{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+	}
 
-	options := setupOptions(t, "scc-wp", basicExampleDir)
-
-	output, err := options.RunTestConsistency()
+	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
 }
 
-func TestRunAdvancedUpgradeExample(t *testing.T) {
+func TestRunUpgradeDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "scc-wp-upg", advancedExampleDir)
+	var region = validRegions[rand.IntN(len(validRegions))]
 
-	output, err := options.RunTestUpgrade()
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "wp-da",
+		TarIncludePatterns: []string{
+			"*.tf",
+			fullyConfigurableDADir + "/*.tf",
+		},
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         fullyConfigurableDADir,
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
+	})
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
+		{Name: "region", Value: region, DataType: "string"},
+		{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+	}
+
+	err := options.RunSchematicUpgradeTest()
 	if !options.UpgradeTestSkipped {
 		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
 	}
 }
