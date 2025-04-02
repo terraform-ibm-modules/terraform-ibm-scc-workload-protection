@@ -27,8 +27,9 @@ variable "enterprise_id" {
 }
 
 variable "template_id" {
+  description = "The ID of the trusted profile template (optional if created later)"
   type        = string
-  description = "Trusted Profile Template ID"
+  default     = null
 }
 
 variable "ibmcloud_api_key" {
