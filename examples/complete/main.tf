@@ -55,7 +55,7 @@ module "scc_wp_config_aggregator" {
   enterprise_id                   = var.enterprise_id
   template_id                     = module.trusted_profiles.trusted_profile_template_id
   enterprise_trusted_profile_id  = module.trusted_profiles.trusted_profile_app_config_enterprise.profile_id
-
+  general_trusted_profile_id     = module.trusted_profiles.trusted_profile_app_config_general.profile_id
   depends_on = [module.trusted_profiles]
 }
 
