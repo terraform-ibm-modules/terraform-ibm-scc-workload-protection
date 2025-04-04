@@ -46,14 +46,6 @@ module "trusted_profiles" {
 }
 
 
-# Debug output BEFORE the aggregator to ensure value is ready
-resource "null_resource" "debug_template_id" {
-  provisioner "local-exec" {
-    command = "echo ✅ Template ID (debug): ${module.trusted_profiles.trusted_profile_template_id}"
-  }
-
-  depends_on = [module.trusted_profiles]
-}
 
 module "scc_wp_config_aggregator" {
   source = "../../../terraform-ibm-app-configuration/modules/scc_wp_config_aggregator"
