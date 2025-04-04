@@ -45,13 +45,23 @@ module "trusted_profiles" {
   ibmcloud_api_key    = var.ibmcloud_api_key
 }
 
+
+# Debug output BEFORE the aggregator to ensure value is ready
+resource "null_resource" "debug_template_id" {
+  provisioner "local-exec" {
+    command = "echo ✅ Template ID (debug): ${module.trusted_profiles.trusted_profile_template_id}"
+  }
+
+  depends_on = [module.trusted_profiles]
+}
+
 module "scc_wp_config_aggregator" {
   source = "../../../terraform-ibm-app-configuration/modules/scc_wp_config_aggregator"
 
   app_config_instance_guid        = module.app_config.app_config_guid
   region                          = var.region
   enterprise_id                   = var.enterprise_id
-  template_id                     = var.template_id
+  template_id                     = module.trusted_profiles.trusted_profile_template_id
   enterprise_trusted_profile_id  = module.trusted_profiles.trusted_profile_app_config_enterprise.profile_id
 
   depends_on = [module.trusted_profiles]
