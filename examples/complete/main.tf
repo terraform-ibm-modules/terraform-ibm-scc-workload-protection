@@ -43,6 +43,8 @@ module "trusted_profiles" {
   app_config_crn      = module.app_config.app_config_crn
   scc_wp_crn          = module.scc_wp.wp_instance_crn
   ibmcloud_api_key    = var.ibmcloud_api_key
+  onboard_account_groups   = var.onboard_account_groups
+  account_group_ids        = var.account_group_ids
 }
 
 

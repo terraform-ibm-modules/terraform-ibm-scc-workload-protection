@@ -1,3 +1,4 @@
+
 variable "region" {
   type = string
 }
@@ -5,6 +6,19 @@ variable "region" {
 variable "prefix" {
   type = string
 }
+
+
+variable "onboard_account_groups" {
+  type        = bool
+  description = "Set to true if you also want to onboard account groups."
+}
+
+variable "account_group_ids" {
+  type        = list(string)
+  default     = [] # ✅ ← IMPORTANT : éviter les prompts inutiles
+  description = "Liste des ID de groupes de comptes à assigner au modèle. Utilisé uniquement si onboard_account_groups est false."
+}
+
 
 variable "resource_group" {
   type    = string
