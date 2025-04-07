@@ -10,7 +10,8 @@ variable "prefix" {
 
 variable "onboard_account_groups" {
   type        = bool
-  description = "Set to true if you also want to onboard account groups."
+  default     = true
+  description = "Whether to onboard all account groups to the template."
 }
 
 variable "account_group_ids" {

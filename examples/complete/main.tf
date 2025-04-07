@@ -16,6 +16,7 @@ module "scc_wp" {
   source            = "../.."
   name              = var.prefix
   region            = var.region
+  scc_wp_service_plan  = "graduated-tier"
   resource_group_id = module.resource_group.resource_group_id
   resource_tags     = var.resource_tags
   access_tags       = var.access_tags
