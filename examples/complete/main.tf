@@ -13,7 +13,7 @@ provider "ibm" {
  data "ibm_iam_account_settings" "iam_account_settings" {}
  
  module "scc_wp" {
-   source            = "../.."
+   source            = "terraform-ibm-modules/scc-workload-protection/ibm"
    name              = var.prefix
    region            = var.region
    resource_group_id = module.resource_group.resource_group_id
@@ -23,7 +23,7 @@ provider "ibm" {
  }
  
  module "app_config" {
-   source            = "../../../terraform-ibm-app-configuration"
+   source            = "terraform-ibm-modules/app-configuration/ibm"
    region            = var.region
    resource_group_id = module.resource_group.resource_group_id
    app_config_name   = "${var.prefix}-app-config"
@@ -39,7 +39,7 @@ provider "ibm" {
  }
  
  module "trusted_profiles" {
-   source              = "../../../terraform-ibm-trusted-profile/examples/enterprise"
+   source              = "terraform-ibm-modules/trusted-profile-enterprise/ibm"
    region              = var.region
    app_config_crn      = module.app_config.app_config_crn
    scc_wp_crn          = module.scc_wp.wp_instance_crn
@@ -47,7 +47,7 @@ provider "ibm" {
  }
  
  module "scc_wp_config_aggregator" {
-   source = "../../../terraform-ibm-app-configuration/modules/scc_wp_config_aggregator"
+   source = "terraform-ibm-modules/scc-wp-config-aggregator/ibm"
  
    app_config_instance_guid        = module.app_config.app_config_guid
    region                          = var.region
