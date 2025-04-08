@@ -26,7 +26,7 @@ variable "name" {
 variable "scc_wp_service_plan" {
   description = "IBM service pricing plan."
   type        = string
-  default     = "graduated-tier"
+  default     = "free-trial"
   validation {
     error_message = "Plan for SCC Workload Protection instances can only be `free-trial` or `graduated-tier`."
     condition = contains(
