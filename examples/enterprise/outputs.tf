@@ -1,10 +1,12 @@
 output "scc_wp_crn" {
   description = "CRN of the SCC Workload Protection instance"
-  value       = module.scc_wp.wp_instance_crn
+  value       = module.scc_wp.crn
 }
-output "scc_wp_config_aggregator_id" {
-  value = module.scc_wp_config_aggregator.scc_wp_config_aggregator_id
+
+output "config_aggregator_id" {
+  value = module.config_aggregator.scc_wp_config_aggregator_id
 }
+
 output "trusted_profile_template_id" {
   value = module.trusted_profiles.trusted_profile_template_id
 }
