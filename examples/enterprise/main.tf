@@ -40,7 +40,6 @@ module "trusted_profiles" {
   scc_wp_crn       = module.scc_wp.crn
   ibmcloud_api_key = var.ibmcloud_api_key
 
-  onboard_account_groups = true
 }
 module "config_aggregator" {
   source = "../../../terraform-ibm-app-configuration/modules/config_aggregator"
