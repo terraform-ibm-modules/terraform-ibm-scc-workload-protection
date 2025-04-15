@@ -4,11 +4,11 @@ output "scc_wp_crn" {
 }
 
 output "trusted_profile_template_id" {
-  value = module.trusted_profiles.trusted_profile_template_id
+  value = module.trusted_profile_template.trusted_profile_template_id
 }
 
 output "trusted_profile_enterprise_id" {
-  value = module.trusted_profiles.trusted_profile_app_config_enterprise.profile_id
+  value = module.trusted_profile_app_config_enterprise.profile_id
 }
 
 output "app_config_guid" {
