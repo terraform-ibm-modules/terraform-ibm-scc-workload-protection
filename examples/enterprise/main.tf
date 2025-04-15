@@ -41,15 +41,22 @@ module "trusted_profiles" {
   ibmcloud_api_key = var.ibmcloud_api_key
 
 }
-module "config_aggregator" {
-  source = "../../../terraform-ibm-app-configuration/modules/config_aggregator"
 
-  app_config_instance_guid        = module.app_config.app_config_guid
-  region                          = var.region
-  enterprise_id                   = var.enterprise_id
-  trusted_profile_template_id     = module.trusted_profiles.trusted_profile_template_id
-  enterprise_trusted_profile_id   = module.trusted_profiles.trusted_profile_app_config_enterprise.profile_id
-  general_trusted_profile_id      = module.trusted_profiles.trusted_profile_app_config_general.profile_id
+resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
+  instance_id                 = module.app_config.app_config_guid
+  region                      = var.region
+  resource_collection_enabled = true
+  resource_collection_regions = ["all"]
+  trusted_profile_id          = module.trusted_profiles.trusted_profile_app_config_general.profile_id
 
+  additional_scope {
+    type          = "Enterprise"
+    enterprise_id = var.enterprise_id
+
+    profile_template {
+      id                  = module.trusted_profiles.trusted_profile_template_id
+      trusted_profile_id  = module.trusted_profiles.trusted_profile_app_config_enterprise.profile_id
+    }
+  }
 }
 

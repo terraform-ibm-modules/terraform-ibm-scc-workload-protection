@@ -3,10 +3,6 @@ output "scc_wp_crn" {
   value       = module.scc_wp.crn
 }
 
-output "config_aggregator_id" {
-  value = module.config_aggregator.scc_wp_config_aggregator_id
-}
-
 output "trusted_profile_template_id" {
   value = module.trusted_profiles.trusted_profile_template_id
 }
