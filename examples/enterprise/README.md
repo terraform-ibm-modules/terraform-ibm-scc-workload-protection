@@ -1,4 +1,4 @@
-# Complete Example: SCC-WP with App Config and Trusted Profiles
+# Enterprise Example: SCC-WP with App Config and Trusted Profiles
 
 > Only supported in an enterprise account.
 
