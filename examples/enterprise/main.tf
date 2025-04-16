@@ -22,21 +22,12 @@ module "app_config" {
   resource_group_id = module.resource_group.resource_group_id
   app_config_name   = "${var.prefix}-app-config"
   app_config_tags   = var.resource_tags
-
-  app_config_collections = [
-    {
-      name          = "${var.prefix}-collection"
-      collection_id = "${var.prefix}-collection"
-      description   = "Collection for ${var.prefix}"
-    }
-  ]
 }
 
 module "trusted_profile_app_config_general" {
   source                         = "../../../terraform-ibm-trusted-profile"
   trusted_profile_name           = "app-config-general-profile"
   trusted_profile_description    = "Trusted Profile for App Config general permissions"
-  create_trusted_relationship    = true
 
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
@@ -70,6 +61,9 @@ module "trusted_profile_app_config_general" {
 }
 
 # Creates the custom role inline
+# This role, "Template Assignment Reader", is used in the trusted profile
+# to grant permission to read IAM template assignments. It is required
+# by the App Config enterprise-level trusted profile to manage IAM templates.
 resource "ibm_iam_custom_role" "template_assignment_reader" {
   name         = "TemplateAssignmentReader"
   service      = "iam-identity"
@@ -83,7 +77,6 @@ module "trusted_profile_app_config_enterprise" {
   source                         = "../../../terraform-ibm-trusted-profile"
   trusted_profile_name           = "app-config-enterprise-profile"
   trusted_profile_description    = "Trusted Profile for App Config to manage IAM templates"
-  create_trusted_relationship    = true
 
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
@@ -122,7 +115,6 @@ module "trusted_profile_scc_wp" {
   source                         = "../../../terraform-ibm-trusted-profile"
   trusted_profile_name           = "scc-wp-profile"
   trusted_profile_description    = "Trusted Profile for SCC-WP to access App Config and enterprise"
-  create_trusted_relationship    = true
 
   trusted_profile_identity = {
     identifier    = module.scc_wp.crn
@@ -156,11 +148,13 @@ module "trusted_profile_scc_wp" {
 }
 
 module "trusted_profile_template" {
-  source              = "../../../terraform-ibm-trusted-profile/modules/trusted-profile-template"
-  profile_name        = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
-  profile_description = "Template profile used to onboard child accounts"
-  identity_crn        = module.app_config.app_config_crn
-  onboard_account_groups = true
+  source                  = "../../../terraform-ibm-trusted-profile/modules/trusted-profile-template"
+  template_name           = "Trusted Profile Template for SCC-WP"
+  template_description    = "IAM trusted profile template to onboard accounts for CSPM"
+  profile_name            = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
+  profile_description     = "Template profile used to onboard child accounts"
+  identity_crn            = module.app_config.app_config_crn
+  onboard_account_groups  = true
 
   policy_templates = [
     {
