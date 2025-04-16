@@ -154,7 +154,7 @@ module "trusted_profile_template" {
   profile_name            = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
   profile_description     = "Template profile used to onboard child accounts"
   identity_crn            = module.app_config.app_config_crn
-  onboard_account_groups  = true
+  onboard_all_account_groups  = true
 
   policy_templates = [
     {
