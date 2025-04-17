@@ -17,6 +17,7 @@ A module for provisioning an [IBM Cloud Security and Compliance Center Workload 
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
+    * [Enterprise Example: SCC-WP with App Config and Trusted Profiles](./examples/enterprise)
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
