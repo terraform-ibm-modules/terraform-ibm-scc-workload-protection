@@ -37,4 +37,3 @@ variable "ibmcloud_api_key" {
   description = "IBM Cloud API key used for authentication."
   sensitive   = true
 }
-

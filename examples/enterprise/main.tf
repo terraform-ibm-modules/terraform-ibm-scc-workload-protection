@@ -1,11 +1,19 @@
-module "resource_group" {
-  source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.1.6"
+########################################################################################################################
+# Resource group
+########################################################################################################################
 
+module "resource_group" {
+  source                       = "terraform-ibm-modules/resource-group/ibm"
+  version                      = "1.1.6"
   resource_group_name          = var.resource_group == null ? "${var.prefix}-rg" : null
   existing_resource_group_name = var.resource_group
 }
 
+########################################################################################################################
+# SCC Workload Protection
+########################################################################################################################
+
+# Create SCC Workload Protection instance
 module "scc_wp" {
   source              = "../.."
   name                = var.prefix
@@ -16,20 +24,64 @@ module "scc_wp" {
   scc_wp_service_plan = "graduated-tier"
 }
 
+# Create Trusted profile for SCC Workload Protection instance
+module "trusted_profile_scc_wp" {
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.0"
+  trusted_profile_name        = "${var.prefix}-scc-wp-profile"
+  trusted_profile_description = "Trusted Profile for SCC-WP to access App Config and enterprise"
+
+  trusted_profile_identity = {
+    identifier    = module.scc_wp.crn
+    identity_type = "crn"
+    type          = "crn"
+  }
+
+  trusted_profile_policies = [
+    {
+      roles = ["Viewer", "Service Configuration Reader", "Manager"]
+      resources = [{
+        service = "apprapp"
+      }]
+      description = "App Config access"
+    },
+    {
+      roles = ["Viewer", "Usage Report Viewer"]
+      resources = [{
+        service = "enterprise"
+      }]
+      description = "Enterprise access"
+    }
+  ]
+
+  trusted_profile_links = [{
+    cr_type = "VSI"
+    links = [{
+      crn = module.scc_wp.crn
+    }]
+  }]
+}
+
+########################################################################################################################
+# App Config
+########################################################################################################################
+
+# Create new App Config instance
 module "app_config" {
   source            = "terraform-ibm-modules/app-configuration/ibm"
-  version           = "v1.3.0"
+  version           = "1.3.0"
   region            = var.region
   resource_group_id = module.resource_group.resource_group_id
   app_config_name   = "${var.prefix}-app-config"
   app_config_tags   = var.resource_tags
 }
 
+# Create trusted profile for App Config instance
 module "trusted_profile_app_config_general" {
-  source                         = "terraform-ibm-modules/trusted-profile/ibm"
-  version                        = "2.1.0"
-  trusted_profile_name           = "app-config-general-profile"
-  trusted_profile_description    = "Trusted Profile for App Config general permissions"
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.0"
+  trusted_profile_name        = "${var.prefix}-app-config-general-profile"
+  trusted_profile_description = "Trusted Profile for App Config general permissions"
 
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
@@ -76,10 +128,10 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 
 # Trusted Profile for App Config enterprise-level permissions
 module "trusted_profile_app_config_enterprise" {
-  source                         = "terraform-ibm-modules/trusted-profile/ibm"
-  version                        = "2.1.0"
-  trusted_profile_name           = "app-config-enterprise-profile"
-  trusted_profile_description    = "Trusted Profile for App Config to manage IAM templates"
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.0"
+  trusted_profile_name        = "app-config-enterprise-profile"
+  trusted_profile_description = "Trusted Profile for App Config to manage IAM templates"
 
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
@@ -114,69 +166,7 @@ module "trusted_profile_app_config_enterprise" {
   }]
 }
 
-module "trusted_profile_scc_wp" {
-  source                         = "terraform-ibm-modules/trusted-profile/ibm"
-  version                        = "2.1.0"
-  trusted_profile_name           = "scc-wp-profile"
-  trusted_profile_description    = "Trusted Profile for SCC-WP to access App Config and enterprise"
-
-  trusted_profile_identity = {
-    identifier    = module.scc_wp.crn
-    identity_type = "crn"
-    type          = "crn"
-  }
-
-  trusted_profile_policies = [
-    {
-      roles = ["Viewer", "Service Configuration Reader", "Manager"]
-      resources = [{
-        service = "apprapp"
-      }]
-      description = "App Config access"
-    },
-    {
-      roles = ["Viewer", "Usage Report Viewer"]
-      resources = [{
-        service = "enterprise"
-      }]
-      description = "Enterprise access"
-    }
-  ]
-
-  trusted_profile_links = [{
-    cr_type = "VSI"
-    links = [{
-      crn = module.scc_wp.crn
-    }]
-  }]
-}
-
-module "trusted_profile_template" {
-  source                  = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version                 = "2.1.0"
-  template_name           = "Trusted Profile Template for SCC-WP"
-  template_description    = "IAM trusted profile template to onboard accounts for CSPM"
-  profile_name            = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
-  profile_description     = "Template profile used to onboard child accounts"
-  identity_crn            = module.app_config.app_config_crn
-  onboard_all_account_groups  = true
-
-  policy_templates = [
-    {
-      name        = "identity-access"
-      description = "Policy template for identity services"
-      roles       = ["Viewer", "Reader"]
-      service     = "service"
-    },
-    {
-      name        = "platform-access"
-      description = "Policy template for platform services"
-      roles       = ["Viewer", "Service Configuration Reader"]
-      service     = "platform_service"
-    }
-  ]
-}
-
+# Enable the config aggregator
 resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   instance_id                 = module.app_config.app_config_guid
   region                      = var.region
@@ -195,3 +185,32 @@ resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   }
 }
 
+########################################################################################################################
+# Trusted profile template
+########################################################################################################################
+
+module "trusted_profile_template" {
+  source                     = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
+  version                    = "2.1.0"
+  template_name              = "Trusted Profile Template for SCC-WP-${var.prefix}"
+  template_description       = "IAM trusted profile template to onboard accounts for CSPM"
+  profile_name               = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
+  profile_description        = "Template profile used to onboard child accounts"
+  identity_crn               = module.app_config.app_config_crn
+  onboard_all_account_groups = true
+
+  policy_templates = [
+    {
+      name        = "identity-access"
+      description = "Policy template for identity services"
+      roles       = ["Viewer", "Reader"]
+      service     = "service"
+    },
+    {
+      name        = "platform-access"
+      description = "Policy template for platform services"
+      roles       = ["Viewer", "Service Configuration Reader"]
+      service     = "platform_service"
+    }
+  ]
+}
