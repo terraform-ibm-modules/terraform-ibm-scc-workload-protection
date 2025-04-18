@@ -27,7 +27,7 @@ module "scc_wp" {
 # Create Trusted profile for SCC Workload Protection instance
 module "trusted_profile_scc_wp" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.0"
+  version                     = "2.1.1"
   trusted_profile_name        = "${var.prefix}-scc-wp-profile"
   trusted_profile_description = "Trusted Profile for SCC-WP to access App Config and enterprise"
 
@@ -78,7 +78,7 @@ module "app_config" {
 # Create trusted profile for App Config instance
 module "trusted_profile_app_config_general" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.0"
+  version                     = "2.1.1"
   trusted_profile_name        = "${var.prefix}-app-config-general-profile"
   trusted_profile_description = "Trusted Profile for App Config general permissions"
 
@@ -130,7 +130,7 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 # Trusted Profile for App Config enterprise-level permissions
 module "trusted_profile_app_config_enterprise" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.0"
+  version                     = "2.1.1"
   trusted_profile_name        = "${var.prefix}-app-config-enterprise-profile"
   trusted_profile_description = "Trusted Profile for App Config to manage IAM templates"
 
@@ -172,7 +172,7 @@ module "trusted_profile_app_config_enterprise" {
 
 module "trusted_profile_template" {
   source                     = "terraform-ibm-modules/trusted-profile/ibm//modules/trusted-profile-template"
-  version                    = "2.1.0"
+  version                    = "2.1.1"
   template_name              = "Trusted Profile Template for SCC-WP-${var.prefix}"
   template_description       = "IAM trusted profile template to onboard accounts for CSPM"
   profile_name               = "Trusted Profile for IBM Cloud CSPM in SCC-WP-${var.prefix}"
