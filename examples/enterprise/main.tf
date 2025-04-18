@@ -34,7 +34,6 @@ module "trusted_profile_scc_wp" {
   trusted_profile_identity = {
     identifier    = module.scc_wp.crn
     identity_type = "crn"
-    type          = "crn"
   }
 
   trusted_profile_policies = [
@@ -86,7 +85,6 @@ module "trusted_profile_app_config_general" {
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
     identity_type = "crn"
-    type          = "crn"
   }
 
   trusted_profile_policies = [
@@ -118,10 +116,13 @@ module "trusted_profile_app_config_general" {
 # This role, "Template Assignment Reader", is used in the trusted profile
 # to grant permission to read IAM template assignments. It is required
 # by the App Config enterprise-level trusted profile to manage IAM templates.
+locals {
+  custom_role = "Template Assignment Reader"
+}
 resource "ibm_iam_custom_role" "template_assignment_reader" {
   name         = "TemplateAssignmentReader"
   service      = "iam-identity"
-  display_name = "Template Assignment Reader"
+  display_name = local.custom_role
   description  = "Custom role to allow reading template assignments"
   actions      = ["iam-identity.profile-assignment.read"]
 }
@@ -130,18 +131,17 @@ resource "ibm_iam_custom_role" "template_assignment_reader" {
 module "trusted_profile_app_config_enterprise" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
   version                     = "2.1.0"
-  trusted_profile_name        = "app-config-enterprise-profile"
+  trusted_profile_name        = "${var.prefix}-app-config-enterprise-profile"
   trusted_profile_description = "Trusted Profile for App Config to manage IAM templates"
 
   trusted_profile_identity = {
     identifier    = module.app_config.app_config_crn
     identity_type = "crn"
-    type          = "crn"
   }
 
   trusted_profile_policies = [
     {
-      roles = ["Viewer", "Template Assignment Reader"]
+      roles = ["Viewer", local.custom_role]
       resource_attributes = [{
         name     = "service_group_id"
         value    = "IAM"
@@ -166,25 +166,6 @@ module "trusted_profile_app_config_enterprise" {
   }]
 }
 
-# Enable the config aggregator
-resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
-  instance_id                 = module.app_config.app_config_guid
-  region                      = var.region
-  resource_collection_enabled = true
-  resource_collection_regions = ["all"]
-  trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
-
-  additional_scope {
-    type          = "Enterprise"
-    enterprise_id = var.enterprise_id
-
-    profile_template {
-      id                 = module.trusted_profile_template.trusted_profile_template_id
-      trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
-    }
-  }
-}
-
 ########################################################################################################################
 # Trusted profile template
 ########################################################################################################################
@@ -194,7 +175,7 @@ module "trusted_profile_template" {
   version                    = "2.1.0"
   template_name              = "Trusted Profile Template for SCC-WP-${var.prefix}"
   template_description       = "IAM trusted profile template to onboard accounts for CSPM"
-  profile_name               = "Trusted Profile for IBM Cloud CSPM in SCC-WP"
+  profile_name               = "Trusted Profile for IBM Cloud CSPM in SCC-WP-${var.prefix}"
   profile_description        = "Template profile used to onboard child accounts"
   identity_crn               = module.app_config.app_config_crn
   onboard_all_account_groups = true
@@ -213,4 +194,26 @@ module "trusted_profile_template" {
       service     = "platform_service"
     }
   ]
+}
+
+########################################################################################################################
+# Enable the config aggregator
+########################################################################################################################
+
+resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
+  instance_id                 = module.app_config.app_config_guid
+  region                      = var.region
+  resource_collection_enabled = true
+  resource_collection_regions = ["all"]
+  trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
+
+  additional_scope {
+    type          = "Enterprise"
+    enterprise_id = var.enterprise_id
+
+    profile_template {
+      id                 = module.trusted_profile_template.trusted_profile_template_id
+      trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
+    }
+  }
 }
