@@ -38,10 +38,6 @@ module "scc_wp" {
   access_tags                   = var.scc_workload_protection_access_tags
   scc_wp_service_plan           = var.scc_workload_protection_service_plan
   cbr_rules                     = var.cbr_rules
-  cspm_enabled                  = var.cspm_enabled
-  app_config_crn                = ibm_resource_instance.app_configuration_instance.crn
-  trusted_profile_id            = ibm_iam_trusted_profile.workload_protection_profile[0].id
-  account_id                    = data.ibm_iam_account_settings.iam_account_settings.account_id
 }
 
 ########################################################################################################################
@@ -62,6 +58,25 @@ resource "ibm_iam_trusted_profile" "workload_protection_profile" {
   name  = "${var.prefix}-workload-protection-trusted-profile"
 }
 
+# Null resource to enable CSPM via CLI
+resource "null_resource" "enable_cspm" {
+  count = var.cspm_enabled ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<EOT
+      ibmcloud login --apikey ${var.ibmcloud_api_key} -g ${module.resource_group.resource_group_name} --no-region && \
+      ibmcloud resource service-instance-update ${module.scc_wp.id} \
+        -p '{"enable_cspm": true, "target_accounts": [{"account_id": "${data.ibm_iam_account_settings.iam_account_settings.account_id}", "config_crn": "${ibm_resource_instance.app_configuration_instance.crn}", "trusted_profile_id": "${ibm_iam_trusted_profile.workload_protection_profile[0].id}"}]}' \
+        -g ${module.resource_group.resource_group_name}
+    EOT
+  }
+
+  depends_on = [
+    module.scc_wp,
+    ibm_iam_trusted_profile.workload_protection_profile
+  ]
+}
+
 # Trusted Profile Policiy for All Identify and Access enabled services for WP
 resource "ibm_iam_trusted_profile_policy" "policy_workload_protection_apprapp" {
   count       = var.cspm_enabled ? 1 : 0
@@ -76,7 +91,7 @@ resource "ibm_iam_trusted_profile_policy" "policy_workload_protection_apprapp" {
 # Trusted Profile Trust Relationship for Config Service
 resource "ibm_iam_trusted_profile_identity" "trust_relationship_workload_protection" {
   count         = var.cspm_enabled ? 1 : 0
-  identifier    = ibm_resource_instance.app_configuration_instance.crn
+  identifier    = module.scc_wp.crn
   identity_type = "crn"
   profile_id    = ibm_iam_trusted_profile.workload_protection_profile[0].id
   type          = "crn"
@@ -96,6 +111,9 @@ module "crn_parser" {
 resource "ibm_iam_trusted_profile" "config_service_profile" {
   count = var.cspm_enabled ? 1 : 0
   name  = "${var.prefix}-config-service-trusted-profile"
+  depends_on = [
+    module.scc_wp,
+  ]
 }
 
 # Config Service Aggregator

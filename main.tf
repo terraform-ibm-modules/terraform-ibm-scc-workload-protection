@@ -17,13 +17,9 @@ resource "ibm_resource_instance" "scc_wp" {
   tags              = var.resource_tags
   parameters_json   = <<PARAMETERS_JSON
      {
-      "enable_cspm" : "${var.cspm_enabled}",
-      "target_accounts" : [{
-        "account_id" : "${var.account_id}",
-        "config_crn" : "${var.app_config_crn}",
-        "trusted_profile_id" : "${var.trusted_profile_id}"
-      }]
-    }
+      "cloud_monitoring_instance_crn" : "${var.cloud_monitoring_instance_crn}",
+      "enable_cspm" : false
+     }
   PARAMETERS_JSON
 }
 

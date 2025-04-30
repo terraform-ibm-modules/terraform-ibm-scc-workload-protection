@@ -74,33 +74,6 @@ variable "cloud_monitoring_instance_crn" {
 }
 
 ##############################################################
-# App Config
-##############################################################
-variable "cspm_enabled" {
-  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance."
-  type        = bool
-  default     = false
-}
-
-variable "app_config_crn" {
-  description = "The CRN of the App Config instance to use with the Workload Protection instance."
-  type        = string
-  default     = null
-}
-
-variable "trusted_profile_id" {
-  description = "The ID of the trusted profile to use with the Workload Protection instance."
-  type        = string
-  default     = null
-}
-
-variable "account_id" {
-  description = "The account ID to use with the Workload Protection instance."
-  type        = string
-  default     = null
-}
-
-##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 
