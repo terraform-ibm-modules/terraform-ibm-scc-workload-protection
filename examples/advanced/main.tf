@@ -54,6 +54,18 @@ module "cbr_zone" {
 }
 
 ########################################################################################################################
+# Create Application Configuration instance
+########################################################################################################################
+
+resource "ibm_resource_instance" "app_configuration_instance" {
+  plan              = "basic"
+  name              = "${var.prefix}-conf-agg"
+  location          = var.region
+  resource_group_id = module.resource_group.resource_group_id
+  service           = "apprapp"
+}
+
+########################################################################################################################
 # SCC WP instance
 ########################################################################################################################
 
@@ -65,6 +77,9 @@ module "scc_wp" {
   resource_tags                 = var.resource_tags
   access_tags                   = var.access_tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+
+  cspm_enabled   = true
+  app_config_crn = ibm_resource_instance.app_configuration_instance.crn
 
   cbr_rules = [
     {

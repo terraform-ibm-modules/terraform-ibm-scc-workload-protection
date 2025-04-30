@@ -183,6 +183,12 @@
                 }
               },
               {
+                "key": "cspm_enabled"
+              },
+              {
+                "key": "app_config_crn"
+              },
+              {
                 "key": "cbr_rules"
               }
             ],

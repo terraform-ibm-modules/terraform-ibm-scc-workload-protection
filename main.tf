@@ -15,9 +15,16 @@ resource "ibm_resource_instance" "scc_wp" {
   plan              = var.scc_wp_service_plan
   location          = var.region
   tags              = var.resource_tags
-  parameters = {
-    cloud_monitoring_connected_instance : var.cloud_monitoring_instance_crn
-  }
+  parameters_json   = <<PARAMETERS_JSON
+     {
+      "enable_cspm" : "${var.cspm_enabled}",
+      "target_accounts" : [{
+        "account_id" : "${var.account_id}",
+        "config_crn" : "${var.app_config_crn}",
+        "trusted_profile_id" : "${var.trusted_profile_id}"
+      }]
+    }
+  PARAMETERS_JSON
 }
 
 ##############################################################################

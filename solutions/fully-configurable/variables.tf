@@ -24,12 +24,13 @@ variable "existing_monitoring_crn" {
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can set this value to `null` or an empty string."
+  default     = "test"
 }
 
 variable "provider_visibility" {
   description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
   type        = string
-  default     = "private"
+  default     = "public"
 
   validation {
     condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
@@ -103,6 +104,22 @@ variable "scc_workload_protection_service_plan" {
       var.scc_workload_protection_service_plan
     )
   }
+}
+
+##############################################################
+# App Config
+##############################################################
+
+variable "cspm_enabled" {
+  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance."
+  type        = bool
+  default     = true
+}
+
+variable "app_config_crn" {
+  description = "The CRN of the App Config instance to use with the Workload Protection instance."
+  type        = string
+  default     = null
 }
 
 ##############################################################
