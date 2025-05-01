@@ -106,6 +106,12 @@ variable "scc_workload_protection_service_plan" {
   }
 }
 
+variable "scc_workload_protection_trusted_profile_name" {
+  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  type        = string
+  default     = "workload-protection-trusted-profile"
+}
+
 ##############################################################
 # App Config
 ##############################################################
@@ -120,6 +126,12 @@ variable "app_config_crn" {
   description = "The CRN of the App Config instance to use with the Workload Protection instance."
   type        = string
   default     = null
+}
+
+variable "config_service_trusted_profile_name" {
+  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  type        = string
+  default     = "config-service-trusted-profile"
 }
 
 ##############################################################

@@ -16,7 +16,7 @@ This solution supports provisioning and configuring the following infrastructure
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.77.1 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2 |
+| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 1.20.0 |
 
 ### Modules
 
@@ -38,9 +38,8 @@ This solution supports provisioning and configuring the following infrastructure
 | [ibm_iam_trusted_profile_policy.policy_config_service_all_account](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
 | [ibm_iam_trusted_profile_policy.policy_config_service_all_identity](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
 | [ibm_iam_trusted_profile_policy.policy_workload_protection_apprapp](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
-| [ibm_resource_instance.app_configuration_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/resource_instance) | resource |
-| [null_resource.enable_cspm](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/data-sources/iam_account_settings) | data source |
+| [restapi_object.enable_cspm](https://registry.terraform.io/providers/Mastercard/restapi/1.20.0/docs/resources/object) | resource |
+| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/data-sources/iam_auth_token) | data source |
 
 ### Inputs
 
@@ -48,6 +47,7 @@ This solution supports provisioning and configuring the following infrastructure
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_config_crn"></a> [app\_config\_crn](#input\_app\_config\_crn) | The CRN of the App Config instance to use with the Workload Protection instance. | `string` | `null` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/fully-configurable/cbr-rules.md) | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    operations = optional(list(object({<br/>      api_types = list(object({<br/>        api_type_id = string<br/>      }))<br/>    })))<br/>  }))</pre> | `[]` | no |
+| <a name="input_config_service_trusted_profile_name"></a> [config\_service\_trusted\_profile\_name](#input\_config\_service\_trusted\_profile\_name) | The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format. | `string` | `"config-service-trusted-profile"` | no |
 | <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. | `bool` | `true` | no |
 | <a name="input_existing_monitoring_crn"></a> [existing\_monitoring\_crn](#input\_existing\_monitoring\_crn) | The CRN of an IBM Cloud Monitoring instance to to send Workload Protection data. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration. | `string` | `null` | no |
 | <a name="input_existing_resource_group_name"></a> [existing\_resource\_group\_name](#input\_existing\_resource\_group\_name) | The name of a an existing resource group in which to provision resources to. | `string` | `"Default"` | no |
@@ -60,6 +60,7 @@ This solution supports provisioning and configuring the following infrastructure
 | <a name="input_scc_workload_protection_instance_tags"></a> [scc\_workload\_protection\_instance\_tags](#input\_scc\_workload\_protection\_instance\_tags) | The list of tags to add to the Workload Protection instance. | `list(string)` | `[]` | no |
 | <a name="input_scc_workload_protection_resource_key_tags"></a> [scc\_workload\_protection\_resource\_key\_tags](#input\_scc\_workload\_protection\_resource\_key\_tags) | The tags associated with the Workload Protection resource key. | `list(string)` | `[]` | no |
 | <a name="input_scc_workload_protection_service_plan"></a> [scc\_workload\_protection\_service\_plan](#input\_scc\_workload\_protection\_service\_plan) | The pricing plan for the Workload Protection instance service. Possible values: `free-trial`, `graduated-tier`. | `string` | `"graduated-tier"` | no |
+| <a name="input_scc_workload_protection_trusted_profile_name"></a> [scc\_workload\_protection\_trusted\_profile\_name](#input\_scc\_workload\_protection\_trusted\_profile\_name) | The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format. | `string` | `"workload-protection-trusted-profile"` | no |
 
 ### Outputs
 

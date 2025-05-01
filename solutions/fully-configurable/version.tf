@@ -6,9 +6,9 @@ terraform {
       source  = "IBM-Cloud/ibm"
       version = "1.77.1"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "~> 3.2"
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = "1.20.0"
     }
   }
 }

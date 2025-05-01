@@ -1,8 +1,14 @@
 locals {
   prefix_is_valid = var.prefix != null || trimspace(var.prefix) != "" ? true : false
 
-  scc_workload_protection_instance_name     = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}" : var.scc_workload_protection_instance_name
-  scc_workload_protection_resource_key_name = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}-key" : "${var.scc_workload_protection_instance_name}-key"
+  # Compute names for SCC Workload Protection instance and trusted profile
+  scc_workload_protection_instance_name        = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}" : var.scc_workload_protection_instance_name
+  scc_workload_protection_resource_key_name    = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}-key" : "${var.scc_workload_protection_instance_name}-key"
+  scc_workload_protection_trusted_profile_name = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_trusted_profile_name}" : var.scc_workload_protection_trusted_profile_name
+  config_service_trusted_profile_name          = local.prefix_is_valid ? "${var.prefix}-${var.config_service_trusted_profile_name}" : var.config_service_trusted_profile_name
+
+  # Get account ID
+  account_id = module.scc_wp.account_id
 }
 
 #######################################################################################################################
@@ -13,13 +19,6 @@ module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.2.0"
   existing_resource_group_name = var.existing_resource_group_name
-}
-
-##############################################################################
-# Get Cloud Account ID
-##############################################################################
-
-data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
 #######################################################################################################################
@@ -44,32 +43,36 @@ module "scc_wp" {
 # Cloud Security Posture Management (CSPM)
 ########################################################################################################################
 
-resource "ibm_resource_instance" "app_configuration_instance" {
-  plan              = "basic"
-  name              = "${var.prefix}-conf-agg"
-  location          = var.region
-  resource_group_id = module.resource_group.resource_group_id
-  service           = "apprapp"
-}
-
 # Trusted Profile for Workload Protection
 resource "ibm_iam_trusted_profile" "workload_protection_profile" {
   count = var.cspm_enabled ? 1 : 0
-  name  = "${var.prefix}-workload-protection-trusted-profile"
+  name  = local.scc_workload_protection_trusted_profile_name
 }
 
-# Null resource to enable CSPM via CLI
-resource "null_resource" "enable_cspm" {
+data "ibm_iam_auth_token" "auth_token" {}
+
+# CSPM can only be enabled after the trusted profile exists,
+# but profile can only exist after instance has been created
+# hence we cannot directly enable CSPM in the instance creation
+# and need to use a separate resource to enable it
+resource "restapi_object" "enable_cspm" {
   count = var.cspm_enabled ? 1 : 0
 
-  provisioner "local-exec" {
-    command = <<EOT
-      ibmcloud login --apikey ${var.ibmcloud_api_key} -g ${module.resource_group.resource_group_name} --no-region && \
-      ibmcloud resource service-instance-update ${module.scc_wp.id} \
-        -p '{"enable_cspm": true, "target_accounts": [{"account_id": "${data.ibm_iam_account_settings.iam_account_settings.account_id}", "config_crn": "${ibm_resource_instance.app_configuration_instance.crn}", "trusted_profile_id": "${ibm_iam_trusted_profile.workload_protection_profile[0].id}"}]}' \
-        -g ${module.resource_group.resource_group_name}
-    EOT
-  }
+  path = "/v2/resource_instances/${module.scc_wp.guid}"
+
+  data = jsonencode({
+    parameters = {
+      enable_cspm = true
+      target_accounts = [
+        {
+          account_id         = local.account_id
+          config_crn         = var.app_config_crn
+          trusted_profile_id = ibm_iam_trusted_profile.workload_protection_profile[0].id
+        }
+      ]
+    }
+  })
+  create_method = "PATCH" # Specify the HTTP method for updates
 
   depends_on = [
     module.scc_wp,
@@ -104,13 +107,13 @@ resource "ibm_iam_trusted_profile_identity" "trust_relationship_workload_protect
 module "crn_parser" {
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
-  crn     = ibm_resource_instance.app_configuration_instance.crn
+  crn     = var.app_config_crn
 }
 
 # Trusted Profile for Config Service
 resource "ibm_iam_trusted_profile" "config_service_profile" {
   count = var.cspm_enabled ? 1 : 0
-  name  = "${var.prefix}-config-service-trusted-profile"
+  name  = local.config_service_trusted_profile_name
   depends_on = [
     module.scc_wp,
   ]
@@ -152,7 +155,7 @@ resource "ibm_iam_trusted_profile_policy" "policy_config_service_all_identity" {
 # Trusted Profile Trust Relationship for Config Service
 resource "ibm_iam_trusted_profile_identity" "trust_relationship_config_service" {
   count         = var.cspm_enabled ? 1 : 0
-  identifier    = ibm_resource_instance.app_configuration_instance.crn
+  identifier    = var.app_config_crn
   identity_type = "crn"
   profile_id    = ibm_iam_trusted_profile.config_service_profile[0].id
   type          = "crn"
