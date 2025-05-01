@@ -105,6 +105,7 @@ resource "ibm_iam_trusted_profile_identity" "trust_relationship_workload_protect
 ##############################################################
 
 module "crn_parser" {
+  count   = var.cspm_enabled ? 1 : 0
   source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
   version = "1.1.0"
   crn     = var.app_config_crn
@@ -122,7 +123,7 @@ resource "ibm_iam_trusted_profile" "config_service_profile" {
 # Config Service Aggregator
 resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" {
   count       = var.cspm_enabled ? 1 : 0
-  instance_id = module.crn_parser.service_instance
+  instance_id = module.crn_parser[0].service_instance
   region      = var.region
 
   resource_collection_regions = ["all"]
