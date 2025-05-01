@@ -22,22 +22,17 @@ This solution supports provisioning and configuring the following infrastructure
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_app_config_service_profile"></a> [app\_config\_service\_profile](#module\_app\_config\_service\_profile) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 | <a name="module_crn_parser"></a> [crn\_parser](#module\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.1.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.2.0 |
 | <a name="module_scc_wp"></a> [scc\_wp](#module\_scc\_wp) | ../.. | n/a |
+| <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
 | [ibm_config_aggregator_settings.config_aggregator_settings_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/config_aggregator_settings) | resource |
-| [ibm_iam_trusted_profile.config_service_profile](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile) | resource |
-| [ibm_iam_trusted_profile.workload_protection_profile](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile) | resource |
-| [ibm_iam_trusted_profile_identity.trust_relationship_config_service](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_identity) | resource |
-| [ibm_iam_trusted_profile_identity.trust_relationship_workload_protection](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_identity) | resource |
-| [ibm_iam_trusted_profile_policy.policy_config_service_all_account](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
-| [ibm_iam_trusted_profile_policy.policy_config_service_all_identity](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
-| [ibm_iam_trusted_profile_policy.policy_workload_protection_apprapp](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/resources/iam_trusted_profile_policy) | resource |
 | [restapi_object.enable_cspm](https://registry.terraform.io/providers/Mastercard/restapi/1.20.0/docs/resources/object) | resource |
 | [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.77.1/docs/data-sources/iam_auth_token) | data source |
 

@@ -1,3 +1,7 @@
+#######################################################################################################################
+# Locals
+#######################################################################################################################
+
 locals {
   prefix_is_valid = var.prefix != null || trimspace(var.prefix) != "" ? true : false
 
@@ -43,13 +47,102 @@ module "scc_wp" {
 # Cloud Security Posture Management (CSPM)
 ########################################################################################################################
 
-# Trusted Profile for Workload Protection
-resource "ibm_iam_trusted_profile" "workload_protection_profile" {
-  count = var.cspm_enabled ? 1 : 0
-  name  = local.scc_workload_protection_trusted_profile_name
+# Create Trusted profile for SCC Workload Protection instance
+module "trusted_profile_scc_wp" {
+  count                       = var.cspm_enabled ? 1 : 0
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.1"
+  trusted_profile_name        = local.scc_workload_protection_trusted_profile_name
+  trusted_profile_description = "Trusted Profile for SCC-WP to access App Config"
+
+  trusted_profile_identity = {
+    identifier    = module.scc_wp.crn
+    identity_type = "crn"
+  }
+
+  trusted_profile_policies = [
+    {
+      roles = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
+      resources = [{
+        service = "apprapp"
+      }]
+      description = "App Config access"
+    },
+  ]
+
+  trusted_profile_links = [{
+    cr_type = "VSI"
+    links = [{
+      crn = module.scc_wp.crn
+    }]
+  }]
 }
 
+##############################################################
+# CRN Parser
+##############################################################
+
+module "crn_parser" {
+  count   = var.cspm_enabled ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = var.app_config_crn
+}
+
+##############################################################
+# App Config Trusted Profile
+##############################################################
+
+module "app_config_service_profile" {
+  count                       = var.cspm_enabled ? 1 : 0
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.1"
+  trusted_profile_name        = local.config_service_trusted_profile_name
+  trusted_profile_description = "Trusted Profile for App Config"
+
+  trusted_profile_identity = {
+    identifier    = var.app_config_crn
+    identity_type = "crn"
+  }
+
+  trusted_profile_policies = [
+    {
+      roles = ["Viewer", "Service Configuration Reader"]
+      resources = [{
+        service = "All Account Management services"
+      }]
+      description = "All Account Management services"
+    },
+    {
+      roles = ["Viewer", "Service Configuration Reader"]
+      resources = [{
+        service = "All Identity and Access enabled services"
+      }]
+      description = "All Identity and Access enabled services"
+    },
+  ]
+}
+
+# Config Service Aggregator
+resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" {
+  count       = var.cspm_enabled ? 1 : 0
+  instance_id = module.crn_parser[0].service_instance
+  region      = var.region
+
+  resource_collection_regions = ["all"]
+  resource_collection_enabled = true
+  trusted_profile_id          = module.app_config_service_profile[0].profile_id
+}
+
+################################################################
+# IAM Auth Token
+################################################################
+
 data "ibm_iam_auth_token" "auth_token" {}
+
+################################################################
+# Enable CSPM for SCC Workload Protection instance
+################################################################
 
 # CSPM can only be enabled after the trusted profile exists,
 # but profile can only exist after instance has been created
@@ -67,7 +160,7 @@ resource "restapi_object" "enable_cspm" {
         {
           account_id         = local.account_id
           config_crn         = var.app_config_crn
-          trusted_profile_id = ibm_iam_trusted_profile.workload_protection_profile[0].id
+          trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
         }
       ]
     }
@@ -76,88 +169,6 @@ resource "restapi_object" "enable_cspm" {
 
   depends_on = [
     module.scc_wp,
-    ibm_iam_trusted_profile.workload_protection_profile
+    module.trusted_profile_scc_wp
   ]
-}
-
-# Trusted Profile Policiy for All Identify and Access enabled services for WP
-resource "ibm_iam_trusted_profile_policy" "policy_workload_protection_apprapp" {
-  count       = var.cspm_enabled ? 1 : 0
-  profile_id  = ibm_iam_trusted_profile.workload_protection_profile[0].id
-  roles       = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
-  description = "apprapp"
-  resources {
-    service = "apprapp"
-  }
-}
-
-# Trusted Profile Trust Relationship for Config Service
-resource "ibm_iam_trusted_profile_identity" "trust_relationship_workload_protection" {
-  count         = var.cspm_enabled ? 1 : 0
-  identifier    = module.scc_wp.crn
-  identity_type = "crn"
-  profile_id    = ibm_iam_trusted_profile.workload_protection_profile[0].id
-  type          = "crn"
-}
-
-##############################################################
-# App Config
-##############################################################
-
-module "crn_parser" {
-  count   = var.cspm_enabled ? 1 : 0
-  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.1.0"
-  crn     = var.app_config_crn
-}
-
-# Trusted Profile for Config Service
-resource "ibm_iam_trusted_profile" "config_service_profile" {
-  count = var.cspm_enabled ? 1 : 0
-  name  = local.config_service_trusted_profile_name
-  depends_on = [
-    module.scc_wp,
-  ]
-}
-
-# Config Service Aggregator
-resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" {
-  count       = var.cspm_enabled ? 1 : 0
-  instance_id = module.crn_parser[0].service_instance
-  region      = var.region
-
-  resource_collection_regions = ["all"]
-  resource_collection_enabled = true
-  trusted_profile_id          = ibm_iam_trusted_profile.config_service_profile[0].id
-}
-
-# Trusted Profile Policy for All Account Management services for Config Service
-resource "ibm_iam_trusted_profile_policy" "policy_config_service_all_account" {
-  count       = var.cspm_enabled ? 1 : 0
-  profile_id  = ibm_iam_trusted_profile.config_service_profile[0].id
-  roles       = ["Viewer", "Service Configuration Reader"]
-  description = "All Account Management services"
-  resources {
-    service = "All Account Management services"
-  }
-}
-
-# Trusted Profile Policiy for All Identify and Access enabled services for Config Service
-resource "ibm_iam_trusted_profile_policy" "policy_config_service_all_identity" {
-  count       = var.cspm_enabled ? 1 : 0
-  profile_id  = ibm_iam_trusted_profile.config_service_profile[0].id
-  roles       = ["Viewer", "Service Configuration Reader"]
-  description = "All Identity and Access enabled services"
-  resources {
-    service = "All Identity and Access enabled services"
-  }
-}
-
-# Trusted Profile Trust Relationship for Config Service
-resource "ibm_iam_trusted_profile_identity" "trust_relationship_config_service" {
-  count         = var.cspm_enabled ? 1 : 0
-  identifier    = var.app_config_crn
-  identity_type = "crn"
-  profile_id    = ibm_iam_trusted_profile.config_service_profile[0].id
-  type          = "crn"
 }

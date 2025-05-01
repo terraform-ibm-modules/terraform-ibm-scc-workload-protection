@@ -126,6 +126,10 @@ variable "app_config_crn" {
   description = "The CRN of the App Config instance to use with the Workload Protection instance."
   type        = string
   default     = null
+  validation {
+    condition     = var.cspm_enabled ? var.app_config_crn != null : true
+    error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
+  }
 }
 
 variable "config_service_trusted_profile_name" {
