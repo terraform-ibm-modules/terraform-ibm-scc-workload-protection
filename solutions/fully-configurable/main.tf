@@ -44,7 +44,9 @@ module "scc_wp" {
 }
 
 ########################################################################################################################
-# Cloud Security Posture Management (CSPM)
+# Beginning of Cloud Security Posture Management (CSPM) Configuration
+########################################################################################################################
+# SCC Workload Protection Trusted Profile
 ########################################################################################################################
 
 # Create Trusted profile for SCC Workload Protection instance
@@ -76,17 +78,6 @@ module "trusted_profile_scc_wp" {
       crn = module.scc_wp.crn
     }]
   }]
-}
-
-##############################################################
-# CRN Parser
-##############################################################
-
-module "crn_parser" {
-  count   = var.cspm_enabled ? 1 : 0
-  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.1.0"
-  crn     = var.app_config_crn
 }
 
 ##############################################################
@@ -123,7 +114,21 @@ module "app_config_service_profile" {
   ]
 }
 
-# Config Service Aggregator
+##############################################################
+# CRN Parser
+##############################################################
+
+module "crn_parser" {
+  count   = var.cspm_enabled ? 1 : 0
+  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
+  version = "1.1.0"
+  crn     = var.app_config_crn
+}
+
+################################################################
+# Config Service Instance
+################################################################
+
 resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" {
   count       = var.cspm_enabled ? 1 : 0
   instance_id = module.crn_parser[0].service_instance
