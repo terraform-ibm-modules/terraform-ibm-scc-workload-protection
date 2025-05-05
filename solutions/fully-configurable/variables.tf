@@ -24,13 +24,12 @@ variable "existing_monitoring_crn" {
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can set this value to `null` or an empty string."
-  default     = "test"
 }
 
 variable "provider_visibility" {
   description = "Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints)."
   type        = string
-  default     = "public"
+  default     = "private"
 
   validation {
     condition     = contains(["public", "private", "public-and-private"], var.provider_visibility)
