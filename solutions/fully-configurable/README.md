@@ -22,10 +22,10 @@ This solution supports provisioning and configuring the following infrastructure
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_app_config_service_profile"></a> [app\_config\_service\_profile](#module\_app\_config\_service\_profile) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 | <a name="module_crn_parser"></a> [crn\_parser](#module\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.1.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.2.0 |
 | <a name="module_scc_wp"></a> [scc\_wp](#module\_scc\_wp) | ../.. | n/a |
+| <a name="module_trusted_profile_app_config"></a> [trusted\_profile\_app\_config](#module\_trusted\_profile\_app\_config) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 
 ### Resources

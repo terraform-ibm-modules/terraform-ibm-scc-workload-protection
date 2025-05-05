@@ -84,7 +84,8 @@ module "trusted_profile_scc_wp" {
 # App Config Trusted Profile
 ##############################################################
 
-module "app_config_service_profile" {
+# Create Trusted profile for App Config instance
+module "trusted_profile_app_config" {
   count                       = var.cspm_enabled ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
   version                     = "2.1.1"
@@ -136,7 +137,7 @@ resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" 
 
   resource_collection_regions = ["all"]
   resource_collection_enabled = true
-  trusted_profile_id          = module.app_config_service_profile[0].profile_id
+  trusted_profile_id          = module.trusted_profile_app_config[0].profile_id
 }
 
 ################################################################
