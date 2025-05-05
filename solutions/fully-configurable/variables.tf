@@ -138,6 +138,12 @@ variable "config_service_trusted_profile_name" {
   default     = "config-service-trusted-profile"
 }
 
+variable "resource_controller_uri" {
+  description = "The URI of the Resource Controller service. This is used to create the Workload Protection instance."
+  type        = string
+  default     = "https://private.resource-controller.cloud.ibm.com"
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

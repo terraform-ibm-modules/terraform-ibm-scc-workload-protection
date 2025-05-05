@@ -202,6 +202,9 @@
                 "key": "config_service_trusted_profile_name"
               },
               {
+                "key": "resource_controller_uri"
+              },
+              {
                 "key": "scc_workload_protection_trusted_profile_name"
               },
               {
