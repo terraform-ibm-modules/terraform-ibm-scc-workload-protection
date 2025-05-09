@@ -105,6 +105,44 @@ variable "scc_workload_protection_service_plan" {
   }
 }
 
+variable "scc_workload_protection_trusted_profile_name" {
+  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  type        = string
+  default     = "workload-protection-trusted-profile"
+}
+
+##############################################################
+# App Config
+##############################################################
+
+variable "cspm_enabled" {
+  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance."
+  type        = bool
+  default     = true
+}
+
+variable "app_config_crn" {
+  description = "The CRN of the App Config instance to use with the Workload Protection instance."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.cspm_enabled ? var.app_config_crn != null : true
+    error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
+  }
+}
+
+variable "config_service_trusted_profile_name" {
+  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  type        = string
+  default     = "config-service-trusted-profile"
+}
+
+variable "resource_controller_uri" {
+  description = "The URI of the Resource Controller service. This is used to create the Workload Protection instance."
+  type        = string
+  default     = "https://private.resource-controller.cloud.ibm.com"
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

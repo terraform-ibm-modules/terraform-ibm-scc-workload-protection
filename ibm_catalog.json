@@ -183,6 +183,31 @@
                 }
               },
               {
+                "key": "cspm_enabled",
+                "options": [
+                  {
+                    "displayname": "Enabled",
+                    "value": true
+                  },
+                  {
+                    "displayname": "Disabled",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "key": "app_config_crn"
+              },
+              {
+                "key": "config_service_trusted_profile_name"
+              },
+              {
+                "key": "resource_controller_uri"
+              },
+              {
+                "key": "scc_workload_protection_trusted_profile_name"
+              },
+              {
                 "key": "cbr_rules"
               }
             ],
