@@ -73,6 +73,16 @@
                     "dependency_input": "enable_config_aggregator",
                     "version_input": "cspm_enabled",
                     "reference_version": true
+                  },
+                  {
+                    "dependency_input": "config_aggregator_enterprise_id",
+                    "version_input": "config_aggregator_enterprise_id",
+                    "reference_version": true
+                  },
+                  {
+                    "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                    "version_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                    "reference_version": true
                   }
                 ],
                 "on_by_default": true,
@@ -228,6 +238,14 @@
               },
               {
                 "key": "app_config_crn"
+              },
+              {
+                "key": "config_aggregator_enterprise_id",
+                "virtual": true
+              },
+              {
+                "key": "config_aggregator_enterprise_account_group_ids_to_assign",
+                "virtual": true
               },
               {
                 "key": "ibmcloud_resource_controller_api_endpoint"
