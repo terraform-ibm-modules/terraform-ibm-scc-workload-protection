@@ -57,7 +57,7 @@
                 "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
                 "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
                 "name": "deploy-arch-ibm-apprapp",
-                "version": ">=v1.0.0",
+                "version": "v1.5.0",
                 "optional": true,
                 "input_mapping": [
                   {
@@ -240,10 +240,12 @@
                 "key": "app_config_crn"
               },
               {
-                "key": "config_aggregator_enterprise_id"
+                "key": "config_aggregator_enterprise_id",
+                "virtual": true
               },
               {
-                "key": "config_aggregator_enterprise_account_group_ids_to_assign"
+                "key": "config_aggregator_enterprise_account_group_ids_to_assign",
+                "virtual": true
               },
               {
                 "key": "ibmcloud_resource_controller_api_endpoint"
