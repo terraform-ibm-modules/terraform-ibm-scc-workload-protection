@@ -22,19 +22,16 @@ This solution supports provisioning and configuring the following infrastructure
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_crn_parser"></a> [crn\_parser](#module\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.1.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.2.0 |
 | <a name="module_scc_wp"></a> [scc\_wp](#module\_scc\_wp) | ../.. | n/a |
-| <a name="module_trusted_profile_app_config"></a> [trusted\_profile\_app\_config](#module\_trusted\_profile\_app\_config) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [ibm_config_aggregator_settings.config_aggregator_settings_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/resources/config_aggregator_settings) | resource |
 | [restapi_object.enable_cspm](https://registry.terraform.io/providers/Mastercard/restapi/1.20.0/docs/resources/object) | resource |
-| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.0/docs/data-sources/iam_auth_token) | data source |
+| [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.1/docs/data-sources/iam_auth_token) | data source |
 
 ### Inputs
 
@@ -42,15 +39,14 @@ This solution supports provisioning and configuring the following infrastructure
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_config_crn"></a> [app\_config\_crn](#input\_app\_config\_crn) | The CRN of the App Config instance to use with the Workload Protection instance. | `string` | `null` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create for the instance.[Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/fully-configurable/cbr-rules.md) | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    operations = optional(list(object({<br/>      api_types = list(object({<br/>        api_type_id = string<br/>      }))<br/>    })))<br/>  }))</pre> | `[]` | no |
-| <a name="input_config_service_trusted_profile_name"></a> [config\_service\_trusted\_profile\_name](#input\_config\_service\_trusted\_profile\_name) | The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format. | `string` | `"config-service-trusted-profile"` | no |
-| <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. | `bool` | `true` | no |
+| <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance. | `bool` | `true` | no |
 | <a name="input_existing_monitoring_crn"></a> [existing\_monitoring\_crn](#input\_existing\_monitoring\_crn) | The CRN of an IBM Cloud Monitoring instance to to send Workload Protection data. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration. | `string` | `null` | no |
 | <a name="input_existing_resource_group_name"></a> [existing\_resource\_group\_name](#input\_existing\_resource\_group\_name) | The name of a an existing resource group in which to provision resources to. | `string` | `"Default"` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud API key to deploy resources. | `string` | n/a | yes |
+| <a name="input_ibmcloud_resource_controller_api_endpoint"></a> [ibmcloud\_resource\_controller\_api\_endpoint](#input\_ibmcloud\_resource\_controller\_api\_endpoint) | The URI of the Resource Controller service. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created. | `string` | `"https://private.resource-controller.cloud.ibm.com"` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can set this value to `null` or an empty string. | `string` | n/a | yes |
 | <a name="input_provider_visibility"></a> [provider\_visibility](#input\_provider\_visibility) | Set the visibility value for the IBM terraform provider. Supported values are `public`, `private`, `public-and-private`. [Learn more](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/guides/custom-service-endpoints). | `string` | `"private"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to provision Security and Compliance Center Workload Protection resources in. | `string` | `"us-south"` | no |
-| <a name="input_resource_controller_uri"></a> [resource\_controller\_uri](#input\_resource\_controller\_uri) | The URI of the Resource Controller service. This is used to create the Workload Protection instance. | `string` | `"https://private.resource-controller.cloud.ibm.com"` | no |
 | <a name="input_scc_workload_protection_access_tags"></a> [scc\_workload\_protection\_access\_tags](#input\_scc\_workload\_protection\_access\_tags) | A list of access tags to apply to the Workload Protection instance. Maximum length: 128 characters. Possible characters are A-Z, 0-9, spaces, underscores, hyphens, periods, and colons. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#limits). | `list(string)` | `[]` | no |
 | <a name="input_scc_workload_protection_instance_name"></a> [scc\_workload\_protection\_instance\_name](#input\_scc\_workload\_protection\_instance\_name) | The name for the Workload Protection instance that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format. | `string` | `"scc-workload-protection"` | no |
 | <a name="input_scc_workload_protection_instance_tags"></a> [scc\_workload\_protection\_instance\_tags](#input\_scc\_workload\_protection\_instance\_tags) | The list of tags to add to the Workload Protection instance. | `list(string)` | `[]` | no |

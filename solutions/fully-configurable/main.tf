@@ -9,7 +9,6 @@ locals {
   scc_workload_protection_instance_name        = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}" : var.scc_workload_protection_instance_name
   scc_workload_protection_resource_key_name    = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}-key" : "${var.scc_workload_protection_instance_name}-key"
   scc_workload_protection_trusted_profile_name = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_trusted_profile_name}" : var.scc_workload_protection_trusted_profile_name
-  config_service_trusted_profile_name          = local.prefix_is_valid ? "${var.prefix}-${var.config_service_trusted_profile_name}" : var.config_service_trusted_profile_name
 
   # Get account ID
   account_id = module.scc_wp.account_id
@@ -55,7 +54,7 @@ module "trusted_profile_scc_wp" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
   version                     = "2.1.1"
   trusted_profile_name        = local.scc_workload_protection_trusted_profile_name
-  trusted_profile_description = "Trusted Profile for SCC-WP to access App Config"
+  trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${module.scc_wp.crn.guid} with required access for configuration aggregator."
 
   trusted_profile_identity = {
     identifier    = module.scc_wp.crn
@@ -80,71 +79,13 @@ module "trusted_profile_scc_wp" {
   }]
 }
 
-##############################################################
-# App Config Trusted Profile
-##############################################################
-
-# Create Trusted profile for App Config instance
-module "trusted_profile_app_config" {
-  count                       = var.cspm_enabled ? 1 : 0
-  source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
-  trusted_profile_name        = local.config_service_trusted_profile_name
-  trusted_profile_description = "Trusted Profile for App Config"
-
-  trusted_profile_identity = {
-    identifier    = var.app_config_crn
-    identity_type = "crn"
-  }
-
-  trusted_profile_policies = [
-    {
-      roles = ["Viewer", "Service Configuration Reader"]
-      resources = [{
-        service = "All Account Management services"
-      }]
-      description = "All Account Management services"
-    },
-    {
-      roles = ["Viewer", "Service Configuration Reader"]
-      resources = [{
-        service = "All Identity and Access enabled services"
-      }]
-      description = "All Identity and Access enabled services"
-    },
-  ]
-}
-
-##############################################################
-# CRN Parser
-##############################################################
-
-module "crn_parser" {
-  count   = var.cspm_enabled ? 1 : 0
-  source  = "terraform-ibm-modules/common-utilities/ibm//modules/crn-parser"
-  version = "1.1.0"
-  crn     = var.app_config_crn
-}
-
-################################################################
-# Config Service Instance
-################################################################
-
-resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" {
-  count       = var.cspm_enabled ? 1 : 0
-  instance_id = module.crn_parser[0].service_instance
-  region      = var.region
-
-  resource_collection_regions = ["all"]
-  resource_collection_enabled = true
-  trusted_profile_id          = module.trusted_profile_app_config[0].profile_id
-}
-
 ################################################################
 # IAM Auth Token
 ################################################################
 
-data "ibm_iam_auth_token" "auth_token" {}
+data "ibm_iam_auth_token" "auth_token" {
+  depends_on = [module.trusted_profile_scc_wp]
+}
 
 ################################################################
 # Enable CSPM for SCC Workload Protection instance
@@ -172,9 +113,4 @@ resource "restapi_object" "enable_cspm" {
     }
   })
   create_method = "PATCH" # Specify the HTTP method for updates
-
-  depends_on = [
-    module.scc_wp,
-    module.trusted_profile_scc_wp
-  ]
 }
