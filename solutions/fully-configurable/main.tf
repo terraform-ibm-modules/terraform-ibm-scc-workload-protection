@@ -54,7 +54,7 @@ module "trusted_profile_scc_wp" {
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
   version                     = "2.1.1"
   trusted_profile_name        = local.scc_workload_protection_trusted_profile_name
-  trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${module.scc_wp.crn.guid} with required access for configuration aggregator."
+  trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${module.scc_wp.guid} with required access for configuration aggregator."
 
   trusted_profile_identity = {
     identifier    = module.scc_wp.crn
