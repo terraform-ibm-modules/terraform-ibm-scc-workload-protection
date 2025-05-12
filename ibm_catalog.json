@@ -85,8 +85,7 @@
                     "reference_version": true
                   }
                 ],
-                "on_by_default": true,
-                "ignore_auto_referencing": ["*"]
+                "on_by_default": true
               }
             ],
             "configuration": [
