@@ -241,10 +241,12 @@
               },
               {
                 "key": "config_aggregator_enterprise_id",
+                "value": "__NULL__",
                 "virtual": true
               },
               {
                 "key": "config_aggregator_enterprise_account_group_ids_to_assign",
+                "value": "__NULL__",
                 "virtual": true
               },
               {
