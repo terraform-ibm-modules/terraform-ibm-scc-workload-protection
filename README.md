@@ -44,6 +44,15 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
+provider "restapi" {
+  uri = "https://private.resource-controller.cloud.ibm.com"
+  headers = {
+    Authorization  = xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX
+    "Content-Type" = "application/json"
+  }
+  write_returns_object = true
+}
+
 module "scc_wp" {
   source                        = "terraform-ibm-modules/scc-workload-protection/ibm"
   version                       = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release

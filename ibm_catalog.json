@@ -62,7 +62,8 @@
                 "input_mapping": [
                   {
                     "dependency_output": "region",
-                    "version_input": "region"
+                    "version_input": "region",
+                    "reference_version": true
                   },
                   {
                     "dependency_input": "prefix",
@@ -223,17 +224,7 @@
                 }
               },
               {
-                "key": "cspm_enabled",
-                "options": [
-                  {
-                    "displayname": "Enabled",
-                    "value": true
-                  },
-                  {
-                    "displayname": "Disabled",
-                    "value": false
-                  }
-                ]
+                "key": "cspm_enabled"
               },
               {
                 "key": "app_config_crn"
