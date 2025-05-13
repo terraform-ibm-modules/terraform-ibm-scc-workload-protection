@@ -24,13 +24,11 @@ This solution supports provisioning and configuring the following infrastructure
 |------|--------|---------|
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | terraform-ibm-modules/resource-group/ibm | 1.2.0 |
 | <a name="module_scc_wp"></a> [scc\_wp](#module\_scc\_wp) | ../.. | n/a |
-| <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 2.1.1 |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [restapi_object.enable_cspm](https://registry.terraform.io/providers/Mastercard/restapi/1.20.0/docs/resources/object) | resource |
 | [ibm_iam_auth_token.auth_token](https://registry.terraform.io/providers/IBM-Cloud/ibm/1.78.1/docs/data-sources/iam_auth_token) | data source |
 
 ### Inputs

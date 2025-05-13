@@ -76,12 +76,12 @@
                   },
                   {
                     "dependency_input": "config_aggregator_enterprise_id",
-                    "version_input": "config_aggregator_enterprise_id",
+                    "version_input": "enterprise_id",
                     "reference_version": true
                   },
                   {
                     "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
-                    "version_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                    "version_input": "enterprise_account_group_ids_to_assign",
                     "reference_version": true
                   }
                 ],
@@ -239,11 +239,19 @@
                 "key": "app_config_crn"
               },
               {
-                "key": "config_aggregator_enterprise_id",
-                "virtual": true
+                  "key": "enterprise_id",
+                  "type": "string",
+                  "default_value": "__NULL__",
+                  "description": "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID).",
+                  "required": false,
+                  "virtual": true
               },
               {
-                "key": "config_aggregator_enterprise_account_group_ids_to_assign",
+                "key": "enterprise_account_group_ids_to_assign",
+                "type": "array",
+                "default_value": "[\"all\"]",
+                "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `config_aggregator_enterprise_id`.",
+                "required": false,
                 "virtual": true
               },
               {
