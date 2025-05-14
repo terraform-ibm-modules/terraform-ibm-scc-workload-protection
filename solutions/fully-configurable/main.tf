@@ -41,9 +41,3 @@ module "scc_wp" {
   app_config_crn                               = var.app_config_crn
   scc_workload_protection_trusted_profile_name = local.scc_workload_protection_trusted_profile_name
 }
-
-################################################################
-# IAM Auth Token
-################################################################
-
-data "ibm_iam_auth_token" "auth_token" {}

@@ -85,7 +85,7 @@ variable "cspm_enabled" {
 }
 
 variable "app_config_crn" {
-  description = "The CRN of the App Config instance to use with the Workload Protection instance."
+  description = "The CRN of the App Config instance to use with the Workload Protection instance. Can be `null` if `cspm_enabled` is not enabled. Must be a valid App Config CRN."
   type        = string
   default     = null
   validation {

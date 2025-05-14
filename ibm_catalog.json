@@ -48,6 +48,47 @@
               }
             ]
           },
+          "dependency_version_2": true,
+          "dependencies": [
+          {
+            "flavors": [
+              "fully-configurable"
+            ],
+            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+            "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
+            "name": "deploy-arch-ibm-apprapp",
+            "version": "v1.5.0",
+            "optional": true,
+            "input_mapping": [
+              {
+                "dependency_output": "region",
+                "version_input": "region",
+                "reference_version": true
+              },
+              {
+                "dependency_input": "prefix",
+                "version_input": "prefix",
+                "reference_version": true
+              },
+              {
+                "dependency_input": "enable_config_aggregator",
+                "version_input": "cspm_enabled",
+                "reference_version": true
+              },
+              {
+                "dependency_input": "config_aggregator_enterprise_id",
+                "version_input": "enterprise_id",
+                "reference_version": true
+              },
+              {
+                "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                "version_input": "enterprise_account_group_ids_to_assign",
+                "reference_version": true
+              }
+            ],
+            "on_by_default": true
+          }
+          ],
           "configuration": [
             {
               "key": "ibmcloud_api_key",
@@ -116,63 +157,6 @@
                 }
               ]
             },
-            "dependency_version_2": true,
-            "dependencies": [
-              {
-                "flavors": [
-                  "fully-configurable"
-                ],
-                "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-                "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-                "name": "deploy-arch-ibm-apprapp",
-                "version": "v1.5.0",
-                "optional": true,
-                "input_mapping": [
-                  {
-                    "dependency_output": "region",
-                    "version_input": "region",
-                    "reference_version": true
-                  },
-                  {
-                    "dependency_input": "prefix",
-                    "version_input": "prefix",
-                    "reference_version": true
-                  },
-                  {
-                    "dependency_input": "enable_config_aggregator",
-                    "version_input": "cspm_enabled",
-                    "reference_version": true
-                  },
-                  {
-                    "dependency_input": "config_aggregator_enterprise_id",
-                    "version_input": "enterprise_id",
-                    "reference_version": true
-                  },
-                  {
-                    "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
-                    "version_input": "enterprise_account_group_ids_to_assign",
-                    "reference_version": true
-                  }
-                ],
-                "on_by_default": true
-              }
-            ],
-            "configuration": [
-              {
-                "key": "ibmcloud_api_key",
-                "required": true
-              },
-              {
-                "key": "existing_resource_group_name",
-                "type": "string",
-                "required": true,
-                "custom_config": {
-                  "type": "resource_group",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                    "identifier": "rg_name"
-                  }
             {
               "key": "provider_visibility",
               "options": [
@@ -240,6 +224,35 @@
               }
             },
             {
+              "key": "cspm_enabled"
+            },
+            {
+              "key": "app_config_crn",
+              "required": true
+            },
+            {
+              "key": "enterprise_id",
+              "type": "string",
+              "default_value": "__NULL__",
+              "description": "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID).",
+              "required": false,
+              "virtual": true
+            },
+            {
+              "key": "enterprise_account_group_ids_to_assign",
+              "type": "array",
+              "default_value": "[\"all\"]",
+              "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `config_aggregator_enterprise_id`.",
+              "required": false,
+              "virtual": true
+            },
+            {
+              "key": "ibmcloud_resource_controller_api_endpoint"
+            },
+            {
+              "key": "scc_workload_protection_trusted_profile_name"
+            },
+            {
               "key": "cbr_rules"
             }
           ],
@@ -255,35 +268,6 @@
           "architecture": {
             "features": [
               {
-                "key": "cspm_enabled"
-              },
-              {
-                "key": "app_config_crn"
-              },
-              {
-                  "key": "enterprise_id",
-                  "type": "string",
-                  "default_value": "__NULL__",
-                  "description": "If the account is an enterprise account, this value should be set to the enterprise ID (NOTE: This is different to the account ID).",
-                  "required": false,
-                  "virtual": true
-              },
-              {
-                "key": "enterprise_account_group_ids_to_assign",
-                "type": "array",
-                "default_value": "[\"all\"]",
-                "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `config_aggregator_enterprise_id`.",
-                "required": false,
-                "virtual": true
-              },
-              {
-                "key": "ibmcloud_resource_controller_api_endpoint"
-              },
-              {
-                "key": "scc_workload_protection_trusted_profile_name"
-              },
-              {
-                "key": "cbr_rules"
                 "title": "Creates a Security and Compliance Center Workload Protection instance",
                 "description": "Creates and configures a Security and Compliance Center Workload Protection instance."
               }

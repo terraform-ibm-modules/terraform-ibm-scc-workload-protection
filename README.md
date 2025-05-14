@@ -44,10 +44,12 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
+data "ibm_iam_auth_token" "auth_token" {}
+
 provider "restapi" {
-  uri = "https://private.resource-controller.cloud.ibm.com"
+  uri = "https://resource-controller.cloud.ibm.com"  # https://private.resource-controller.cloud.ibm.com for private
   headers = {
-    Authorization  = xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX
+    Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
     "Content-Type" = "application/json"
   }
   write_returns_object = true
@@ -120,7 +122,7 @@ statement instead the previous block.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the SCC WP instance created by the module. For more information, see https://cloud.ibm.com/docs/account?topic=account-access-tags-tutorial. | `list(string)` | `[]` | no |
-| <a name="input_app_config_crn"></a> [app\_config\_crn](#input\_app\_config\_crn) | The CRN of the App Config instance to use with the Workload Protection instance. | `string` | `null` | no |
+| <a name="input_app_config_crn"></a> [app\_config\_crn](#input\_app\_config\_crn) | The CRN of the App Config instance to use with the Workload Protection instance. Can be `null` if `cspm_enabled` is not enabled. Must be a valid App Config CRN. | `string` | `null` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_cloud_monitoring_instance_crn"></a> [cloud\_monitoring\_instance\_crn](#input\_cloud\_monitoring\_instance\_crn) | The CRN of an IBM Cloud Monitoring instance to connect to the SCC Workload Protection instance. | `string` | `null` | no |
 | <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance. | `bool` | `true` | no |

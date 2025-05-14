@@ -8,6 +8,8 @@ provider "ibm" {
   visibility       = var.provider_visibility
 }
 
+data "ibm_iam_auth_token" "auth_token" {}
+
 # Null resource replaced with restapi_object to enable CSPM
 provider "restapi" {
   uri = var.ibmcloud_resource_controller_api_endpoint
