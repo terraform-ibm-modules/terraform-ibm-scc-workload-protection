@@ -48,6 +48,41 @@
               }
             ]
           },
+          "dependency_version_2": true,
+          "dependencies": [
+            {
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
+              "name": "deploy-arch-ibm-apprapp",
+              "version": "v1.5.0",
+              "optional": true,
+              "input_mapping": [
+                {
+                  "dependency_output": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_config_aggregator",
+                  "version_input": "cspm_enabled",
+                  "reference_version": true
+                },
+                {
+                  "dependency_output": "app_config_crn",
+                  "version_input": "app_config_crn"
+                }
+              ],
+              "on_by_default": true
+            }
+          ],
           "configuration": [
             {
               "key": "ibmcloud_api_key",
@@ -181,6 +216,19 @@
                   "type": "string"
                 }
               }
+            },
+            {
+              "key": "cspm_enabled"
+            },
+            {
+              "key": "app_config_crn",
+              "required": true
+            },
+            {
+              "key": "ibmcloud_resource_controller_api_endpoint"
+            },
+            {
+              "key": "scc_workload_protection_trusted_profile_name"
             },
             {
               "key": "cbr_rules"

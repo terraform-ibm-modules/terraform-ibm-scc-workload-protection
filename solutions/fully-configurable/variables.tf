@@ -106,6 +106,43 @@ variable "scc_workload_protection_service_plan" {
 }
 
 ##############################################################
+# CSPM
+##############################################################
+
+variable "cspm_enabled" {
+  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
+variable "app_config_crn" {
+  description = "The CRN of the App Config instance to use with the Workload Protection instance. Can be `null` if `cspm_enabled` is not enabled. Must be a valid App Config CRN."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.cspm_enabled ? var.app_config_crn != null : true
+    error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
+  }
+}
+
+variable "ibmcloud_resource_controller_api_endpoint" {
+  description = "The URI of the Resource Controller service. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created."
+  type        = string
+  default     = "https://private.resource-controller.cloud.ibm.com"
+  validation {
+    condition     = !(var.cspm_enabled && var.ibmcloud_resource_controller_api_endpoint == null)
+    error_message = "This value cannot be `null` if `cspm_enabled` is set to `true`."
+  }
+}
+
+variable "scc_workload_protection_trusted_profile_name" {
+  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  type        = string
+  default     = "workload-protection-trusted-profile"
+}
+
+##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 variable "cbr_rules" {
