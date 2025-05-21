@@ -168,20 +168,6 @@
               "key": "app_config_plan",
               "required": true,
               "virtual": true,
-              "options": [
-                {
-                  "displayname": "Basic",
-                  "value": "basic"
-                },
-                {
-                  "displayname": "Standard",
-                  "value": "standardv2"
-                },
-                {
-                  "displayname": "Enterprise",
-                  "value": "enterprise"
-                }
-              ],
               "default": "basic"
             },
             {
