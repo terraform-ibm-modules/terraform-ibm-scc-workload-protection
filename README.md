@@ -100,7 +100,7 @@ statement instead the previous block.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.70.0, <2.0.0 |
-| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=1.20.0 |
+| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=1.20.0, <2.0.0 |
 
 ### Modules
 
@@ -127,7 +127,7 @@ statement instead the previous block.
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_cloud_monitoring_instance_crn"></a> [cloud\_monitoring\_instance\_crn](#input\_cloud\_monitoring\_instance\_crn) | The CRN of an IBM Cloud Monitoring instance to connect to the SCC Workload Protection instance. | `string` | `null` | no |
 | <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance. | `bool` | `true` | no |
-| <a name="input_enterprise_enabled"></a> [enterprise\_enabled](#input\_enterprise\_enabled) | Enable Enterprise for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance. | `bool` | `false` | no |
+| <a name="input_is_enterprise_account"></a> [is\_enterprise\_account](#input\_is\_enterprise\_account) | Enable Enterprise for the Workload Protection instance. This will grant the trusted profile enterprise `Viewer` and `Usage Report Viewer` access. | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the SCC Workload Protection instance that will be provisioned by this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |

@@ -102,7 +102,7 @@ module "trusted_profile_scc_wp" {
         description = "App Config access"
       }
     ],
-    var.enterprise_enabled ? [
+    var.is_enterprise_account ? [
       {
         unique_identifier = "scc-wp-enterprise"
         roles             = ["Viewer", "Usage Report Viewer"]

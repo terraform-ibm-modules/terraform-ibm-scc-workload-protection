@@ -7,7 +7,7 @@ data "ibm_iam_auth_token" "auth_token" {}
 
 # Null resource replaced with restapi_object to enable CSPM
 provider "restapi" {
-  uri = var.ibmcloud_resource_controller_api_endpoint
+  uri = "https://resource-controller.cloud.ibm.com"
   headers = {
     Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
     "Content-Type" = "application/json"

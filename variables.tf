@@ -107,8 +107,8 @@ variable "scc_workload_protection_trusted_profile_name" {
   default     = "workload-protection-trusted-profile"
 }
 
-variable "enterprise_enabled" {
-  description = "Enable Enterprise for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance."
+variable "is_enterprise_account" {
+  description = "Enable Enterprise for the Workload Protection instance. This will grant the trusted profile enterprise `Viewer` and `Usage Report Viewer` access."
   type        = bool
   default     = false
   nullable    = false
