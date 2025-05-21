@@ -124,6 +124,13 @@ variable "app_config_crn" {
     condition     = var.cspm_enabled ? var.app_config_crn != null : true
     error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
   }
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}apprapp:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.app_config_crn)),
+      var.app_config_crn == null,
+    ])
+    error_message = "The provided CRN is not a valid App Config CRN."
+  }
 }
 
 variable "ibmcloud_resource_controller_api_endpoint" {

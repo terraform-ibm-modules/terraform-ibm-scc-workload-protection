@@ -31,9 +31,14 @@ variable "access_tags" {
   description = "List of access tags to apply to resources for IAM policy scoping."
 }
 
-
 variable "ibmcloud_api_key" {
   type        = string
   description = "IBM Cloud API key used for authentication."
   sensitive   = true
+}
+
+variable "ibmcloud_resource_controller_api_endpoint" {
+  description = "The URI of the Resource Controller service. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created."
+  type        = string
+  default     = "https://private.resource-controller.cloud.ibm.com"
 }

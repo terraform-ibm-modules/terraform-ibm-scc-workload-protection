@@ -92,12 +92,26 @@ variable "app_config_crn" {
     condition     = var.cspm_enabled ? var.app_config_crn != null : true
     error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
   }
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}apprapp:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.app_config_crn)),
+      var.app_config_crn == null,
+    ])
+    error_message = "The provided CRN is not a valid App Config CRN."
+  }
 }
 
 variable "scc_workload_protection_trusted_profile_name" {
-  description = "The name for the trusted profile that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  description = "The name for the trusted profile that is created by this module. Must begin with a letter."
   type        = string
   default     = "workload-protection-trusted-profile"
+}
+
+variable "enterprise_enabled" {
+  description = "Enable Enterprise for the Workload Protection instance. This will create a trusted profile for the App Config instance and associate it with the Workload Protection instance."
+  type        = bool
+  default     = false
+  nullable    = false
 }
 
 ##############################################################

@@ -82,7 +82,7 @@ module "cbr_rule" {
 module "trusted_profile_scc_wp" {
   count                       = var.cspm_enabled ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.1"
+  version                     = "3.0.0"
   trusted_profile_name        = var.scc_workload_protection_trusted_profile_name
   trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${ibm_resource_instance.scc_wp.guid} with required access for configuration aggregator."
 
@@ -91,18 +91,32 @@ module "trusted_profile_scc_wp" {
     identity_type = "crn"
   }
 
-  trusted_profile_policies = [
-    {
-      roles = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
-      resources = [{
-        service = "apprapp"
-      }]
-      description = "App Config access"
-    },
-  ]
+  trusted_profile_policies = concat(
+    [
+      {
+        unique_identifier = "scc-wp"
+        roles             = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
+        resources = [{
+          service = "apprapp"
+        }]
+        description = "App Config access"
+      }
+    ],
+    var.enterprise_enabled ? [
+      {
+        unique_identifier = "scc-wp-enterprise"
+        roles             = ["Viewer", "Usage Report Viewer"]
+        resources = [{
+          service = "enterprise"
+        }]
+        description = "Enterprise access"
+      }
+    ] : []
+  )
 
   trusted_profile_links = [{
-    cr_type = "VSI"
+    unique_identifier = "scc-wp-vsi-link"
+    cr_type           = "VSI"
     links = [{
       crn = ibm_resource_instance.scc_wp.crn
     }]

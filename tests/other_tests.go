@@ -40,3 +40,13 @@ func TestRunAdvancedExample(t *testing.T) {
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }
+
+func TestRunEnterpriseExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "scc-wp-adv", advancedExampleDir)
+
+	output, err := options.RunTest()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}

@@ -54,17 +54,36 @@ module "cbr_zone" {
 }
 
 ########################################################################################################################
+# App Config
+########################################################################################################################
+
+# Create new App Config instance
+module "app_config" {
+  source                   = "terraform-ibm-modules/app-configuration/ibm"
+  version                  = "1.5.1"
+  region                   = var.region
+  resource_group_id        = module.resource_group.resource_group_id
+  app_config_plan          = "basic"
+  app_config_name          = "${var.prefix}-app-config"
+  app_config_tags          = var.resource_tags
+  enable_config_aggregator = true
+}
+
+########################################################################################################################
 # SCC WP instance
 ########################################################################################################################
 
 module "scc_wp" {
-  source                        = "../.."
-  name                          = var.prefix
-  region                        = var.region
-  resource_group_id             = module.resource_group.resource_group_id
-  resource_tags                 = var.resource_tags
-  access_tags                   = var.access_tags
-  cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+  source                                       = "../.."
+  name                                         = var.prefix
+  region                                       = var.region
+  resource_group_id                            = module.resource_group.resource_group_id
+  resource_tags                                = var.resource_tags
+  access_tags                                  = var.access_tags
+  cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
+  cspm_enabled                                 = true
+  app_config_crn                               = module.app_config.app_config_crn
+  scc_workload_protection_trusted_profile_name = "${var.prefix}-wp-tp"
 
   cbr_rules = [
     {
