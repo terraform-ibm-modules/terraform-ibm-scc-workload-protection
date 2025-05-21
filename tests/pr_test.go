@@ -78,7 +78,7 @@ func TestFullyConfigurable(t *testing.T) {
 	logger.Log(t, "Tempdir: ", tempTerraformDir)
 	existingTerraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: tempTerraformDir,
-		Vars: map[string]interface{}{
+		Vars: map[string]any{
 			"prefix":        prefix,
 			"region":        region,
 			"resource_tags": tags,
