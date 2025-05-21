@@ -71,7 +71,7 @@
                   "reference_version": true
                 },
                 {
-                  "dependency_output": "app_config_plan",
+                  "dependency_input": "app_config_plan",
                   "version_input": "app_config_plan",
                   "reference_version": true
                 },
@@ -182,7 +182,8 @@
                   "value": "enterprise"
                 }
               ],
-              "default": "basic"
+              "default": "basic",
+              "description": "The plan to use for the App Configuration service instance. The default is basic."
             },
             {
               "key": "is_enterprise_account"
