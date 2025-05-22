@@ -133,13 +133,13 @@ resource "restapi_object" "enable_cspm" {
   data = jsonencode({
     parameters = {
       enable_cspm = var.cspm_enabled
-      target_accounts = [
+      target_accounts = var.cspm_enabled ? [
         {
           account_id         = ibm_resource_instance.scc_wp.account_id
           config_crn         = var.app_config_crn
           trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
         }
-      ]
+      ] : []
     }
   })
   create_method = "PATCH" # Specify the HTTP method for updates
