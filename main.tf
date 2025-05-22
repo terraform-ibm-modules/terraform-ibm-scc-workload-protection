@@ -91,28 +91,24 @@ module "trusted_profile_scc_wp" {
     identity_type = "crn"
   }
 
-  trusted_profile_policies = concat(
-    [
-      {
-        unique_identifier = "scc-wp"
-        roles             = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
-        resources = [{
-          service = "apprapp"
-        }]
-        description = "App Config access"
-      }
-    ],
-    var.is_enterprise_account ? [
-      {
-        unique_identifier = "scc-wp-enterprise"
-        roles             = ["Viewer", "Usage Report Viewer"]
-        resources = [{
-          service = "enterprise"
-        }]
-        description = "Enterprise access"
-      }
-    ] : []
-  )
+  trusted_profile_policies = [
+    {
+      unique_identifier = "scc-wp"
+      roles             = ["Service Configuration Reader", "Viewer", "Configuration Aggregator Reader"]
+      resources = [{
+        service = "apprapp"
+      }]
+      description = "App Config access"
+    },
+    {
+      unique_identifier = "scc-wp-enterprise"
+      roles             = ["Viewer", "Usage Report Viewer"]
+      resources = [{
+        service = "enterprise"
+      }]
+      description = "Enterprise access"
+    }
+  ]
 
   trusted_profile_links = [{
     unique_identifier = "scc-wp-vsi-link"

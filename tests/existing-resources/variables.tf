@@ -17,7 +17,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "Prefix to append to all resources"
-  default = "test-ac"
+  default     = "test-ac"
 }
 
 variable "resource_group" {

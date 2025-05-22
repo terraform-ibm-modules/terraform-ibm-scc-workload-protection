@@ -40,5 +40,4 @@ module "scc_wp" {
   cspm_enabled                                 = var.cspm_enabled
   app_config_crn                               = var.app_config_crn
   scc_workload_protection_trusted_profile_name = local.scc_workload_protection_trusted_profile_name
-  is_enterprise_account                        = var.is_enterprise_account
 }
