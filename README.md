@@ -50,7 +50,6 @@ provider "restapi" {
   uri = "https://resource-controller.cloud.ibm.com"  # https://private.resource-controller.cloud.ibm.com for private
   headers = {
     Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
-    "Content-Type" = "application/json"
   }
   write_returns_object = true
 }
