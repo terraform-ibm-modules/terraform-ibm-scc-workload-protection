@@ -128,8 +128,6 @@ module "trusted_profile_scc_wp" {
 # hence we cannot directly enable CSPM in the instance creation
 # and need to use a separate resource to enable it
 resource "restapi_object" "enable_cspm" {
-  count = var.cspm_enabled ? 1 : 0
-
   path = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
   data = jsonencode({
