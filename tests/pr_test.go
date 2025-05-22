@@ -23,7 +23,7 @@ import (
 const resourceGroup = "geretain-test-resources"
 const fullyConfigurableDADir = "solutions/fully-configurable"
 
-var existingResources = "./resources/existing-resources"
+var existingResources = "./existing-resources"
 
 // Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
