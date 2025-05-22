@@ -24,6 +24,7 @@ variable "existing_monitoring_crn" {
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can set this value to `null` or an empty string."
+  default = "test-scc"
 }
 
 variable "provider_visibility" {
@@ -119,7 +120,7 @@ variable "cspm_enabled" {
 variable "app_config_crn" {
   description = "The CRN of the App Config instance to use with the Workload Protection instance. Can be `null` if `cspm_enabled` is not enabled. Must be a valid App Config CRN."
   type        = string
-  default     = null
+  default     = "crn:v1:bluemix:public:apprapp:us-south:a/abac0df06b644a9cabc6e44f55b3880e:8b2f96ea-1bc9-43fc-be18-416e461b8ab6::"
   validation {
     condition     = var.cspm_enabled ? var.app_config_crn != null : true
     error_message = "Cannot be `null` if CSPM is enabled. Must be a valid App Config CRN."
@@ -143,7 +144,7 @@ variable "is_enterprise_account" {
 variable "ibmcloud_resource_controller_api_endpoint" {
   description = "The URI of the Resource Controller service. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created."
   type        = string
-  default     = "https://private.resource-controller.cloud.ibm.com"
+  default     = "https://resource-controller.cloud.ibm.com"
   validation {
     condition     = !(var.cspm_enabled && var.ibmcloud_resource_controller_api_endpoint == null)
     error_message = "This value cannot be `null` if `cspm_enabled` is set to `true`."
