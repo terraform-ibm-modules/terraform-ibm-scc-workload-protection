@@ -183,7 +183,7 @@
                   "value": "enterprise"
                 }
               ],
-              "default": "basic",
+              "default_value": "basic",
               "description": "The plan to use for the App Configuration service instance. The default is basic."
             },
             {
