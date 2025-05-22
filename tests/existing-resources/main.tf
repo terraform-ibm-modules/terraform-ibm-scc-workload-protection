@@ -23,4 +23,5 @@ module "app_config" {
   app_config_name          = "${var.prefix}-app-config"
   app_config_tags          = var.resource_tags
   enable_config_aggregator = true
+  app_config_plan          = "basic"
 }
