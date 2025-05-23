@@ -109,6 +109,7 @@ func TestFullyConfigurable(t *testing.T) {
 			Tags:                   []string{"test-schematic"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
+			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
 			IgnoreUpdates: testhelper.Exemptions{
 				List: []string{"module.scc_wp.restapi_object.cspm"},
 			},
@@ -195,6 +196,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			Tags:                   []string{"test-schematic"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
+			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
 			IgnoreUpdates: testhelper.Exemptions{
 				List: []string{"module.scc_wp.restapi_object.cspm"},
 			},
