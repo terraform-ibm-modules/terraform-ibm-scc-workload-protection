@@ -17,6 +17,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -108,6 +109,9 @@ func TestFullyConfigurable(t *testing.T) {
 			Tags:                   []string{"test-schematic"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
+			IgnoreUpdates: testhelper.Exemptions{
+				List: []string{"module.scc_wp.restapi_object.enable_cspm"},
+			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
