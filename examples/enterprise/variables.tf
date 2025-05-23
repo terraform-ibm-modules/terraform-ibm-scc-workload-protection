@@ -31,7 +31,6 @@ variable "access_tags" {
   description = "List of access tags to apply to resources for IAM policy scoping."
 }
 
-
 variable "ibmcloud_api_key" {
   type        = string
   description = "IBM Cloud API key used for authentication."

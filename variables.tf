@@ -74,6 +74,48 @@ variable "cloud_monitoring_instance_crn" {
 }
 
 ##############################################################
+# CSPM
+##############################################################
+
+variable "cspm_enabled" {
+  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile associated with the SCC Workload Protection instance that has viewer / reader access to the App Config service and viewer access to the Enterprise service. [Learn more](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about)."
+  type        = bool
+  default     = true
+  nullable    = false
+}
+
+variable "app_config_crn" {
+  description = "The CRN of an existing App Config instance to use with the SCC Workload Protection instance. Required if `cspm_enabled` is true. NOTE: Ensure the App Config instance has configuration aggregator enabled."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.cspm_enabled ? var.app_config_crn != null : true
+    error_message = "Cannot be `null` if CSPM is enabled."
+  }
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}apprapp:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.app_config_crn)),
+      var.app_config_crn == null,
+    ])
+    error_message = "The provided CRN is not a valid App Config CRN."
+  }
+}
+
+variable "scc_workload_protection_trusted_profile_name" {
+  description = "The name to give the trusted profile that is created by this module if `cspm_enabled` is `true. Must begin with a letter."
+  type        = string
+  default     = "workload-protection-trusted-profile"
+  validation {
+    condition     = can(regex("^[a-zA-Z][a-zA-Z0-9\\-_\\.]+$", var.scc_workload_protection_trusted_profile_name))
+    error_message = "The trusted profile name must begin with a letter and can only contain letters, numbers, hyphens, underscores, and periods."
+  }
+  validation {
+    condition     = !(var.cspm_enabled && var.scc_workload_protection_trusted_profile_name == null)
+    error_message = "Cannot be `null` if `cspm_enabled` is `true`."
+  }
+}
+
+##############################################################
 # Context-based restriction (CBR)
 ##############################################################
 
