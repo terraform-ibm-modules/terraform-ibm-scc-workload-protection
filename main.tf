@@ -142,6 +142,8 @@ resource "restapi_object" "enable_cspm" {
       ] : []
     }
   })
-  create_method = "PATCH" # Specify the HTTP method for updates
-  force_new     = [var.cspm_enabled]
+  create_method  = "PATCH" # Specify the HTTP method for updates
+  update_method  = "PATCH"
+  destroy_method = "PATCH"
+  force_new      = [var.cspm_enabled]
 }
