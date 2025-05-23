@@ -4,6 +4,12 @@ This solution supports provisioning and configuring the following infrastructure
 
 - A Security and Compliance Center Workload Protection instance.
 
+## Known Issue
+
+:warning: **Resource May Be Created Despite No Actual Updates**
+
+There is a known issue ([#243](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243)) where the resource `module.scc_wp.restapi_object.cspm` may be created or show as changed during plan/apply, even when no actual updates have taken place. This is a side effect of the current implementation and is being tracked for resolution. The test suite is configured to ignore adds for this resource during upgrade tests as a workaround. If you encounter this behavior, please refer to the issue for updates and further guidance.
+
 :exclamation: **Important:** This solution is not intended to be called by other modules because it contains a provider configuration and is not compatible with the `for_each`, `count`, and `depends_on` arguments. For more information, see [Providers Within Modules](https://developer.hashicorp.com/terraform/language/modules/develop/providers).
 
 ![Workload Protection](./reference-architecture/scc.svg)

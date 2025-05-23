@@ -66,6 +66,12 @@ module "scc_wp" {
 }
 ```
 
+## Known Issue
+
+:warning: **Resource May Be Created Despite No Actual Updates**
+
+There is a known issue ([#243](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243)) where the resource `module.scc_wp.restapi_object.cspm` may be created or show as changed during plan/apply, even when no actual updates have taken place. This is a side effect of the current implementation and is being tracked for resolution. The test suite is configured to ignore adds for this resource during upgrade tests as a workaround. If you encounter this behavior, please refer to the issue for updates and further guidance.
+
 ### Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
