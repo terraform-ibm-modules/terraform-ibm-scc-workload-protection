@@ -110,7 +110,7 @@ func TestFullyConfigurable(t *testing.T) {
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
 			IgnoreUpdates: testhelper.Exemptions{
-				List: []string{"module.scc_wp.restapi_object.enable_cspm"},
+				List: []string{"module.scc_wp.restapi_object.cspm"},
 			},
 		})
 
@@ -195,6 +195,9 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			Tags:                   []string{"test-schematic"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
+			IgnoreUpdates: testhelper.Exemptions{
+				List: []string{"module.scc_wp.restapi_object.cspm"},
+			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
