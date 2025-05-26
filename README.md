@@ -47,7 +47,8 @@ unless real values don't help users know what to change.
 data "ibm_iam_auth_token" "auth_token" {}
 
 provider "restapi" {
-  uri = "https://resource-controller.cloud.ibm.com"  # https://private.resource-controller.cloud.ibm.com for private
+  # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
+  uri = "https://resource-controller.cloud.ibm.com"
   headers = {
     Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
   }
@@ -101,7 +102,7 @@ statement instead the previous block.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.70.0, <2.0.0 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=1.20.0, <2.0.0 |
 

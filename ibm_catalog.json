@@ -47,15 +47,6 @@
           "name": "fully-configurable",
           "working_directory": "solutions/fully-configurable",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "dependency_version_2": true,
           "dependencies": [
             {
