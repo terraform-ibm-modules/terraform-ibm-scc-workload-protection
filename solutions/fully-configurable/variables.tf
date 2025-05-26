@@ -134,10 +134,10 @@ variable "app_config_crn" {
 }
 
 variable "ibmcloud_resource_controller_api_endpoint" {
-  description = "The URI of the Resource Controller service. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created."
+  description = "The IBM Cloud [resource controller endpoint](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url) to use. This is used to update the Workload Protection instance to enable CSPM once the trusted profiles have been created."
   type        = string
-  # TODO: Use private endpoint: https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/244
-  default = "https://resource-controller.cloud.ibm.com"
+  # TODO: When Schematics re-platform and add support for VPE, we can change this default to be "private.resource-controller.cloud.ibm.com"
+  default = "https://private.us-south.resource-controller.cloud.ibm.com"
   validation {
     condition     = !(var.cspm_enabled && var.ibmcloud_resource_controller_api_endpoint == null)
     error_message = "This value cannot be `null` if `cspm_enabled` is set to `true`."
