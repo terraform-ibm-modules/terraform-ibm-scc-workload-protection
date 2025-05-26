@@ -18,7 +18,7 @@ There is currently a [known issue](https://github.com/terraform-ibm-modules/terr
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | 1.78.3 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | 1.20.0 |
 
