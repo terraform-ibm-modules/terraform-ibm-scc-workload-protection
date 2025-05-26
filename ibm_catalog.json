@@ -22,14 +22,22 @@
         "solution"
       ],
       "short_description": "Creates and configures IBM Security and Compliance Center Workload Protection resources",
-      "long_description": "This architecture supports creating and configuring IBM Security and Compliance Center Workload Protection resources.",
-      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/instances/README.md",
+      "long_description": "Use [IBM Cloud® Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started) to find and prioritize software vulnerabilities, detect and respond to threats, and manage configurations, permissions, and compliance from source to run. This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/fully-configurable/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/main/images/scc-icon.svg",
       "provider_name": "IBM",
       "features": [
         {
-          "title": "Security and Compliance Center Workload Protection",
+          "title": "IBM Cloud Security and Compliance Center Workload Protection instance",
           "description": "Creates and configures a Security and Compliance Center Workload Protection instance."
+        },
+        {
+          "title": "Cloud Security Posture Management (CSPM)",
+          "description": "Creates and configures required resources to enable [Cloud Security Posture Management](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about)."
+        },
+        {
+          "title": "Context-based restrictions",
+          "description": "Optionally create and configure [Context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis)."
         }
       ],
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues). Please note this product is not supported via the IBM Cloud Support Center.",
@@ -48,6 +56,105 @@
               }
             ]
           },
+          "dependency_version_2": true,
+          "dependencies": [
+            {
+              "name": "deploy-arch-ibm-account-infra-base",
+              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. When you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "resource-group-only",
+                "resource-groups-with-account-settings"
+              ],
+              "default_flavor": "resource-group-only",
+              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "input_mapping": [
+                {
+                  "dependency_output": "security_resource_group_name",
+                  "version_input": "existing_resource_group_name"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "provider_visibility",
+                  "version_input": "provider_visibility",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": false,
+              "version": "v3.0.7"
+            },
+            {
+              "name": "deploy-arch-ibm-apprapp",
+              "description": "App Configuration is required to enable Cloud Security Posture Management (CSPM).",
+              "flavors": [
+                "fully-configurable"
+              ],
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
+              "version": "v1.6.0",
+              "optional": true,
+              "input_mapping": [
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "app_config_plan",
+                  "version_input": "app_config_plan",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_config_aggregator",
+                  "version_input": "cspm_enabled",
+                  "reference_version": true
+                },
+                {
+                  "dependency_output": "app_config_crn",
+                  "version_input": "app_config_crn"
+                }
+              ],
+              "on_by_default": true
+            },
+            {
+              "name": "deploy-arch-ibm-observability",
+              "description": "Enable to provision and configure IBM Cloud Logs, Cloud Monitoring, Metrics routing and Activity Tracker event routing for analysing logs and metrics generated by the SCC Workload Protection instance.",
+              "flavors": [
+                "instances"
+              ],
+              "id": "a3137d28-79e0-479d-8a24-758ebd5a0eab-global",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "input_mapping": [
+                {
+                  "dependency_output": "cloud_monitoring_crn",
+                  "version_input": "existing_monitoring_crn"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "region",
+                  "version_input": "region",
+                  "reference_version": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": true,
+              "version": "v3.0.3"
+            }
+          ],
           "configuration": [
             {
               "key": "ibmcloud_api_key",
@@ -55,8 +162,8 @@
             },
             {
               "key": "existing_resource_group_name",
+              "display_name": "resource_group",
               "type": "string",
-              "required": true,
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -115,6 +222,36 @@
                   "value": "ca-tor"
                 }
               ]
+            },
+            {
+              "key": "cspm_enabled",
+              "required": true
+            },
+            {
+              "key": "app_config_crn",
+              "required": true
+            },
+            {
+              "key": "app_config_plan",
+              "required": true,
+              "virtual": true,
+              "type": "string",
+              "options": [
+                {
+                  "displayname": "Basic",
+                  "value": "basic"
+                },
+                {
+                  "displayname": "Standard",
+                  "value": "standardv2"
+                },
+                {
+                  "displayname": "Enterprise",
+                  "value": "enterprise"
+                }
+              ],
+              "default_value": "basic",
+              "description": "The plan to use for the App Configuration service instance. The default is basic."
             },
             {
               "key": "provider_visibility",
@@ -183,6 +320,12 @@
               }
             },
             {
+              "key": "ibmcloud_resource_controller_api_endpoint"
+            },
+            {
+              "key": "scc_workload_protection_trusted_profile_name"
+            },
+            {
               "key": "cbr_rules"
             }
           ],
@@ -198,8 +341,16 @@
           "architecture": {
             "features": [
               {
-                "title": "Creates a Security and Compliance Center Workload Protection instance",
+                "title": "IBM Cloud Security and Compliance Center Workload Protection instance",
                 "description": "Creates and configures a Security and Compliance Center Workload Protection instance."
+              },
+              {
+                "title": "Cloud Security Posture Management (CSPM)",
+                "description": "Creates and configures required resources to enable Cloud Security Posture Management."
+              },
+              {
+                "title": "Context-based restrictions",
+                "description": "Optionally create and configure context-based restrictions."
               }
             ],
             "diagrams": [

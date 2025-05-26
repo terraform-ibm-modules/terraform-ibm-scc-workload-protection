@@ -4,7 +4,11 @@ terraform {
     # Pin to the lowest provider version of the range defined in the main module's version.tf to ensure lowest version still works
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = "1.70.0"
+      version = "1.76.1"
+    }
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = "1.20.0"
     }
   }
 }

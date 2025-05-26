@@ -3,14 +3,9 @@ output "scc_wp_crn" {
   value       = module.scc_wp.crn
 }
 
-output "trusted_profile_template_id" {
-  description = "Trusted profile template ID"
-  value       = module.trusted_profile_template.trusted_profile_template_id
-}
-
 output "trusted_profile_enterprise_id" {
   description = "Trusted profile enterprise ID"
-  value       = module.trusted_profile_app_config_enterprise.profile_id
+  value       = var.enterprise_id
 }
 
 output "app_config_guid" {

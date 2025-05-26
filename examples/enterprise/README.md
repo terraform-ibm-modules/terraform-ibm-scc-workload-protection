@@ -2,46 +2,52 @@
 
 > Only supported in an enterprise account.
 
-This example demonstrates the full deployment of:
+This example demonstrates a full deployment using modular Terraform code, including:
 
-- IBM Cloud App Configuration
-- IBM Cloud Security and Compliance Center Workload Protection (SCC-WP)
-- IAM Trusted Profile Template with 3 Trusted Profiles
-- Template assignment to account groups
-- Configuration Aggregator to link SCC-WP with App Config
+- **IBM Cloud App Configuration** (App Config)
+- **IBM Cloud Security and Compliance Center Workload Protection** (SCC-WP)
+- **IAM Trusted Profiles** for secure integration
+- **Resource Group** creation or reuse
+- **Configuration Aggregator** to link SCC-WP with App Config
+
+---
+
+## Module Overview
+
+- **Resource Group Module**
+  Creates or reuses a resource group for all resources.
+
+- **SCC Workload Protection Module**
+  Deploys the SCC-WP instance, attaches tags, and (optionally) enables CSPM and trusted profiles based on input variables.
+
+- **App Config Module**
+  Deploys an App Config instance with enterprise plan, tags, and enables the configuration aggregator with a trusted profile.
 
 ---
 
 ## Flow Overview
 
-1. **Create or reuse a resource group**
-   A resource group is created or reused.
+1. **Resource Group**
+   A resource group is created or reused for all resources.
 
-2. **Deploy App Config**
-   App Config is deployed along with a collection for organizing features and properties.
+2. **App Config**
+   Deploys App Config with the enterprise plan, tags, and enables the configuration aggregator with a trusted profile.
 
-3. **Deploy SCC Workload Protection**
-   SCC-WP is deployed with the `graduated-tier` plan.
+3. **SCC Workload Protection**
+   Deploys SCC-WP with the `graduated-tier` plan, attaches resource and access tags, and (optionally) enables CSPM and trusted profiles for secure integration.
 
-4. **Create a Trusted Profile Template with 3 profiles**
-   - **App Config -- Enterprise**
-     For IAM template management across the enterprise.
-   - **App Config -- General**
-     For reading platform and IAM services.
-   - **SCC-WP Profile**
-     For integrating SCC-WP with App Config and enterprise usage.
+4. **Trusted Profiles**
+   Trusted profiles are created and linked as needed for App Config and SCC-WP, with enterprise access policies conditionally included if enabled.
 
-5. **Assign the template to account groups**
-   All child accounts or specific account groups receive the profile template.
-
-6. **Create SCC-WP Config Aggregator**
-   The aggregator connects SCC-WP to App Config and uses the enterprise trusted profile and template ID to enforce secure access.
+5. **Configuration Aggregator**
+   Connects SCC-WP to App Config using the trusted profile and template ID for secure access across the enterprise.
 
 ---
 
 ## Notes
 
-- The `trusted_profile_links` block in each trusted profile is used to **link the profile to a specific CRN**, like a VSI or App Config instance, enabling the identity to assume the trusted profile.
+- The `trusted_profile_links` block in each trusted profile links the profile to a specific CRN (e.g., VSI or App Config instance), enabling the identity to assume the trusted profile.
+- Enterprise-specific access policies are conditionally added based on input variables (e.g., `enterprise_enabled`).
 
 ---
 
