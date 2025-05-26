@@ -47,7 +47,8 @@ unless real values don't help users know what to change.
 data "ibm_iam_auth_token" "auth_token" {}
 
 provider "restapi" {
-  uri = "https://resource-controller.cloud.ibm.com"  # https://private.resource-controller.cloud.ibm.com for private
+  # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
+  uri = "https://resource-controller.cloud.ibm.com"
   headers = {
     Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
   }
