@@ -87,7 +87,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-              "version": "v1.6.0",
+              "version": "v1.6.2",
               "optional": true,
               "input_mapping": [
                 {
@@ -113,6 +113,16 @@
                 {
                   "dependency_output": "app_config_crn",
                   "version_input": "app_config_crn"
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_id",
+                  "version_input": "enterprise_id",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                  "version_input": "enterprise_account_group_ids_to_assign",
+                  "reference_version": true
                 }
               ],
               "on_by_default": true
@@ -242,7 +252,23 @@
                 }
               ],
               "default_value": "basic",
-              "description": "The plan to use for the App Configuration service instance. The default is basic."
+              "description": "The plan to use for the App Configuration service instance."
+            },
+            {
+              "key": "enterprise_id",
+              "required": false,
+              "type": "string",
+              "virtual": true,
+              "default_value": "__NULL__",
+              "description": "If the account is an enterprise account and you want to scan sub-accounts, this value should be set to the enterprise ID (this is different to the account ID). Only applies if `cspm_enabled` is true."
+            },
+            {
+              "key": "enterprise_account_group_ids_to_assign",
+              "type": "list(string)",
+              "default_value": "[\"all\"]",
+              "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
+              "required": false,
+              "virtual": true
             },
             {
               "key": "provider_visibility",
