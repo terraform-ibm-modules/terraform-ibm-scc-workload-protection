@@ -87,7 +87,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-              "version": "v1.6.2",
+              "version": "v1.7.0",
               "optional": true,
               "input_mapping": [
                 {
@@ -122,6 +122,11 @@
                 {
                   "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
                   "version_input": "enterprise_account_group_ids_to_assign",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_account_ids_to_assign",
+                  "version_input": "enterprise_account_ids_to_assign",
                   "reference_version": true
                 }
               ],
@@ -225,6 +230,20 @@
               ]
             },
             {
+              "key": "scc_workload_protection_service_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Free Trial",
+                  "value": "free-trial"
+                },
+                {
+                  "displayname": "Graduated Tier",
+                  "value": "graduated-tier"
+                }
+              ]
+            },
+            {
               "key": "cspm_enabled",
               "required": true
             },
@@ -271,6 +290,14 @@
               "virtual": true
             },
             {
+              "key": "enterprise_account_ids_to_assign",
+              "type": "list(string)",
+              "default_value": "[\"all\"]",
+              "description": "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
+              "required": false,
+              "virtual": true
+            },
+            {
               "key": "provider_visibility",
               "options": [
                 {
@@ -292,19 +319,6 @@
             },
             {
               "key": "scc_workload_protection_instance_name"
-            },
-            {
-              "key": "scc_workload_protection_service_plan",
-              "options": [
-                {
-                  "displayname": "Free Trial",
-                  "value": "free-trial"
-                },
-                {
-                  "displayname": "Graduated Tier",
-                  "value": "graduated-tier"
-                }
-              ]
             },
             {
               "key": "scc_workload_protection_instance_tags",
