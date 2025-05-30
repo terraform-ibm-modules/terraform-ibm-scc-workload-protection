@@ -231,6 +231,7 @@
             },
             {
               "key": "scc_workload_protection_service_plan",
+              "required": true,
               "options": [
                 {
                   "displayname": "Free Trial",
