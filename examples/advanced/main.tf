@@ -60,7 +60,7 @@ module "cbr_zone" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.6.2"
+  version                                = "1.7.0"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
