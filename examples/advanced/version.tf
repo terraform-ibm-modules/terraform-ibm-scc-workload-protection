@@ -4,7 +4,7 @@ terraform {
     # Use latest version of provider in non-basic examples to verify latest version works with module
     ibm = {
       source  = "ibm-cloud/ibm"
-      version = ">=1.70.0, <2.0.0"
+      version = ">=1.79.0, <2.0.0"
     }
     restapi = {
       source  = "Mastercard/restapi"
