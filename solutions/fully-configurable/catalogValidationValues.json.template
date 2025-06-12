@@ -1,4 +1,6 @@
 {
   "ibmcloud_api_key": $VALIDATION_APIKEY,
-  "existing_resource_group_name": "geretain-test-resources"
+  "prefix": $PREFIX,
+  "existing_resource_group_name": "geretain-test-resources",
+  "app_config_crn": $APP_CONFIG_CRN
 }

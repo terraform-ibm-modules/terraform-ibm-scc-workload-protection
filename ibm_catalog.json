@@ -47,15 +47,6 @@
           "name": "fully-configurable",
           "working_directory": "solutions/fully-configurable",
           "install_type": "fullstack",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "IBM Cloud Framework for Financial Services",
-                "profile_version": "1.7.0"
-              }
-            ]
-          },
           "dependency_version_2": true,
           "dependencies": [
             {
@@ -96,7 +87,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-              "version": "v1.6.0",
+              "version": "v1.7.0",
               "optional": true,
               "input_mapping": [
                 {
@@ -122,6 +113,21 @@
                 {
                   "dependency_output": "app_config_crn",
                   "version_input": "app_config_crn"
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_id",
+                  "version_input": "enterprise_id",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_account_group_ids_to_assign",
+                  "version_input": "enterprise_account_group_ids_to_assign",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "config_aggregator_enterprise_account_ids_to_assign",
+                  "version_input": "enterprise_account_ids_to_assign",
+                  "reference_version": true
                 }
               ],
               "on_by_default": true
@@ -148,6 +154,16 @@
                   "dependency_input": "region",
                   "version_input": "region",
                   "reference_version": true
+                },
+                {
+                  "dependency_input": "enable_platform_metrics",
+                  "version_input": "enable_platform_metrics",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "logs_routing_tenant_regions",
+                  "version_input": "logs_routing_tenant_regions",
+                  "reference_version": true
                 }
               ],
               "optional": true,
@@ -159,19 +175,6 @@
             {
               "key": "ibmcloud_api_key",
               "required": true
-            },
-            {
-              "key": "existing_resource_group_name",
-              "display_name": "resource_group",
-              "type": "string",
-              "custom_config": {
-                "type": "resource_group",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "identifier": "rg_name"
-                }
-              }
             },
             {
               "key": "prefix",
@@ -224,6 +227,20 @@
               ]
             },
             {
+              "key": "scc_workload_protection_service_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Free Trial",
+                  "value": "free-trial"
+                },
+                {
+                  "displayname": "Graduated Tier",
+                  "value": "graduated-tier"
+                }
+              ]
+            },
+            {
               "key": "cspm_enabled",
               "required": true
             },
@@ -251,7 +268,67 @@
                 }
               ],
               "default_value": "basic",
-              "description": "The plan to use for the App Configuration service instance. The default is basic."
+              "description": "The plan to use for the App Configuration service instance."
+            },
+            {
+              "key": "enable_platform_metrics",
+              "type": "bool",
+              "default_value": true,
+              "description": "When set to `true`, the IBM Cloud Monitoring instance will be configured to collect platform metrics from the provided region. You can configure 1 instance only of the IBM Cloud Monitoring service per region to collect platform metrics in that location. Check with the account or service administrator if another monitoring instance has already been configured. You may not have permissions to see all monitoring instances in the region. [Learn more](https://cloud.ibm.com/docs/monitoring?topic=monitoring-platform_metrics_enabling).",
+              "required": true,
+              "virtual": true
+            },
+            {
+              "key": "logs_routing_tenant_regions",
+              "type": "list(string)",
+              "default_value": [],
+              "description": "To manage platform logs that are generated by IBM Cloud services in a region of IBM Cloud, you must create a tenant in each region that you operate. Pass a list of regions to create a tenant in. [Learn more](https://cloud.ibm.com/docs/logs-router?topic=logs-router-about-platform-logs).",
+              "required": true,
+              "virtual": true,
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "type": "string",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "enterprise_id",
+              "required": false,
+              "type": "string",
+              "virtual": true,
+              "default_value": "__NULL__",
+              "description": "If the account is an enterprise account and you want to scan sub-accounts, this value should be set to the enterprise ID (this is different to the account ID). Only applies if `cspm_enabled` is true."
+            },
+            {
+              "key": "enterprise_account_group_ids_to_assign",
+              "type": "list(string)",
+              "default_value": "[\"all\"]",
+              "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
+              "required": false,
+              "virtual": true
+            },
+            {
+              "key": "enterprise_account_ids_to_assign",
+              "type": "list(string)",
+              "default_value": "[\"all\"]",
+              "description": "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
+              "required": false,
+              "virtual": true
             },
             {
               "key": "provider_visibility",
@@ -275,19 +352,6 @@
             },
             {
               "key": "scc_workload_protection_instance_name"
-            },
-            {
-              "key": "scc_workload_protection_service_plan",
-              "options": [
-                {
-                  "displayname": "Free Trial",
-                  "value": "free-trial"
-                },
-                {
-                  "displayname": "Graduated Tier",
-                  "value": "graduated-tier"
-                }
-              ]
             },
             {
               "key": "scc_workload_protection_instance_tags",
