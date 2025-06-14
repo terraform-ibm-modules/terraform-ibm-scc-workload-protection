@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
-  version                      = "1.2.0"
+  version                      = "1.2.1"
   resource_group_name          = var.resource_group == null ? "${var.prefix}-rg" : null
   existing_resource_group_name = var.resource_group
 }
@@ -31,7 +31,7 @@ module "scc_wp" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.7.0"
+  version                                = "1.8.2"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "enterprise"
