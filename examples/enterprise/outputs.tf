@@ -3,8 +3,8 @@ output "scc_wp_crn" {
   value       = module.scc_wp.crn
 }
 
-output "trusted_profile_enterprise_id" {
-  description = "Trusted profile enterprise ID"
+output "enterprise_id" {
+  description = "Enterprise ID"
   value       = var.enterprise_id
 }
 
