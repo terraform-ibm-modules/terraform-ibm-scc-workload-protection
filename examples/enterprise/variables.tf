@@ -1,6 +1,6 @@
 variable "enterprise_id" {
   type        = string
-  description = "The Enterprise ID used to scope the Config Aggregator or IAM templates."
+  description = "The ID of the enterprise."
 }
 
 variable "region" {
