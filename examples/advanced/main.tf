@@ -43,7 +43,7 @@ resource "ibm_is_vpc" "example_vpc" {
 ##############################################################################
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.32.3"
+  version          = "1.32.4"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone representing VPC"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -60,7 +60,7 @@ module "cbr_zone" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.8.7"
+  version                                = "1.8.9"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
