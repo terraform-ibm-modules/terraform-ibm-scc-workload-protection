@@ -25,7 +25,7 @@ variable "existing_monitoring_crn" {
       can(regex("^crn:(.*:){3}sysdig-secure:${var.region}(.*:){1}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_monitoring_crn)),
       var.existing_monitoring_crn == null,
     ])
-    error_message = "The provided Monitoring instance CRN in the input 'existing_monitoring_crn' in not valid. Please also ensure it is in the same region specified the 'input' region input."
+    error_message = "The provided Monitoring instance CRN in the input 'existing_monitoring_crn' in not valid. Please also ensure it is in the same region specified the 'region' input."
   }
 }
 
