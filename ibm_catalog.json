@@ -438,7 +438,8 @@
                 "description": "This architecture supports creating and configuring IBM Security and Compliance Center Workload Protection resources"
               }
             ]
-          }
+          },
+          "terraform_version": "1.10.5"
         }
       ]
     }
