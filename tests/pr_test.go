@@ -4,11 +4,10 @@ package test
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 	"testing"
-
-	"math/rand/v2"
 
 	"github.com/gruntwork-io/terratest/modules/files"
 	"github.com/gruntwork-io/terratest/modules/logger"
@@ -16,7 +15,9 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
@@ -59,7 +60,7 @@ func TestMain(m *testing.M) {
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	var region = validRegions[rand.IntN(len(validRegions))]
+	var region = validRegions[rand.Intn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -146,7 +147,7 @@ func TestFullyConfigurable(t *testing.T) {
 func TestFullyConfigurableUpgrade(t *testing.T) {
 	t.Parallel()
 
-	var region = validRegions[rand.IntN(len(validRegions))]
+	var region = validRegions[rand.Intn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -230,4 +231,47 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
 		logger.Log(t, "END: Destroy (prereq resources)")
 	}
+}
+
+func TestSccWpAddonDefaultConfiguration(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "scc-def",
+		ResourceGroup: resourceGroup,
+		QuietMode:     false, // Suppress logs except on failure
+	})
+
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-scc-workload-protection",
+		"fully-configurable",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+			"region": validRegions[rand.Intn(len(validRegions))],
+		},
+	)
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
+}
+
+// TestDependencyPermutations runs dependency permutations for landing zone vpc and all its dependencies
+func TestSccWpDependencyPermutations(t *testing.T) {
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing: t,
+		Prefix:  "scc-per",
+		AddonConfig: cloudinfo.AddonConfig{
+			OfferingName:   "deploy-arch-ibm-scc-workload-protection",
+			OfferingFlavor: "fully-configurable",
+			Inputs: map[string]interface{}{
+				"prefix": "vpc-per",
+				"region": validRegions[rand.Intn(len(validRegions))],
+			},
+		},
+	})
+
+	err := options.RunAddonPermutationTest()
+	assert.NoError(t, err, "Dependency permutation test should not fail")
 }
