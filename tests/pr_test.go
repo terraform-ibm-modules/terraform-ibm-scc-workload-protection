@@ -257,7 +257,7 @@ func TestSccWpAddonDefaultConfiguration(t *testing.T) {
 	require.NoError(t, err)
 }
 
-// TestDependencyPermutations runs dependency permutations for landing zone vpc and all its dependencies
+// TestDependencyPermutations runs dependency permutations for SCC WP and all its dependencies
 func TestSccWpDependencyPermutations(t *testing.T) {
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing: t,
