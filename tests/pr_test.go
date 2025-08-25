@@ -240,7 +240,7 @@ func TestSccWpAddonDefaultConfiguration(t *testing.T) {
 		Testing:       t,
 		Prefix:        "scc-def",
 		ResourceGroup: resourceGroup,
-		QuietMode:     false, // Suppress logs except on failure
+		QuietMode:     true, // Suppress logs except on failure
 	})
 
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
@@ -266,7 +266,7 @@ func TestSccWpDependencyPermutations(t *testing.T) {
 			OfferingName:   "deploy-arch-ibm-scc-workload-protection",
 			OfferingFlavor: "fully-configurable",
 			Inputs: map[string]interface{}{
-				"prefix": "vpc-per",
+				"prefix": "scc-per",
 				"region": validRegions[rand.Intn(len(validRegions))],
 			},
 		},
