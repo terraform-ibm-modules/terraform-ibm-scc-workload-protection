@@ -10,15 +10,23 @@ variable "ibmcloud_api_key" {
 
 variable "existing_resource_group_name" {
   type        = string
-  description = "The name of a an existing resource group in which to provision resources to."
-  default     = "Default"
+  description = "The name of an existing resource group to provision the resources. If not provided the default resource group will be used."
+  default     = null
 }
 
 variable "existing_monitoring_crn" {
   type        = string
   nullable    = true
   default     = null
-  description = "The CRN of an IBM Cloud Monitoring instance to send Workload Protection data. If no value passed, metrics are sent to the instance associated to the container's location unless otherwise specified in the Metrics Router service configuration. [Learn more](https://www.ibm.com/products/cloud-monitoring)"
+  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create a connection between instances. Both instances must be in the same region. [Learn more](https://www.ibm.com/products/cloud-monitoring)"
+
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}sysdig-monitor:${var.region}(.*:){1}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.existing_monitoring_crn)),
+      var.existing_monitoring_crn == null,
+    ])
+    error_message = "The provided Monitoring instance CRN in the input 'existing_monitoring_crn' in not valid. Please also ensure it is in the same region specified the 'region' input."
+  }
 }
 
 variable "prefix" {
@@ -43,7 +51,7 @@ variable "prefix" {
 
   validation {
     # must not exceed 16 characters in length
-    condition     = length(var.prefix) <= 16
+    condition     = var.prefix == null || var.prefix == "" ? true : length(var.prefix) <= 16
     error_message = "Prefix must not exceed 16 characters."
   }
 }
