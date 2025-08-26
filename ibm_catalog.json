@@ -339,9 +339,9 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                "type": "string"
+                  "type": "string"
                 }
-            },
+              },
               "virtual": true
             },
             {
@@ -372,13 +372,13 @@
               "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
               "required": false,
               "custom_config": {
-                  "type": "array",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                      "type": "string"
-                    }
-                },
+                "type": "array",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              },
               "virtual": true
             },
             {
@@ -388,13 +388,13 @@
               "description": "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
               "required": false,
               "custom_config": {
-                  "type": "array",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                      "type": "string"
-                    }
-                },
+                "type": "array",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              },
               "virtual": true
             },
             {
@@ -457,13 +457,13 @@
               "key": "scc_workload_protection_trusted_profile_name"
             },
             {
-              "key":"cbr_rules",
-              "type":"array",
-              "default_value":"[]",
-              "custom_config":{
-                  "type":"code_editor",
-                  "grouping":"deployment",
-                  "original_grouping":"deployment"
+              "key": "cbr_rules",
+              "type": "array",
+              "default_value": "[]",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
               }
             }
           ],
@@ -474,7 +474,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes":"Required for creating and managing SCC Workload Protection instance."
+              "notes": "Required for creating and managing SCC Workload Protection instance."
             },
             {
               "role_crns": [
