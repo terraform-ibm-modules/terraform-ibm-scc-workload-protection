@@ -3,12 +3,12 @@
 #######################################################################################################################
 
 locals {
-  prefix_is_valid = var.prefix != null || trimspace(var.prefix) != "" ? true : false
+  prefix = var.prefix != null ? trimspace(var.prefix) != "" ? "${var.prefix}-" : "" : ""
 
   # Compute names for SCC Workload Protection instance and trusted profile
-  scc_workload_protection_instance_name        = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}" : var.scc_workload_protection_instance_name
-  scc_workload_protection_resource_key_name    = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_instance_name}-key" : "${var.scc_workload_protection_instance_name}-key"
-  scc_workload_protection_trusted_profile_name = local.prefix_is_valid ? "${var.prefix}-${var.scc_workload_protection_trusted_profile_name}" : var.scc_workload_protection_trusted_profile_name
+  scc_workload_protection_instance_name        = "${local.prefix}${var.scc_workload_protection_instance_name}"
+  scc_workload_protection_resource_key_name    = "${local.prefix}${var.scc_workload_protection_instance_name}-key"
+  scc_workload_protection_trusted_profile_name = "${local.prefix}${var.scc_workload_protection_trusted_profile_name}"
 }
 
 #######################################################################################################################

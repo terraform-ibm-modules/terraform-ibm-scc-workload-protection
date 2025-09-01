@@ -18,7 +18,7 @@ variable "existing_monitoring_crn" {
   type        = string
   nullable    = true
   default     = null
-  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create a connection between instances. Both instances must be in the same region."
+  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create a connection between instances. Both instances must be in the same region. [Learn more](https://www.ibm.com/products/cloud-monitoring)"
 
   validation {
     condition = anytrue([
@@ -32,7 +32,7 @@ variable "existing_monitoring_crn" {
 variable "prefix" {
   type        = string
   nullable    = true
-  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-scc-wp."
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-0205-wp. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
 
   validation {
     # - null and empty string is allowed
@@ -72,7 +72,7 @@ variable "provider_visibility" {
 ########################################################################################################################
 
 variable "scc_workload_protection_instance_name" {
-  description = "The name for the Workload Protection instance that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  description = "The name for the Workload Protection instance that is created by this solution. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<instance_name>` format."
   type        = string
   default     = "scc-workload-protection"
 }
@@ -80,7 +80,7 @@ variable "scc_workload_protection_instance_name" {
 variable "region" {
   type        = string
   default     = "us-south"
-  description = "The region to provision Security and Compliance Center Workload Protection resources in."
+  description = "The region to provision all resources in. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services."
   validation {
     condition = contains(["us-south",
       "us-east",
@@ -175,7 +175,7 @@ variable "ibmcloud_resource_controller_api_endpoint" {
 }
 
 variable "scc_workload_protection_trusted_profile_name" {
-  description = "The name to give the trusted profile that is created by this module if `cspm_enabled` is `true. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<name>` format."
+  description = "The name to give the trusted profile that is created by this module if `cspm_enabled` is `true. Must begin with a letter. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<profile_name>` format."
   type        = string
   default     = "workload-protection-trusted-profile"
   validation {

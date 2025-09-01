@@ -23,15 +23,11 @@
         "solution"
       ],
       "short_description": "Creates and configures IBM Security and Compliance Center Workload Protection resources",
-      "long_description": "Use [IBM Cloud® Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started) to find and prioritize software vulnerabilities, detect and respond to threats, and manage configurations, permissions, and compliance from source to run. This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) asset collection, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "long_description": "Use [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started) to find and prioritize software vulnerabilities, detect and respond to threats, and manage configurations, permissions, and compliance from source to run.\n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/blob/main/solutions/fully-configurable/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/main/images/scc-icon.svg",
       "provider_name": "IBM",
       "features": [
-        {
-          "title": "IBM Cloud Security and Compliance Center Workload Protection instance",
-          "description": "Creates and configures a Security and Compliance Center Workload Protection instance."
-        },
         {
           "title": "Cloud Security Posture Management (CSPM)",
           "description": "Creates and configures required resources to enable [Cloud Security Posture Management](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about)."
@@ -39,6 +35,10 @@
         {
           "title": "Context-based restrictions",
           "description": "Optionally create and configure [Context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis)."
+        },
+        {
+          "title": "Monitoring",
+          "description": "Gain real-time insights into your workloads by seamlessly observing workload data directly within your existing [IBM Cloud Monitoring environment](https://cloud.ibm.com/docs/monitoring?topic=monitoring-getting-started)."
         }
       ],
       "support_details": "This product is in the community registry, as such support is handled through the originated repo. If you experience issues please open an issue in that repository [https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues). Please note this product is not supported via the IBM Cloud Support Center.",
@@ -46,6 +46,7 @@
         {
           "label": "Fully configurable",
           "name": "fully-configurable",
+          "index": 1,
           "working_directory": "solutions/fully-configurable",
           "install_type": "fullstack",
           "dependency_version_2": true,
@@ -338,9 +339,9 @@
                 "grouping": "deployment",
                 "original_grouping": "deployment",
                 "config_constraints": {
-                "type": "string"
+                  "type": "string"
                 }
-            },
+              },
               "virtual": true
             },
             {
@@ -371,13 +372,13 @@
               "description": "A list of enterprise account group IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all account groups. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
               "required": false,
               "custom_config": {
-                  "type": "array",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                      "type": "string"
-                    }
-                },
+                "type": "array",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              },
               "virtual": true
             },
             {
@@ -387,13 +388,13 @@
               "description": "A list of enterprise account IDs to assign the trusted profile template to in order for the accounts to be scanned. Supports passing the string 'all' in the list to assign to all accounts. Only applies if `cspm_enabled` is true and a value is being passed for `enterprise_id`.",
               "required": false,
               "custom_config": {
-                  "type": "array",
-                  "grouping": "deployment",
-                  "original_grouping": "deployment",
-                  "config_constraints": {
-                      "type": "string"
-                    }
-                },
+                "type": "array",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              },
               "virtual": true
             },
             {
@@ -456,7 +457,14 @@
               "key": "scc_workload_protection_trusted_profile_name"
             },
             {
-              "key": "cbr_rules"
+              "key": "cbr_rules",
+              "type": "array",
+              "default_value": "[]",
+              "custom_config": {
+                "type": "code_editor",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
             }
           ],
           "iam_permissions": [
@@ -466,7 +474,7 @@
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
-              "notes":"Required for creating and managing SCC Workload Protection instance."
+              "notes": "Required for creating and managing SCC Workload Protection instance."
             },
             {
               "role_crns": [
@@ -549,16 +557,8 @@
           "architecture": {
             "features": [
               {
-                "title": "IBM Cloud Security and Compliance Center Workload Protection instance",
-                "description": "Creates and configures a Security and Compliance Center Workload Protection instance."
-              },
-              {
-                "title": "Cloud Security Posture Management (CSPM)",
-                "description": "Creates and configures required resources to enable Cloud Security Posture Management."
-              },
-              {
-                "title": "Context-based restrictions",
-                "description": "Optionally create and configure context-based restrictions."
+                "title": " ",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
