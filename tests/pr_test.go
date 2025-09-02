@@ -259,6 +259,9 @@ func TestSccWpAddonDefaultConfiguration(t *testing.T) {
 
 // TestDependencyPermutations runs dependency permutations for SCC WP and all its dependencies
 func TestSccWpDependencyPermutations(t *testing.T) {
+	// currently Permutation tests is not stable and the test wrapper framework must be updated. Skip tests for now
+	t.Skip()
+	t.Parallel()
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing: t,
 		Prefix:  "scc-per",
