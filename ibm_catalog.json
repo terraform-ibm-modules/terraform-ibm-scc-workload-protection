@@ -79,7 +79,7 @@
               ],
               "optional": true,
               "on_by_default": false,
-              "version": "v3.0.7"
+              "version": "v3.0.23"
             },
             {
               "name": "deploy-arch-ibm-apprapp",
@@ -89,7 +89,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-              "version": "v1.10.2",
+              "version": "v1.11.2",
               "optional": true,
               "input_mapping": [
                 {
@@ -142,7 +142,7 @@
                 "fully-configurable"
               ],
               "id": "63d8ae58-fbf3-41ce-b844-0fb5b85882ab-global",
-              "version": "v1.6.11",
+              "version": "v1.6.28",
               "optional": true,
               "on_by_default": true,
               "input_mapping": [
@@ -167,7 +167,7 @@
               "name": "deploy-arch-ibm-cloud-monitoring",
               "description": "Configure IBM Cloud Monitoring to collect the platform metrics.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
-              "version": "v1.6.4",
+              "version": "v1.7.2",
               "flavors": [
                 "fully-configurable"
               ],
@@ -200,7 +200,7 @@
               "name": "deploy-arch-ibm-activity-tracker",
               "description": "Configure Activity Tracker Event Routing to route the auditing events.",
               "id": "918453c3-4f97-4583-8c4a-83ef12fc7916-global",
-              "version": "v1.2.25",
+              "version": "v1.2.34",
               "flavors": [
                 "fully-configurable"
               ],
