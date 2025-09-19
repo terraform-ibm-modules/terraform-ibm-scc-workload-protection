@@ -36,13 +36,13 @@ var validRegions = []string{
 	"us-east",
 	"eu-de",
 	"eu-es",
+	"eu-fr2",
 	"eu-gb",
 	"jp-osa",
 	"jp-tok",
 	"br-sao",
 	"ca-tor",
 	"au-syd",
-	"eu-fr2",
 }
 
 var permanentResources map[string]interface{}
@@ -61,7 +61,7 @@ func TestMain(m *testing.M) {
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	var region = "eu-fr2"
+	var region = validRegions[rand.Intn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -111,7 +111,6 @@ func TestFullyConfigurable(t *testing.T) {
 			Tags:                   []string{"test-schematic"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
-			WorkspaceLocation:      region,
 			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
 			IgnoreAdds: testhelper.Exemptions{
 				List: []string{"module.scc_wp.restapi_object.cspm"},
@@ -149,7 +148,7 @@ func TestFullyConfigurable(t *testing.T) {
 func TestFullyConfigurableUpgrade(t *testing.T) {
 	t.Parallel()
 
-	var region = "eu-fr2"
+	var region = validRegions[rand.Intn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -237,7 +236,6 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 
 func TestSccWpAddonDefaultConfiguration(t *testing.T) {
 	t.Parallel()
-	t.Skip()
 
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing:       t,
