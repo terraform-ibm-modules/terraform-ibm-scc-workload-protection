@@ -300,7 +300,6 @@
             },
             {
               "key": "app_config_plan",
-              "required": true,
               "virtual": true,
               "type": "string",
               "options": [
@@ -317,8 +316,8 @@
                   "value": "enterprise"
                 }
               ],
-              "default_value": "standardv2",
-              "description": "The plan to use for the App Configuration service instance."
+              "default_value": "enterprise",
+              "description": "The plan to use for the App Configuration service instance. If the Key Protect deployable architecture has been selected, 'enterprise' plan must be used."
             },
             {
               "key": "enable_platform_metrics",
