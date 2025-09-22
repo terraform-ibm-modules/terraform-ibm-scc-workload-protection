@@ -317,7 +317,7 @@
                   "value": "enterprise"
                 }
               ],
-              "default_value": "basic",
+              "default_value": "standardv2",
               "description": "The plan to use for the App Configuration service instance."
             },
             {
