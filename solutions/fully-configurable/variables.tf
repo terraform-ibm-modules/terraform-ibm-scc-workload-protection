@@ -86,6 +86,7 @@ variable "region" {
       "us-east",
       "eu-de",
       "eu-es",
+      "eu-fr2",
       "eu-gb",
       "jp-osa",
       "jp-tok",
@@ -93,7 +94,7 @@ variable "region" {
       "ca-tor",
       "au-syd",
     ], var.region)
-    error_message = "Invalid region selected. Allowed values are `us-south` ,`us-east`, `eu-de`, `eu-es`, `eu-gb`, `jp-osa`, `jp-tok`, `br-sao`, `ca-tor`, and `au-syd`."
+    error_message = "Invalid region selected. Allowed values are `us-south` ,`us-east`, `eu-de`, `eu-es`, `eu-fr2`, `eu-gb`, `jp-osa`, `jp-tok`, `br-sao`, `ca-tor`, and `au-syd`."
   }
 }
 
