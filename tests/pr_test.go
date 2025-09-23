@@ -22,15 +22,15 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
+/*
+Global variables
+*/
 const resourceGroup = "geretain-test-resources"
 const fullyConfigurableDADir = "solutions/fully-configurable"
-
-var existingResources = "./existing-resources"
-
-// Define a struct with fields that match the structure of the YAML data.
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+const existingResources = "./existing-resources"
+const terraformVersion = "terraform_v1.10" // This should match the version in the ibm_catalog.json
 
-// Current supported SCC Workload Protection region
 var validRegions = []string{
 	"us-south",
 	"us-east",
@@ -44,7 +44,6 @@ var validRegions = []string{
 	"ca-tor",
 	"au-syd",
 }
-
 var permanentResources map[string]interface{}
 
 func TestMain(m *testing.M) {
@@ -108,9 +107,11 @@ func TestFullyConfigurable(t *testing.T) {
 			},
 			ResourceGroup:          resourceGroup,
 			TemplateFolder:         fullyConfigurableDADir,
-			Tags:                   []string{"test-schematic"},
+			Tags:                   []string{"test-schematic", "scc-wp-da-fc"},
 			DeleteWorkspaceOnFail:  false,
 			WaitJobCompleteMinutes: 60,
+			Region:                 region,
+			TerraformVersion:       terraformVersion,
 			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
 			IgnoreAdds: testhelper.Exemptions{
 				List: []string{"module.scc_wp.restapi_object.cspm"},
@@ -120,7 +121,7 @@ func TestFullyConfigurable(t *testing.T) {
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 			{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 			{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
+			{Name: "region", Value: options.Region, DataType: "string"},
 			{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
@@ -193,11 +194,14 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 				"*.tf",
 				fullyConfigurableDADir + "/*.tf",
 			},
-			ResourceGroup:          resourceGroup,
-			TemplateFolder:         fullyConfigurableDADir,
-			Tags:                   []string{"test-schematic"},
-			DeleteWorkspaceOnFail:  false,
-			WaitJobCompleteMinutes: 60,
+			ResourceGroup:              resourceGroup,
+			TemplateFolder:             fullyConfigurableDADir,
+			Tags:                       []string{"test-schematic"},
+			DeleteWorkspaceOnFail:      false,
+			WaitJobCompleteMinutes:     60,
+			CheckApplyResultForUpgrade: true,
+			Region:                     region,
+			TerraformVersion:           terraformVersion,
 			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
 			IgnoreAdds: testhelper.Exemptions{
 				List: []string{"module.scc_wp.restapi_object.cspm"},
@@ -207,7 +211,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 			{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 			{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
-			{Name: "region", Value: region, DataType: "string"},
+			{Name: "region", Value: options.Region, DataType: "string"},
 			{Name: "scc_workload_protection_instance_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
@@ -234,7 +238,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 	}
 }
 
-func TestSccWpAddonDefaultConfiguration(t *testing.T) {
+func TestAddonDefaultConfiguration(t *testing.T) {
 	t.Parallel()
 
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
@@ -256,26 +260,4 @@ func TestSccWpAddonDefaultConfiguration(t *testing.T) {
 
 	err := options.RunAddonTest()
 	require.NoError(t, err)
-}
-
-// TestDependencyPermutations runs dependency permutations for SCC WP and all its dependencies
-func TestSccWpDependencyPermutations(t *testing.T) {
-	// currently Permutation tests is not stable and the test wrapper framework must be updated. Skip tests for now
-	t.Skip()
-	t.Parallel()
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing: t,
-		Prefix:  "scc-per",
-		AddonConfig: cloudinfo.AddonConfig{
-			OfferingName:   "deploy-arch-ibm-scc-workload-protection",
-			OfferingFlavor: "fully-configurable",
-			Inputs: map[string]interface{}{
-				"prefix": "scc-per",
-				"region": validRegions[rand.Intn(len(validRegions))],
-			},
-		},
-	})
-
-	err := options.RunAddonPermutationTest()
-	assert.NoError(t, err, "Dependency permutation test should not fail")
 }
