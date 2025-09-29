@@ -53,7 +53,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. When you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -83,7 +83,7 @@
             },
             {
               "name": "deploy-arch-ibm-apprapp",
-              "description": "App Configuration is required to enable Cloud Security Posture Management (CSPM).",
+              "description": "Set up App Configuration to enable Cloud Security Posture Management (CSPM).",
               "flavors": [
                 "fully-configurable"
               ],
@@ -136,7 +136,7 @@
             },
             {
               "name": "deploy-arch-ibm-cloud-logs",
-              "description": "Configure IBM Cloud Logs instance to analyse the platform logs.",
+              "description": "Configure IBM Cloud Logs instance to analyze the platform logs.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "fully-configurable"
@@ -165,7 +165,7 @@
             },
             {
               "name": "deploy-arch-ibm-cloud-monitoring",
-              "description": "Configure IBM Cloud Monitoring to collect the platform metrics.",
+              "description": "Configure IBM Cloud Monitoring to collect platform metrics.",
               "id": "73debdbf-894f-4c14-81c7-5ece3a70b67d-global",
               "version": "v1.7.2",
               "flavors": [
