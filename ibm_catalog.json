@@ -89,7 +89,7 @@
               ],
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "id": "045c1169-d15a-4046-ae81-aa3d3348421f-global",
-              "version": "v1.11.2",
+              "version": "v1.11.7",
               "optional": true,
               "input_mapping": [
                 {
