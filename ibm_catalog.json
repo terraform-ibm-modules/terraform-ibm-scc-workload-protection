@@ -83,7 +83,7 @@
             },
             {
               "name": "deploy-arch-ibm-apprapp",
-              "description": "Set up App Configuration required to enable Cloud Security Posture Management (CSPM).",
+              "description": "Set up App Configuration to enable Cloud Security Posture Management (CSPM).",
               "flavors": [
                 "fully-configurable"
               ],
