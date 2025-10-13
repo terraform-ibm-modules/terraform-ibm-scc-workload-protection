@@ -586,7 +586,7 @@
               {
                 "diagram": {
                   "caption": "Security and Compliance Center Workload Protection",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/main/reference-architecture/scc.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/main/reference-architectures/scc.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture supports creating and configuring IBM Security and Compliance Center Workload Protection resources"
