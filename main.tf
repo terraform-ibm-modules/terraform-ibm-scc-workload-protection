@@ -8,6 +8,10 @@
 # SCC WP
 ##############################################################################
 
+locals {
+  target_account_id = ibm_resource_instance.scc_wp.account_id
+}
+
 resource "ibm_resource_instance" "scc_wp" {
   name              = var.name
   resource_group_id = var.resource_group_id
@@ -19,6 +23,18 @@ resource "ibm_resource_instance" "scc_wp" {
     cloud_monitoring_connected_instance : var.cloud_monitoring_instance_crn
   }
 }
+
+##############################################################################
+# Check Account Type
+##############################################################################
+
+
+module "account_type_check" {
+  source            = "./modules/account_check"
+  target_account_id = local.target_account_id
+  ibmcloud_api_key  = var.ibmcloud_api_key
+}
+
 
 ##############################################################################
 # SCC WP Instance Key

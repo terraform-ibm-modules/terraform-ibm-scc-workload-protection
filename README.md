@@ -14,6 +14,8 @@ A module for provisioning an [IBM Cloud Security and Compliance Center Workload 
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
 * [terraform-ibm-scc-workload-protection](#terraform-ibm-scc-workload-protection)
+* [Submodules](./modules)
+    * [account_check](./modules/account_check)
 * [Examples](./examples)
     * [Advanced example](./examples/advanced)
     * [Basic example](./examples/basic)
@@ -114,6 +116,7 @@ statement instead the previous block.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_account_type_check"></a> [account\_type\_check](#module\_account\_type\_check) | ./modules/account_check | n/a |
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.33.6 |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 3.1.1 |
 
@@ -135,6 +138,7 @@ statement instead the previous block.
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The list of context-based restriction rules to create. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_cloud_monitoring_instance_crn"></a> [cloud\_monitoring\_instance\_crn](#input\_cloud\_monitoring\_instance\_crn) | To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create a connection between instances. Both instances must be in the same region. | `string` | `null` | no |
 | <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile associated with the SCC Workload Protection instance that has viewer / reader access to the App Config service and viewer access to the Enterprise service. [Learn more](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about). | `bool` | `true` | no |
+| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the SCC Workload Protection instance that will be provisioned by this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
@@ -150,6 +154,7 @@ statement instead the previous block.
 |------|-------------|
 | <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Workload Protection instance access key. |
 | <a name="output_account_id"></a> [account\_id](#output\_account\_id) | Account ID of created SCC WP instance. |
+| <a name="output_account_type"></a> [account\_type](#output\_account\_type) | The determined type of the IBM Cloud account. |
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
 | <a name="output_crn"></a> [crn](#output\_crn) | CRN of created SCC WP instance. |
 | <a name="output_guid"></a> [guid](#output\_guid) | GUID of created SCC WP instance. |

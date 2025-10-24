@@ -47,4 +47,5 @@ module "scc_wp" {
   cspm_enabled                                 = true
   app_config_crn                               = module.app_config.app_config_crn
   scc_workload_protection_trusted_profile_name = "${var.prefix}-scc-wp-tp"
+  ibmcloud_api_key                             = var.ibmcloud_api_key
 }

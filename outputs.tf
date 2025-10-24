@@ -44,3 +44,8 @@ output "access_key" {
   value       = ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Access Key"]
   sensitive   = true
 }
+
+output "account_type" {
+  description = "The determined type of the IBM Cloud account."
+  value       = module.account_type_check.account_type
+}
