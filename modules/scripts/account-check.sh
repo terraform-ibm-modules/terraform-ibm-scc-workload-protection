@@ -1,26 +1,31 @@
 #!/bin/bash
 
+get_enterprise_endpoint() {
+    default_endpoint="enterprise.cloud.ibm.com"
+    enterprise_endpoint="${IBMCLOUD_ENTERPRISE_API_ENDPOINT:-"$default_endpoint"}"
+    ENTERPRISE_ENDPOINT=${enterprise_endpoint#https://}
+}
+
+get_enterprise_endpoint
+
 read -r TF_INPUT
 ACCOUNT_ID=$(echo "$TF_INPUT" | jq -r '.account_id')
-IBM_CLOUD_API_KEY=$(echo "$TF_INPUT" | jq -r '.api_key')
+IAM_TOKEN=$(echo "$TF_INPUT" | jq -r '.iam_token')
 
-# --- Obtain IAM Token ---
-IAM_TOKEN=$(curl -s -X POST "https://iam.cloud.ibm.com/identity/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=${IBM_CLOUD_API_KEY}" \
-  | jq -r '.access_token')
+URL="https://${ENTERPRISE_ENDPOINT}/v1/accounts/${ACCOUNT_ID}"
 
-# --- Query Enterprise API ---
-HTTP_CODE=$(curl -s -w "%{http_code}" -o /tmp/account.json \
-  -X GET "https://enterprise.cloud.ibm.com/v1/accounts/${ACCOUNT_ID}" \
-  -H "Authorization: Bearer ${IAM_TOKEN}")
+HTTP_CODE=$(curl -s -o /tmp/account.json -w "%{http_code}" \
+  -X GET "$URL" \
+  -H "Authorization: ${IAM_TOKEN}" 2>/dev/null)
 
-# --- Determine Account Type ---
 ACCOUNT_TYPE="NORMAL"
-if [ "$HTTP_CODE" == "200" ] && grep -q '"enterprise_id"' /tmp/account.json; then
+
+if [ "$HTTP_CODE" == "200" ] && grep -q '"enterprise_id"' /tmp/account.json 2>/dev/null; then
   ACCOUNT_TYPE="ENTERPRISE"
 fi
 
-# --- Output for Terraform ---
 echo "{\"account_type\": \"${ACCOUNT_TYPE}\"}"
+
+rm -f /tmp/account.json
+
 exit 0

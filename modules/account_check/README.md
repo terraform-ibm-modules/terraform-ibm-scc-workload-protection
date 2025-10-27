@@ -3,13 +3,30 @@
 This module determines whether a given IBM Cloud account is part of an `Enterprise` or is a `Standalone (Normal)` account.
 It uses the IBM Cloud Enterprise Management API and can be easily integrated into Terraform configurations via the external data source.
 
+### Usage
+```hcl
+module "account_type_check" {
+  source            = "./modules/account_check"
+  target_account_id = <ACCOUNT_ID>
+  ibmcloud_api_key  = "XXXXXXXXXXXXXX"  # pragma: allowlist secret
+}
+```
+
+### Required IAM access policies
+
+- Account Management
+  - **Enterprise** service
+      - `Viewer` platform access
+  - **All Identity and Access enabled** services
+      - `Viewer` platform access
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | 2.3.5 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.3.5, <3.0.0 |
 
 ### Modules
 
@@ -19,13 +36,13 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [external_external.account_check](https://registry.terraform.io/providers/hashicorp/external/2.3.5/docs/data-sources/external) | data source |
+| [external_external.account_check](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | The IBM Cloud platform API key needed to deploy IAM enabled resources. | `string` | n/a | yes |
+| <a name="input_iam_token"></a> [iam\_token](#input\_iam\_token) | The IBM Cloud platform IAM token needed to authenticate deploy IAM enabled resources. | `string` | n/a | yes |
 | <a name="input_target_account_id"></a> [target\_account\_id](#input\_target\_account\_id) | The ID of the target account to check for type. | `string` | n/a | yes |
 
 ### Outputs

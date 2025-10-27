@@ -39,8 +39,3 @@ output "access_key" {
   value       = module.scc_wp.access_key
   sensitive   = true
 }
-
-output "account_type" {
-  description = "The determined type of the IBM Cloud account."
-  value       = module.scc_wp.account_type
-}

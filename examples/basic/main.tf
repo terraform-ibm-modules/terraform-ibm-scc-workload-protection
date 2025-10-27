@@ -22,5 +22,4 @@ module "scc_wp" {
   resource_tags     = var.resource_tags
   access_tags       = var.access_tags
   cspm_enabled      = false
-  ibmcloud_api_key  = var.ibmcloud_api_key
 }

@@ -1,5 +1,5 @@
-variable "ibmcloud_api_key" {
-  description = "The IBM Cloud platform API key needed to deploy IAM enabled resources."
+variable "iam_token" {
+  description = "The IBM Cloud platform IAM token needed to authenticate deploy IAM enabled resources."
   type        = string
   sensitive   = true
 }

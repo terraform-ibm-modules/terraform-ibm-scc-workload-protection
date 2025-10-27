@@ -47,5 +47,5 @@ output "access_key" {
 
 output "account_type" {
   description = "The determined type of the IBM Cloud account."
-  value       = module.account_type_check.account_type
+  value       = var.cspm_enabled ? module.account_type_check[0].account_type : "NULL"
 }
