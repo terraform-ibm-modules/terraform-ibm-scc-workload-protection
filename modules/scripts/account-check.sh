@@ -1,4 +1,14 @@
 #!/bin/bash
+set -e
+
+check_dependencies() {
+    if ! command -v jq &> /dev/null; then
+        echo "Error: 'jq' is required but not found. Please install 'jq' to run this script." >&2
+        exit 1
+    fi
+}
+
+check_dependencies
 
 get_enterprise_endpoint() {
     default_endpoint="enterprise.cloud.ibm.com"
@@ -8,24 +18,27 @@ get_enterprise_endpoint() {
 
 get_enterprise_endpoint
 
-read -r TF_INPUT
+read -r TF_INPUT || true
 ACCOUNT_ID=$(echo "$TF_INPUT" | jq -r '.account_id')
 IAM_TOKEN=$(echo "$TF_INPUT" | jq -r '.iam_token')
 
 URL="https://${ENTERPRISE_ENDPOINT}/v1/accounts/${ACCOUNT_ID}"
 
-HTTP_CODE=$(curl -s -o /tmp/account.json -w "%{http_code}" \
+CURL_OUTPUT=$(curl -s -w "STATUS_CODE:%{http_code}" \
+  --retry 3 \
   -X GET "$URL" \
-  -H "Authorization: ${IAM_TOKEN}" 2>/dev/null)
+  -H "Authorization: ${IAM_TOKEN}")
+
+HTTP_CODE=$(echo "$CURL_OUTPUT" | grep -o 'STATUS_CODE:[0-9]*$' | awk -F: '{print $2}')
+
+RESPONSE_BODY=${CURL_OUTPUT%STATUS_CODE:*}
 
 ACCOUNT_TYPE="ACCOUNT"
 
-if [ "$HTTP_CODE" == "200" ] && grep -q '"enterprise_id"' /tmp/account.json 2>/dev/null; then
+if [ "$HTTP_CODE" == "200" ] && echo "$RESPONSE_BODY" | grep -q '"enterprise_id"'; then
   ACCOUNT_TYPE="ENTERPRISE"
 fi
 
 echo "{\"account_type\": \"${ACCOUNT_TYPE}\"}"
-
-rm -f /tmp/account.json
 
 exit 0

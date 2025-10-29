@@ -154,7 +154,6 @@ statement instead the previous block.
 |------|-------------|
 | <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Workload Protection instance access key. |
 | <a name="output_account_id"></a> [account\_id](#output\_account\_id) | Account ID of created SCC WP instance. |
-| <a name="output_account_type"></a> [account\_type](#output\_account\_type) | The determined type of the IBM Cloud account. |
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
 | <a name="output_crn"></a> [crn](#output\_crn) | CRN of created SCC WP instance. |
 | <a name="output_guid"></a> [guid](#output\_guid) | GUID of created SCC WP instance. |

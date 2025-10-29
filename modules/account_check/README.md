@@ -3,12 +3,18 @@
 This module determines whether a given IBM Cloud account is part of an `ENTERPRISE` or is a `Standalone (ACCOUNT)` account.
 It uses the IBM Cloud Enterprise Management API and can be easily integrated into Terraform configurations via the external data source.
 
+### Prerequisites
+
+This module utilizes an external script that relies on the following command-line tools being installed on the system where Terraform is executed:
+- `jq`: A lightweight and flexible command-line JSON processor. It is required for parsing the input provided by the Terraform external data source.
+- `curl`: A tool to transfer data with URLs, required for making API calls to the IBM Cloud Enterprise Management API.
+
 ### Usage
 ```hcl
 module "account_type_check" {
-  source            = "./modules/account_check"
+  source            = "terraform-ibm-modules/scc-workload-protection/ibm//modules/account_check"
   target_account_id = <ACCOUNT_ID>
-  ibmcloud_api_key  = "XXXXXXXXXXXXXX"  # pragma: allowlist secret
+  iam_token         = "XXXXXXXXXXXXXX"  # pragma: allowlist secret
 }
 ```
 

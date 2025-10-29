@@ -28,14 +28,17 @@ resource "ibm_resource_instance" "scc_wp" {
 # Check Account Type
 ##############################################################################
 
-data "ibm_iam_auth_token" "token" {}
+data "ibm_iam_auth_token" "token" {
+  depends_on = [ibm_resource_instance.scc_wp]
+  count      = var.cspm_enabled ? 1 : 0
+}
 
 
 module "account_type_check" {
   count             = var.cspm_enabled ? 1 : 0
   source            = "./modules/account_check"
   target_account_id = local.target_account_id
-  iam_token         = data.ibm_iam_auth_token.token.iam_access_token
+  iam_token         = data.ibm_iam_auth_token.token[0].iam_access_token
 }
 
 
