@@ -18,7 +18,7 @@ HTTP_CODE=$(curl -s -o /tmp/account.json -w "%{http_code}" \
   -X GET "$URL" \
   -H "Authorization: ${IAM_TOKEN}" 2>/dev/null)
 
-ACCOUNT_TYPE="NORMAL"
+ACCOUNT_TYPE="ACCOUNT"
 
 if [ "$HTTP_CODE" == "200" ] && grep -q '"enterprise_id"' /tmp/account.json 2>/dev/null; then
   ACCOUNT_TYPE="ENTERPRISE"

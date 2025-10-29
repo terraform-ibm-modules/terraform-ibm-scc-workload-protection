@@ -155,6 +155,7 @@ resource "restapi_object" "cspm" {
       target_accounts = var.cspm_enabled ? [
         {
           account_id         = ibm_resource_instance.scc_wp.account_id
+          account_type       = module.account_type_check[0].account_type
           config_crn         = var.app_config_crn
           trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
         }

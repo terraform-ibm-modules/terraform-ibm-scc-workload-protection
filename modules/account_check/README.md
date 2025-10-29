@@ -1,6 +1,6 @@
 # Account Check
 
-This module determines whether a given IBM Cloud account is part of an `Enterprise` or is a `Standalone (Normal)` account.
+This module determines whether a given IBM Cloud account is part of an `ENTERPRISE` or is a `Standalone (ACCOUNT)` account.
 It uses the IBM Cloud Enterprise Management API and can be easily integrated into Terraform configurations via the external data source.
 
 ### Usage
