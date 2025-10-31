@@ -8,6 +8,10 @@
 # SCC WP
 ##############################################################################
 
+locals {
+  target_account_id = ibm_resource_instance.scc_wp.account_id
+}
+
 resource "ibm_resource_instance" "scc_wp" {
   name              = var.name
   resource_group_id = var.resource_group_id
@@ -18,6 +22,22 @@ resource "ibm_resource_instance" "scc_wp" {
   parameters = {
     cloud_monitoring_connected_instance : var.cloud_monitoring_instance_crn
   }
+}
+
+##############################################################################
+# Check Account Type
+##############################################################################
+
+data "ibm_iam_auth_token" "token" {
+  depends_on = [ibm_resource_instance.scc_wp]
+  count      = var.cspm_enabled ? 1 : 0
+}
+
+module "account_type_check" {
+  count             = var.cspm_enabled ? 1 : 0
+  source            = "./modules/account_check"
+  target_account_id = local.target_account_id
+  iam_token         = data.ibm_iam_auth_token.token[0].iam_access_token
 }
 
 ##############################################################################
@@ -136,6 +156,7 @@ resource "restapi_object" "cspm" {
       target_accounts = var.cspm_enabled ? [
         {
           account_id         = ibm_resource_instance.scc_wp.account_id
+          account_type       = module.account_type_check[0].account_type
           config_crn         = var.app_config_crn
           trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
         }

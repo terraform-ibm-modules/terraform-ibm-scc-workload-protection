@@ -17,6 +17,9 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		TerraformDir:               dir,
 		Prefix:                     prefix,
 		CheckApplyResultForUpgrade: true,
+		IgnoreAdds: testhelper.Exemptions{
+			List: []string{"module.scc_wp.restapi_object.cspm"},
+		},
 	})
 	return options
 }

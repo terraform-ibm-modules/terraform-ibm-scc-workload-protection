@@ -103,6 +103,8 @@ func TestFullyConfigurable(t *testing.T) {
 			Prefix:  "wp-da",
 			TarIncludePatterns: []string{
 				"*.tf",
+				"modules/*/*.tf",
+				"modules/*/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:          resourceGroup,
@@ -192,6 +194,8 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			Prefix:  "wp-da",
 			TarIncludePatterns: []string{
 				"*.tf",
+				"modules/*/*.tf",
+				"modules/*/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:              resourceGroup,
