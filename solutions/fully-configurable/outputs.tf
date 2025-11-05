@@ -46,7 +46,7 @@ output "scc_workload_protection_access_key" {
 }
 
 output "next_steps_text" {
-  value       = "Your Security and Compliance Center Workload Protection is ready."
+  value       = "You can now configure the agent and start using Security and Compliance Center Workload Protection."
   description = "Next steps text"
 }
 
