@@ -56,7 +56,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/workload-protection/${module.scc_wp.id}/overview"
+  value       = "https://cloud.ibm.com/workload-protection/${module.scc_wp.guid}/overview"
   description = "Primary URL"
 }
 
