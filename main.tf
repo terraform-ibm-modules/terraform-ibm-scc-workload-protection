@@ -20,7 +20,12 @@ resource "ibm_resource_instance" "scc_wp" {
   location          = var.region
   tags              = var.resource_tags
   parameters = {
-    cloud_monitoring_connected_instance : var.cloud_monitoring_instance_crn
+    cloud_monitoring_connected_instance = var.cloud_monitoring_instance_crn
+  }
+  lifecycle {
+    ignore_changes = [
+      parameters["cloud_monitoring_connected_instance"]
+    ]
   }
 }
 
