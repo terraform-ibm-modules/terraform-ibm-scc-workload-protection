@@ -25,8 +25,7 @@ resource "ibm_resource_instance" "scc_wp" {
   # lifecycle ignores cloud_monitoring_conmected_instance as it can't change after scc-workload-protection instance connects.
   lifecycle {
     ignore_changes = [
-      parameters["cloud_monitoring_connected_instance"]  # Lifecycle ignore is added for cloud_monitoring_connected_instance because once SCC Workload Protection is connected to the monitoring instance, this value cannot be modified.
-
+      parameters["cloud_monitoring_connected_instance"]  
     ]
   }
 }
