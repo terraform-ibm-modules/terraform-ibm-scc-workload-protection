@@ -18,7 +18,7 @@ variable "existing_monitoring_crn" {
   type        = string
   nullable    = true
   default     = null
-  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create the connection. Once the connection is created, the Monitoring instance CRN cannot be changed. Learn more](https://www.ibm.com/products/cloud-monitoring)"
+  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create the connection. Once the connection is created, the Monitoring instance CRN cannot be changed. [Learn more](https://cloud.ibm.com/docs/security-compliance?topic=security-compliance-known-issues&interface=ui)"
 
   validation {
     condition = anytrue([
@@ -141,7 +141,7 @@ variable "scc_workload_protection_service_plan" {
 ##############################################################
 
 variable "cspm_enabled" {
-  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile associated with the SCC Workload Protection instance that has viewer / reader access to the App Config service and viewer access to the Enterprise service. [Learn more](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about)."
+  description = "Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile associated with the SCC Workload Protection instance that has viewer / reader access to the App Config service and viewer access to the Enterprise service. [Learn more](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about)"
   type        = bool
   default     = true
   nullable    = false
