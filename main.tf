@@ -73,7 +73,7 @@ resource "ibm_resource_tag" "scc_wp_access_tag" {
 module "cbr_rule" {
   count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.33.8"
+  version          = "1.34.0"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
@@ -107,7 +107,7 @@ module "cbr_rule" {
 module "trusted_profile_scc_wp" {
   count                       = var.cspm_enabled ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "3.1.1"
+  version                     = "3.2.0"
   trusted_profile_name        = var.scc_workload_protection_trusted_profile_name
   trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${ibm_resource_instance.scc_wp.guid} with required access for configuration aggregator."
 
