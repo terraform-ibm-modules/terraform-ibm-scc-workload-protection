@@ -2,10 +2,8 @@
 package test
 
 import (
-	"crypto/rand"
 	"fmt"
 	"log"
-	"math/big"
 	"os"
 	"strings"
 	"testing"
@@ -47,15 +45,6 @@ var validRegions = []string{
 }
 var permanentResources map[string]interface{}
 
-// getRandomRegion returns a random region from the validRegions slice using crypto/rand
-func getRandomRegion() string {
-	n, err := rand.Int(rand.Reader, big.NewInt(int64(len(validRegions))))
-	if err != nil {
-		panic(fmt.Sprintf("failed to generate random region: %v", err))
-	}
-	return validRegions[n.Int64()]
-}
-
 func TestMain(m *testing.M) {
 	// Read the YAML file contents
 	var err error
@@ -70,7 +59,7 @@ func TestMain(m *testing.M) {
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	var region = getRandomRegion()
+	region := validRegions[common.CryptoIntn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -161,7 +150,7 @@ func TestFullyConfigurable(t *testing.T) {
 func TestFullyConfigurableUpgrade(t *testing.T) {
 	t.Parallel()
 
-	var region = getRandomRegion()
+	region := validRegions[common.CryptoIntn(len(validRegions))]
 
 	// ------------------------------------------------------------------------------------
 	// Provision App Config first
@@ -267,7 +256,7 @@ func TestAddonDefaultConfiguration(t *testing.T) {
 		"deploy-arch-ibm-scc-workload-protection",
 		"fully-configurable",
 		map[string]interface{}{
-			"region": getRandomRegion(),
+			"region": validRegions[common.CryptoIntn(len(validRegions))],
 		},
 	)
 
