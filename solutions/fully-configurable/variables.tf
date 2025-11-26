@@ -18,7 +18,7 @@ variable "existing_monitoring_crn" {
   type        = string
   nullable    = true
   default     = null
-  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create the connection. Once the connection is created, the Monitoring instance CRN cannot be changed. [Learn more](https://cloud.ibm.com/docs/security-compliance?topic=security-compliance-known-issues&interface=ui)."
+  description = "To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create the connection. Once the connection is created, the Monitoring instance CRN cannot be changed."
 
   validation {
     condition = anytrue([
