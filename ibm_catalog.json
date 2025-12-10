@@ -51,7 +51,7 @@
           "label": "Fully configurable",
           "name": "fully-configurable",
           "index": 1,
-          "short_description": "Ideal for users who want SCC Workload Protection with full configuration control, including optional Cloud Logs, Cloud Monitoring, and Activity Tracker integration.",
+          "short_description": "Ideal for users who want flexibility with a reliable starting point",
           "working_directory": "solutions/fully-configurable",
           "install_type": "fullstack",
           "dependency_version_2": true,
