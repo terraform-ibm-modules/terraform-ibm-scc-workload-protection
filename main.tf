@@ -108,7 +108,7 @@ module "cbr_rule" {
 module "trusted_profile_scc_wp" {
   count                       = var.cspm_enabled ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "3.2.9"
+  version                     = "3.2.10"
   trusted_profile_name        = var.scc_workload_protection_trusted_profile_name
   trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${ibm_resource_instance.scc_wp.guid} with required access for configuration aggregator."
 
