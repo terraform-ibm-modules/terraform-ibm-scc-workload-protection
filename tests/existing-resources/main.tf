@@ -17,7 +17,7 @@ module "resource_group" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.14.4"
+  version                                = "1.14.5"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_name                        = "${var.prefix}-app-config"
