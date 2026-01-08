@@ -29,6 +29,10 @@ module "cloud_monitoring" {
 data "ibm_iam_account_settings" "iam_account_settings" {
 }
 
+locals {
+  account_id = data.ibm_iam_account_settings.iam_account_settings.account_id
+}
+
 ##############################################################################
 # VPC
 ##############################################################################
@@ -46,7 +50,7 @@ module "cbr_zone" {
   version          = "1.35.8"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone representing VPC"
-  account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+  account_id       = local.account_id
   addresses = [{
     type  = "vpc", # to bind a specific vpc to the zone
     value = ibm_is_vpc.example_vpc.crn,
@@ -110,4 +114,39 @@ module "scc_wp" {
       }]
     }
   ]
+}
+
+########################################################################################################################
+# SCC WP Zone
+# - create a new zone which only contains FedRAMP policies
+########################################################################################################################
+
+# lookup all posture policies
+data "sysdig_secure_posture_policies" "all" {
+  # explicit depends_on required as data lookup can ony occur after SCC-WP instance has been created
+  depends_on = [module.scc_wp]
+}
+
+# extract out all FedRAMP policies
+locals {
+  fedramp_policies = [
+    for p in data.sysdig_secure_posture_policies.all.policies :
+    p if length(regexall(".*FedRAMP.*", p.name)) > 0
+  ]
+}
+
+# create a new zone and add the FedRAMP policies to it
+resource "sysdig_secure_posture_zone" "example" {
+  name        = "${var.prefix}-zone"
+  description = "Zone description"
+  policy_ids  = [for p in local.fedramp_policies : p.id]
+
+  # you can use a scope to only target a set of accounts, e.g.
+  scopes {
+    scope {
+      target_type = "ibm"
+      rules       = "account in (\"${local.account_id}\")"
+    }
+  }
+
 }

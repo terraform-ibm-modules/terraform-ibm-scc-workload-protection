@@ -48,3 +48,38 @@ module "scc_wp" {
   app_config_crn                               = module.app_config.app_config_crn
   scc_workload_protection_trusted_profile_name = "${var.prefix}-scc-wp-tp"
 }
+
+########################################################################################################################
+# SCC WP Zone
+# - create a new zone which only contains FedRAMP policies
+########################################################################################################################
+
+# lookup all posture policies
+data "sysdig_secure_posture_policies" "all" {
+  # explicit depends_on required as data lookup can ony occur after SCC-WP instance has been created
+  depends_on = [module.scc_wp]
+}
+
+# extract out all FedRAMP policies
+locals {
+  fedramp_policies = [
+    for p in data.sysdig_secure_posture_policies.all.policies :
+    p if length(regexall(".*FedRAMP.*", p.name)) > 0
+  ]
+}
+
+# create a new zone and add the FedRAMP policies to it
+resource "sysdig_secure_posture_zone" "example" {
+  name        = "${var.prefix}-zone"
+  description = "Zone description"
+  policy_ids  = [for p in local.fedramp_policies : p.id]
+
+  # you can use a scope to only target a set of accounts, e.g.
+
+  # scopes {
+  #   scope {
+  #     target_type = "ibm"
+  #     rules       = "account in (\"abac0df06b644a9cabc6e44f55b3880e\", \"9f9af00a96104f49b6509aa715f9d6a5\")"
+  #   }
+  # }
+}
