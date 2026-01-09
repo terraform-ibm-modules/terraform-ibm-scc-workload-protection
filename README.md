@@ -8,7 +8,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 <!-- Add a description of module(s) in this repo -->
-A module for provisioning an [IBM Cloud Security and Compliance Center Workload Protection instance](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started). The module will always create a Manager resource key that connects to the SCC WP instance.
+A module for configuring an [IBM Cloud Security and Compliance Center Workload Protection](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-getting-started) instance. The module will always create a Manager resource key that connects to the SCC WP instance. Some sub-resources can be created using the [Sysdig Provider](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs) (see [advanced](./examples/advanced) example).
 
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
@@ -22,20 +22,6 @@ A module for provisioning an [IBM Cloud Security and Compliance Center Workload 
     * <div style="display: inline-block;"><a href="./examples/enterprise">Enterprise example with CSPM enabled</a></div> <div style="display: inline-block; vertical-align: middle;"><a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=swp-enterprise-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/enterprise" target="_blank"><img src="https://cloud.ibm.com/media/docs/images/icons/Deploy_to_cloud.svg" alt="Deploy to IBM Cloud button"></a></div>
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
-
-## Known issues
-
-### restapi_object.enable_cspm resource always identified for creation
-There is currently a [known issue](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243) where you will always see the `restapi_object.enable_cspm` resource included in the terraform plan for creation, even after it has already been applied. It is safe to proceed with this apply and will be a no-op if the resource has already been applied.
-
-<!--
-If this repo contains any reference architectures, uncomment the heading below and links to them.
-(Usually in the `/reference-architectures` directory.)
-See "Reference architecture" in Authoring Guidelines in the public documentation at
-https://terraform-ibm-modules.github.io/documentation/#/implementation-guidelines?id=reference-architecture
--->
-<!-- ## Reference architectures -->
-
 
 <!-- This heading should always match the name of the root level module (aka the repo name) -->
 ## terraform-ibm-scc-workload-protection

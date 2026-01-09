@@ -50,7 +50,7 @@ module "scc_wp" {
 }
 
 ########################################################################################################################
-# SCC WP Zone
+# SCC WP Zone (https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-posture-zones)
 # - create a new zone which only contains FedRAMP policies
 ########################################################################################################################
 
