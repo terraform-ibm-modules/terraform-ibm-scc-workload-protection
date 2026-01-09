@@ -94,7 +94,7 @@ module "scc_wp" {
     {
       description      = "${var.prefix}-SCC-WP access only from vpc"
       enforcement_mode = "enabled"
-      account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
+      account_id       = local.account_id
       tags = [
         {
           name  = "test-name"
@@ -123,7 +123,7 @@ module "scc_wp" {
 
 # lookup all posture policies
 data "sysdig_secure_posture_policies" "all" {
-  # explicit depends_on required as data lookup can ony occur after SCC-WP instance has been created
+  # explicit depends_on required as data lookup can only occur after SCC-WP instance has been created
   depends_on = [module.scc_wp]
 }
 

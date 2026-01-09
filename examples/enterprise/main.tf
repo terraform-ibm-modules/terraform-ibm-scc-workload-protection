@@ -56,7 +56,7 @@ module "scc_wp" {
 
 # lookup all posture policies
 data "sysdig_secure_posture_policies" "all" {
-  # explicit depends_on required as data lookup can ony occur after SCC-WP instance has been created
+  # explicit depends_on required as data lookup can only occur after SCC-WP instance has been created
   depends_on = [module.scc_wp]
 }
 
