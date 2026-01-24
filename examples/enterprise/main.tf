@@ -15,7 +15,7 @@ module "resource_group" {
 
 module "app_config" {
   source                                                     = "terraform-ibm-modules/app-configuration/ibm"
-  version                                                    = "1.14.12"
+  version                                                    = "1.14.13"
   region                                                     = var.region
   resource_group_id                                          = module.resource_group.resource_group_id
   app_config_plan                                            = "basic"
