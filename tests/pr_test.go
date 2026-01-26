@@ -258,7 +258,7 @@ func TestAddonDefaultConfiguration(t *testing.T) {
 		"deploy-arch-ibm-scc-workload-protection",
 		"fully-configurable",
 		map[string]interface{}{
-			"region": getRandomRegion(),
+			"region": "us-south",
 		},
 	)
 
