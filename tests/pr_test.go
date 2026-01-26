@@ -19,7 +19,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -124,10 +123,6 @@ func TestFullyConfigurable(t *testing.T) {
 			WaitJobCompleteMinutes: 60,
 			Region:                 region,
 			TerraformVersion:       terraformVersion,
-			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
-			IgnoreAdds: testhelper.Exemptions{
-				List: []string{"module.scc_wp.restapi_object.cspm"},
-			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -216,10 +211,6 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			CheckApplyResultForUpgrade: true,
 			Region:                     region,
 			TerraformVersion:           terraformVersion,
-			// workaround for https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243
-			IgnoreAdds: testhelper.Exemptions{
-				List: []string{"module.scc_wp.restapi_object.cspm"},
-			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
