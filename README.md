@@ -60,6 +60,19 @@ module "scc_wp" {
 }
 ```
 
+### Known limitations
+
+#### CSPM configuration drift detection
+
+When CSPM is enabled (`cspm_enabled = true`), the module uses the `restapi` provider to configure the CSPM parameters. Due to a [workaround](https://github.com/Mastercard/terraform-provider-restapi/issues/319) for the restapi provider, Terraform will **not detect drift** if the following parameters are changed outside of Terraform (e.g., via the console, CLI, or API):
+
+- `enable_cspm`
+- `target_accounts` (including `account_id`, `account_type`, `config_crn`, `trusted_profile_id`)
+
+This means the CSPM configuration should be fully managed by Terraform. Any out-of-band changes will not be detected or reverted.
+
+This limitation will be resolved when the module is updated to use restapi provider v3.0.0 with `ignore_server_additions`.
+
 ### Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
