@@ -267,7 +267,6 @@ func TestAddonDefaultConfiguration(t *testing.T) {
 			OfferingName:   "deploy-arch-ibm-cloud-monitoring",
 			OfferingFlavor: "fully-configurable",
 			Inputs: map[string]interface{}{
-				"region": "us-south",
 				"enable_metrics_routing_to_cloud_monitoring": false,
 			},
 		},
@@ -275,7 +274,6 @@ func TestAddonDefaultConfiguration(t *testing.T) {
 			OfferingName:   "deploy-arch-ibm-activity-tracker",
 			OfferingFlavor: "fully-configurable",
 			Inputs: map[string]interface{}{
-				"region": "us-south",
 				"enable_activity_tracker_event_routing_to_cloud_logs": false,
 			},
 		},
