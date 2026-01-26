@@ -36,7 +36,6 @@ var validRegions = []string{
 	"us-east",
 	"eu-de",
 	"eu-es",
-	"eu-fr2",
 	"eu-gb",
 	"jp-osa",
 	"jp-tok",
