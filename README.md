@@ -60,10 +60,6 @@ module "scc_wp" {
 }
 ```
 
-### Known issues
-#### restapi_object.enable_cspm resource always identified for creation
-There is currently a [known issue](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243) where you will always see the `restapi_object.enable_cspm` resource included in the terraform plan for creation, even after it has already been applied. It is safe to proceed with this apply and will be a no-op if the resource has already been applied.
-
 ### Required IAM access policies
 
 <!-- PERMISSIONS REQUIRED TO RUN MODULE
