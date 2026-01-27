@@ -169,8 +169,15 @@ resource "restapi_object" "cspm" {
       ] : []
     }
   })
-  create_method  = "PATCH" # Specify the HTTP method for updates
+  create_method  = "PATCH"
   update_method  = "PATCH"
   destroy_method = "PATCH"
-  force_new      = [var.cspm_enabled]
+  read_method    = "GET"
+  read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+
+  # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
+  # The API returns many server-generated fields that cause drift detection.
+  # ignore_all_server_changes prevents the provider from detecting drift on
+  # fields returned by the API that weren't in our original request.
+  ignore_all_server_changes = true
 }
