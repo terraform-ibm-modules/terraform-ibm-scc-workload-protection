@@ -42,6 +42,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [terraform_data.install_required_binaries](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [external_external.account_check](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ### Inputs
@@ -49,6 +50,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_iam_token"></a> [iam\_token](#input\_iam\_token) | The IBM Cloud platform IAM token needed to authenticate deploy IAM enabled resources. | `string` | n/a | yes |
+| <a name="input_install_required_binaries"></a> [install\_required\_binaries](#input\_install\_required\_binaries) | When set to true, a script will run to check if `jq` exist on the runtime and if not attempt to download it from the public internet and install it to /tmp. Set to false to skip running this script. | `bool` | `true` | no |
 | <a name="input_target_account_id"></a> [target\_account\_id](#input\_target\_account\_id) | The ID of the target account to check for type. | `string` | n/a | yes |
 
 ### Outputs
