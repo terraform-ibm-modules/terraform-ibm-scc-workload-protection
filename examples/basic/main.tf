@@ -22,4 +22,5 @@ module "scc_wp" {
   resource_tags     = var.resource_tags
   access_tags       = var.access_tags
   cspm_enabled      = true
+  app_config_crn    = var.app_config_crn
 }
