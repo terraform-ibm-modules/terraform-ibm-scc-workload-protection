@@ -15,8 +15,7 @@ module "resource_group" {
 ########################################################################################################################
 
 module "scc_wp" {
-  source            = "terraform-ibm-modules/scc-workload-protection/ibm"
-  version           = "1.16.25"
+  source            = "git::https://github.com/terraform-ibm-modules/scc-workload-protection?ref=issue-16994"
   name              = var.prefix
   region            = var.region
   resource_group_id = module.resource_group.resource_group_id
