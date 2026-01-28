@@ -74,7 +74,7 @@ resource "ibm_resource_tag" "scc_wp_access_tag" {
 module "cbr_rule" {
   count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.35.10"
+  version          = "1.35.12"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
@@ -169,8 +169,15 @@ resource "restapi_object" "cspm" {
       ] : []
     }
   })
-  create_method  = "PATCH" # Specify the HTTP method for updates
+  create_method  = "PATCH"
   update_method  = "PATCH"
   destroy_method = "PATCH"
-  force_new      = [var.cspm_enabled]
+  read_method    = "GET"
+  read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+
+  # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
+  # The API returns many server-generated fields that cause drift detection.
+  # ignore_all_server_changes prevents the provider from detecting drift on
+  # fields returned by the API that weren't in our original request.
+  ignore_all_server_changes = true
 }

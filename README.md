@@ -60,9 +60,18 @@ module "scc_wp" {
 }
 ```
 
-### Known issues
-#### restapi_object.enable_cspm resource always identified for creation
-There is currently a [known issue](https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/issues/243) where you will always see the `restapi_object.enable_cspm` resource included in the terraform plan for creation, even after it has already been applied. It is safe to proceed with this apply and will be a no-op if the resource has already been applied.
+### Known limitations
+
+#### CSPM configuration drift detection
+
+When CSPM is enabled (`cspm_enabled = true`), the module uses the `restapi` provider to configure the CSPM parameters. Due to a [workaround](https://github.com/Mastercard/terraform-provider-restapi/issues/319) for the restapi provider, Terraform will **not detect drift** if the following parameters are changed outside of Terraform (e.g., via the console, CLI, or API):
+
+- `enable_cspm`
+- `target_accounts` (including `account_id`, `account_type`, `config_crn`, `trusted_profile_id`)
+
+This means the CSPM configuration should be fully managed by Terraform. Any out-of-band changes will not be detected or reverted.
+
+This limitation will be resolved when the module is updated to use restapi provider v3.0.0 with `ignore_server_additions`.
 
 ### Required IAM access policies
 
@@ -104,7 +113,7 @@ statement instead the previous block.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_account_type_check"></a> [account\_type\_check](#module\_account\_type\_check) | ./modules/account_check | n/a |
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.10 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.12 |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 3.2.17 |
 
 ### Resources
