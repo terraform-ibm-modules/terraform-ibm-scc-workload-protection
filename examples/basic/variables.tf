@@ -8,6 +8,11 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+variable "app_config_crn" {
+  description = "The CRN of an existing App Config instance to use with the SCC Workload Protection instance. Required if `cspm_enabled` is true. NOTE: Ensure the App Config instance has configuration aggregator enabled."
+  type        = string
+}
+
 variable "prefix" {
   description = "Display name of the prefix for related resources"
   type        = string
