@@ -14,7 +14,7 @@ resource "terraform_data" "install_required_binaries" {
 }
 
 data "external" "account_check" {
-  program = ["/bin/bash", "${path.module}/../scripts/account-check.sh ${local.binaries_path}"]
+  program = ["/bin/bash", "${path.module}/../scripts/account-check.sh", local.binaries_path]
   query = {
     account_id = var.target_account_id
     iam_token  = var.iam_token
