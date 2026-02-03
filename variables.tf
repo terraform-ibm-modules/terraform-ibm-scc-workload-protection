@@ -112,7 +112,7 @@ variable "app_config_crn" {
 variable "scc_workload_protection_trusted_profile_name" {
   description = "The name to give the trusted profile that is created by this module if `cspm_enabled` is `true. Must begin with a letter."
   type        = string
-  default     = "workload-protection-trusted-profile-1"
+  default     = "workload-protection-trusted-profile-3"
   validation {
     condition     = can(regex("^[a-zA-Z][a-zA-Z0-9\\-_\\.]+$", var.scc_workload_protection_trusted_profile_name))
     error_message = "The trusted profile name must begin with a letter and can only contain letters, numbers, hyphens, underscores, and periods."

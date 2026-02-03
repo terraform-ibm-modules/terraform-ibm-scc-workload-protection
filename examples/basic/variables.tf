@@ -16,7 +16,7 @@ variable "app_config_crn" {
 variable "prefix" {
   description = "Display name of the prefix for related resources"
   type        = string
-  default     = "scc-wp-2"
+  default     = "scc-wp-3"
 }
 
 variable "region" {
