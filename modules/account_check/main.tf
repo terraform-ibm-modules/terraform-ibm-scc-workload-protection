@@ -8,9 +8,10 @@ resource "terraform_data" "install_required_binaries" {
   count = var.install_required_binaries ? 1 : 0
 
   provisioner "local-exec" {
-    command     = "${path.module}/../scripts/install-binaries.sh ${local.binaries_path}"
-    interpreter = ["/bin/bash", "-c"]
-  }
+  interpreter = ["/bin/bash"]
+  command     = "${path.module}/../scripts/install-binaries.sh ${local.binaries_path}"
+}
+
 }
 
 data "external" "account_check" {
