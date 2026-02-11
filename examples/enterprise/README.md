@@ -4,6 +4,7 @@
 <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=scc-workload-protection-enterprise-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/enterprise"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom;"></a>
 <!-- END SCHEMATICS DEPLOY HOOK -->
 
+:warning: In order for enterprise sub-accounts to be scanned, you must turn on **enterprise-managed IAM** to centrally manage access and IAM settings for the sub-accounts. [Learn more](https://cloud.ibm.com/docs/enterprise-management?topic=enterprise-management-enterprise-managed-opt-in).
 
 The following example shows how to configure IBM Cloud Security and Compliance Center Workload Protection for Cloud Security Posture Management (CSPM) in an enterprise.
 
