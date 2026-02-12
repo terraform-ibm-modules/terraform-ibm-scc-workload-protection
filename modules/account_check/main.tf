@@ -6,6 +6,10 @@ locals {
 
 resource "terraform_data" "install_required_binaries" {
   count = var.install_required_binaries ? 1 : 0
+  triggers_replace = {
+    account_id = var.target_account_id
+    iam_token  = var.iam_token
+  }
 
   provisioner "local-exec" {
     command     = "${path.module}/../scripts/install-binaries.sh ${local.binaries_path}"
@@ -14,9 +18,10 @@ resource "terraform_data" "install_required_binaries" {
 }
 
 data "external" "account_check" {
-  program = ["/bin/bash", "${path.module}/../scripts/account-check.sh ${local.binaries_path}"]
+  program = ["/bin/bash", "${path.module}/../scripts/account-check.sh", local.binaries_path]
   query = {
     account_id = var.target_account_id
     iam_token  = var.iam_token
   }
+
 }
