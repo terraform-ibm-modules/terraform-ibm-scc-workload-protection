@@ -4,7 +4,7 @@
 
 module "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.4.7"
+  version = "1.4.8"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "cloud_monitoring" {
   source            = "terraform-ibm-modules/cloud-monitoring/ibm"
-  version           = "1.13.3"
+  version           = "1.13.6"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   instance_name     = "${var.prefix}-cm"
@@ -47,7 +47,7 @@ resource "ibm_is_vpc" "example_vpc" {
 ##############################################################################
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.35.13"
+  version          = "1.35.15"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone representing VPC"
   account_id       = local.account_id
@@ -64,7 +64,7 @@ module "cbr_zone" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.15.4"
+  version                                = "1.15.10"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
