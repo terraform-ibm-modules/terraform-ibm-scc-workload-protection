@@ -46,11 +46,11 @@ var validRegions = []string{
 }
 var permanentResources map[string]interface{}
 
-var IgnoreUpdates = []string{
+var ignoreUpdates = []string{
 	"module.scc_wp.module.account_type_check[0].terraform_data.install_required_binaries[0]",
 }
 
-var IgnoreDestroys = []string{
+var ignoreDestroys = []string{
 	"module.scc_wp.module.account_type_check[0].terraform_data.install_required_binaries[0]",
 }
 
@@ -132,10 +132,10 @@ func TestFullyConfigurable(t *testing.T) {
 			Region:                 region,
 			TerraformVersion:       terraformVersion,
 			IgnoreUpdates: testhelper.Exemptions{ // Ignore for consistency check
-				List: IgnoreUpdates,
+				List: ignoreUpdates,
 			},
 			IgnoreDestroys: testhelper.Exemptions{ // Ignore destroy/recreate actions
-				List: IgnoreDestroys,
+				List: ignoreDestroys,
 			},
 		})
 
@@ -226,10 +226,10 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			Region:                     region,
 			TerraformVersion:           terraformVersion,
 			IgnoreUpdates: testhelper.Exemptions{ // Ignore for consistency check
-				List: IgnoreUpdates,
+				List: ignoreUpdates,
 			},
 			IgnoreDestroys: testhelper.Exemptions{ // Ignore destroy/recreate actions
-				List: IgnoreDestroys,
+				List: ignoreDestroys,
 			},
 		})
 

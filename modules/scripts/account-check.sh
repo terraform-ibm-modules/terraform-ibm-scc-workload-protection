@@ -2,7 +2,7 @@
 set -e
 
 # The binaries downloaded by the install-binaries script are located in the /tmp directory.
-export PATH=$PATH:${1:-"/tmp"}
+export PATH="$PATH:${1:-"/tmp"}"
 
 check_dependencies() {
     if ! command -v jq &> /dev/null; then

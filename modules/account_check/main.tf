@@ -19,5 +19,4 @@ data "external" "account_check" {
     account_id = var.target_account_id
     iam_token  = var.iam_token
   }
-
 }
