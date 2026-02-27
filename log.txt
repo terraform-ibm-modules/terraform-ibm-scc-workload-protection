@@ -1,0 +1,675 @@
+cd tests && go test -run TestFullyConfigurableUpgrade -count=1 -v -timeout 600m
+=== RUN   TestFullyConfigurableUpgrade
+=== PAUSE TestFullyConfigurableUpgrade
+=== CONT  TestFullyConfigurableUpgrade
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 pr_test.go:190: Tempdir:  /var/folders/vh/syq93zks0k38v_dhpnypz4hm0000gn/T/wp-da-4szr5z-z8no4p2274968353/existing-resources
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 retry.go:91: terraform [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: Running command terraform with args [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: * default
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 retry.go:91: terraform [workspace new wp-da-4szr5z]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: Running command terraform with args [workspace new wp-da-4szr5z]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: [0m[32m[1mCreated and switched to workspace "wp-da-4szr5z"![0m[32m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: You're now on a new, empty workspace. Workspaces isolate their state,
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: so if you run "terraform plan" Terraform will not see any existing state
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: for this configuration.[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 retry.go:91: terraform [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: Running command terraform with args [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: wp-da-4szr5z
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 retry.go:91: terraform [init -upgrade=true]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: Running command terraform with args [init -upgrade=true]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: [0m[1mInitializing the backend...[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:26+05:30 logger.go:67: [0m[1mUpgrading modules...[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:27+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/app-configuration/ibm 1.15.10 for app_config...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:29+05:30 logger.go:67: - app_config in .terraform/modules/app_config
+TestFullyConfigurableUpgrade 2026-02-27T15:52:30+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/cbr/ibm 1.35.15 for app_config.cbr_rule...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:33+05:30 logger.go:67: - app_config.cbr_rule in .terraform/modules/app_config.cbr_rule/modules/cbr-rule-module
+TestFullyConfigurableUpgrade 2026-02-27T15:52:33+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/trusted-profile/ibm 3.2.19 for app_config.config_aggregator_trusted_profile...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: - app_config.config_aggregator_trusted_profile in .terraform/modules/app_config.config_aggregator_trusted_profile
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/trusted-profile/ibm 3.2.19 for app_config.config_aggregator_trusted_profile_enterprise...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: - app_config.config_aggregator_trusted_profile_enterprise in .terraform/modules/app_config.config_aggregator_trusted_profile_enterprise
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/trusted-profile/ibm 3.2.19 for app_config.config_aggregator_trusted_profile_template...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: - app_config.config_aggregator_trusted_profile_template in .terraform/modules/app_config.config_aggregator_trusted_profile_template/modules/trusted-profile-template
+TestFullyConfigurableUpgrade 2026-02-27T15:52:36+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/common-utilities/ibm 1.4.2 for app_config.en_crn_parser...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:39+05:30 logger.go:67: - app_config.en_crn_parser in .terraform/modules/app_config.en_crn_parser/modules/crn-parser
+TestFullyConfigurableUpgrade 2026-02-27T15:52:39+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/common-utilities/ibm 1.4.2 for app_config.kms_crn_parser...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:39+05:30 logger.go:67: - app_config.kms_crn_parser in .terraform/modules/app_config.kms_crn_parser/modules/crn-parser
+TestFullyConfigurableUpgrade 2026-02-27T15:52:39+05:30 logger.go:67: Downloading registry.terraform.io/terraform-ibm-modules/resource-group/ibm 1.4.8 for resource_group...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: - resource_group in .terraform/modules/resource_group
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: [0m[1mInitializing provider plugins...[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: - terraform.io/builtin/terraform is built in to Terraform
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: - Finding hashicorp/random versions matching ">= 3.5.1, < 4.0.0"...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: - Finding ibm-cloud/ibm versions matching ">= 1.79.0, >= 1.86.0, < 2.0.0"...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:43+05:30 logger.go:67: - Finding hashicorp/time versions matching ">= 0.9.1, < 1.0.0"...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:44+05:30 logger.go:67: - Installing hashicorp/random v3.8.1...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:44+05:30 logger.go:67: - Installed hashicorp/random v3.8.1 (signed by HashiCorp)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:45+05:30 logger.go:67: - Installing ibm-cloud/ibm v1.88.3...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:49+05:30 logger.go:67: - Installed ibm-cloud/ibm v1.88.3 (self-signed, key ID [0m[1mAAD3B791C49CC253[0m[0m)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:49+05:30 logger.go:67: - Installing hashicorp/time v0.13.1...
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: - Installed hashicorp/time v0.13.1 (signed by HashiCorp)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: Partner and community providers are signed by their developers.
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: If you'd like to know more about provider signing, you can read about it here:
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: https://www.terraform.io/docs/cli/plugins/signing.html
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: Terraform has created a lock file [1m.terraform.lock.hcl[0m to record the provider
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: selections it made above. Include this file in your version control repository
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: so that Terraform can guarantee to make the same selections by default when
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: you run "terraform init" in the future.[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: [0m[32m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: You may now begin working with Terraform. Try running "terraform plan" to see
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: any changes that are required for your infrastructure. All Terraform commands
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: should now work.
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: If you ever set or change modules or backend configuration for Terraform,
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: rerun this command to reinitialize your working directory. If you forget, other
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: commands will detect it and remind you to do so if necessary.[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 retry.go:91: terraform [apply -input=false -auto-approve -var prefix=wp-da-4szr5z -var region=jp-tok -var resource_tags=[] -lock=false]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:50+05:30 logger.go:67: Running command terraform with args [apply -input=false -auto-approve -var prefix=wp-da-4szr5z -var region=jp-tok -var resource_tags=[] -lock=false]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: Terraform used the selected providers to generate the following execution
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: plan. Resource actions are indicated with the following symbols:
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:   [32m+[0m create[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: Terraform will perform the following actions:
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id                          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m instance_id                 = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m region                      = "jp-tok"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_collection_enabled = true
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_collection_regions = [
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "all",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:         ]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m trusted_profile_id          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.ibm_resource_instance.app_config[0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_resource_instance" "app_config" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m account_id              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m allow_cleanup           = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m created_at              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m created_by              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m crn                     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m dashboard_url           = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m deleted_at              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m deleted_by              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m extensions              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m guid                    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id                      = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m last_operation          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m location                = "jp-tok"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m locked                  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m name                    = "wp-da-4szr5z-app-config"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m onetime_credentials     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m plan                    = "basic"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m plan_history            = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_aliases_url    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_bindings_url   = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_controller_url = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_crn            = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_group_crn      = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_group_id       = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_group_name     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_id             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_keys_url       = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_name           = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_plan_id        = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_status         = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m restored_at             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m restored_by             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m scheduled_reclaim_at    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m scheduled_reclaim_by    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m service                 = "apprapp"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m service_endpoints       = "public-and-private"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m state                   = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m status                  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m sub_type                = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m tags                    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m target_crn              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m type                    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m update_at               = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m update_by               = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.time_sleep.wait[0][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "time_sleep" "wait" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m create_duration = "30s"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id              = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.resource_group.ibm_resource_group.resource_group[0][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_resource_group" "resource_group" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m created_at          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m crn                 = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m default             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id                  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m name                = "wp-da-4szr5z-resource-group"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m payment_methods_url = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m quota_id            = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m quota_url           = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_linkages   = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m state               = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m teams_url           = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m updated_at          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile[0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_iam_trusted_profile" "profile" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m account_id     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m assignment_id  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m created_at     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m crn            = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m description    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m entity_tag     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m history        = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m iam_id         = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m ims_account_id = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m ims_user_id    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m modified_at    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m name           = "wp-da-4szr5z-app-config-tp"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m profile_id     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m template_id    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_iam_trusted_profile_identity" "trust_identity" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id            = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m identifier    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m identity_type = "crn"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m profile_id    = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m type          = "crn"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_iam_trusted_profile_link" "link" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m cr_type     = "VSI"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m created_at  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m entity_tag  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id          = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m link_id     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m modified_at = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m profile_id  = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m link {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m crn = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:         }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_iam_trusted_profile_policy" "policy" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m account_management = true
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m description        = "All Account Management Services"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m iam_id             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id                 = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m profile_id         = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m roles              = [
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "Viewer",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "Service Configuration Reader",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:         ]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m transaction_id     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"][0m will be created
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m  [32m+[0m[0m resource "ibm_iam_trusted_profile_policy" "policy" {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m account_management = false
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m description        = "All Identity and Access enabled services"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m iam_id             = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m id                 = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m profile_id         = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m roles              = [
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "Viewer",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "Service Configuration Reader",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m "Reader",
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:         ]
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m transaction_id     = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:       [32m+[0m[0m resource_attributes {
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m name     = "serviceType"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m operator = "stringEquals"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:           [32m+[0m[0m value    = "service"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:         }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [1mPlan:[0m 9 to add, 0 to change, 0 to destroy.
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: Changes to Outputs:
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:   [32m+[0m[0m app_config_crn      = (known after apply)
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:   [32m+[0m[0m prefix              = "wp-da-4szr5z"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:   [32m+[0m[0m region              = "jp-tok"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67:   [32m+[0m[0m resource_group_name = "wp-da-4szr5z-resource-group"
+TestFullyConfigurableUpgrade 2026-02-27T15:52:53+05:30 logger.go:67: [0m[1mmodule.resource_group.ibm_resource_group.resource_group[0]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:58+05:30 logger.go:67: [0m[1mmodule.resource_group.ibm_resource_group.resource_group[0]: Creation complete after 5s [id=761b845a07194c37aa27b7b7c0e91d43][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:52:58+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:08+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Still creating... [10s elapsed][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:15+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Creation complete after 17s [id=crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:15+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:15+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:19+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile: Creation complete after 4s [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:19+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:19+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:19+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:19+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:20+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0]: Creation complete after 0s [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909|crn|crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:20+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"]: Creation complete after 0s [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909/ClaimRule-711f301d-28f2-3860-a948-f61100780c8c][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:24+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"]: Creation complete after 4s [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/841d5eef-663f-4cd8-a9a5-d2a7f001bf76][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:24+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"]: Creation complete after 4s [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/657590b3-7bd7-40b7-8da4-0e024c54c09b][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:25+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Still creating... [10s elapsed][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:35+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Still creating... [20s elapsed][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:45+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Still creating... [30s elapsed][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:45+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Creation complete after 30s [id=2026-02-27T10:23:45Z][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:45+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0]: Creating...[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0]: Creation complete after 3s [id=jp-tok/7a2427cf-8858-4611-8d3a-8173de5d5494][0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m╷[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m[1m[33mWarning: [0m[0m[1mRedundant ignore_changes element[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m[0m  on .terraform/modules/app_config.config_aggregator_trusted_profile_template/modules/trusted-profile-template/main.tf line 137, in resource "ibm_iam_trusted_profile_template_assignment" "account_settings_template_assignment_instance":
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m 137: resource [4m"ibm_iam_trusted_profile_template_assignment"[0m "account_settings_template_assignment_instance" {[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mAdding an attribute name to ignore_changes tells Terraform to ignore future
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mchanges to the argument in configuration after the object has been created,
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mretaining the value originally configured.
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mThe attribute resources is decided by the provider alone and therefore
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mthere can be no configured value to compare with. Including this attribute
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0min ignore_changes has no effect. Remove the attribute from ignore_changes
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m│[0m [0mto quiet this warning.
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [33m╵[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [0m[1m[32m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [0m[0m[1m[32m
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: Outputs:
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: [0mapp_config_crn = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::"
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: prefix = "wp-da-4szr5z"
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: region = "jp-tok"
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: resource_group_name = "wp-da-4szr5z-resource-group"
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 retry.go:91: terraform [output -no-color -json app_config_crn]
+TestFullyConfigurableUpgrade 2026-02-27T15:53:48+05:30 logger.go:67: Running command terraform with args [output -no-color -json app_config_crn]
+TestFullyConfigurableUpgrade 2026-02-27T15:53:49+05:30 logger.go:67: "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::"
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 API cache disabled
+    tests.go:347: [SCHEMATICS] Random Workspace region chosen: us
+    schematics.go:123: [SCHEMATICS] Schematics API for region us: https://us.schematics.cloud.ibm.com
+TestFullyConfigurableUpgrade 2026-02-27T15:53:52+05:30 git.go:451: Remote name: upstream-uuu5zl
+TestFullyConfigurableUpgrade 2026-02-27T15:53:52+05:30 git.go:466: Fetch output:
+ []
+Commit Messages (main): 
+commit 1a40b73ad4d2ca1f5ad288136120971313e560a7
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Thu Feb 26 15:09:13 2026 +0530
+
+    fix: Addressed review comments
+
+commit 65cf4d25e6e147238bcf2c2612e6c3518e54ef22
+Merge: 3623965 dd89a18
+Author: Arya Girish K <aryagirish.kgit@gmail.com>
+Date:   Tue Feb 24 12:14:46 2026 +0530
+
+    Merge branch 'main' into issue-16994
+
+commit 36239650a1e6abd064e9b00d04537035dddad764
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Wed Feb 18 13:13:23 2026 +0530
+
+    fix: Resolved precommit errors
+
+commit e854a712458b1abee51d5e044aa6b46caae19ecb
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Wed Feb 18 11:43:24 2026 +0530
+
+    fix: Resolved comments
+
+commit 4c793538d30f10fd9e2a2bd142b1bd4222bd878d
+Merge: bd05e8e 8ec053f
+Author: Arya Girish K <aryagirish.kgit@gmail.com>
+Date:   Fri Feb 13 11:00:59 2026 +0530
+
+    Merge branch 'main' into issue-16994
+
+commit bd05e8ed3bf8e9ea8b986e11de4e94bacf7c21e3
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Thu Feb 12 13:47:38 2026 +0530
+
+    fix: Updated pr_test.go
+
+commit 7d12abcb3ba61cc5427e92badef625bcb1bab045
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Thu Feb 12 11:35:13 2026 +0530
+
+    fix: added permision
+
+commit 7ad77c442cf13f6f88513f5f92151db4a88f3d67
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Thu Feb 12 11:11:50 2026 +0530
+
+    testing
+
+commit b482f7f0417650d617a63618a3e72743651d993a
+Merge: 4ccb8d1 f0f7975
+Author: Arya Girish K <aryagirish.kgit@gmail.com>
+Date:   Thu Feb 12 00:03:34 2026 +0530
+
+    Merge branch 'main' into issue-16994
+
+commit 4ccb8d1d56aa82557f23eee81c8e81cbbfa8f2cc
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Wed Jan 28 09:45:57 2026 +0530
+
+    fix:Update path
+
+commit 9004420a191207ee9566b1e999661794a7089593
+Merge: 6e6d400 45b45d9
+Author: Arya Girish K <aryagirish.kgit@gmail.com>
+Date:   Wed Jan 28 09:29:35 2026 +0530
+
+    Merge branch 'main' into issue-16994
+
+commit 6e6d40027c226d9381f2d9db842d7b6fb7169591
+Author: Arya Girish K <arya.girish.k@ibm.com>
+Date:   Thu Jan 22 12:53:42 2026 +0530
+
+    feat: add binary installation support for Waypoint runtime compatibility
+    tests.go:101: [SCHEMATICS] Creating Test Workspace
+    schematics.go:208: [SCHEMATICS] Created workspace: wp-da-gov (ID: us-east.workspace.wp-da-gov.53f3770d)
+    tests.go:107: [SCHEMATICS] Workspace Created: wp-da-gov (us-east.workspace.wp-da-gov.53f3770d)
+    tests.go:115: [SCHEMATICS] Switching to target (main) code for UPGRADE TEST
+    tests.go:555: [SCHEMATICS] TEMP UPGRADE BASE DIR CREATED:  /var/folders/vh/syq93zks0k38v_dhpnypz4hm0000gn/T/terraform-base-wp-da-gov4177450103
+    schematics.go:216: [SCHEMATICS] Creating TAR file
+    schematics.go:222: [SCHEMATICS] Uploading TAR file
+    schematics.go:310: [SCHEMATICS] Uploaded TAR to workspace: us-east.workspace.wp-da-gov.53f3770d
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job TAR_WORKSPACE_UPLOAD to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job TAR_WORKSPACE_UPLOAD is: COMPLETED
+    tests.go:146: [SCHEMATICS] Updating Workspace Variablestore
+    schematics.go:284: [SCHEMATICS] Updated variables for workspace: us-east.workspace.wp-da-gov.53f3770d
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Created plan job: fbb17a865db75ae0e10870afefc042f8 for workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:162: [SCHEMATICS] Starting PLAN job ...
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job PLAN to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job PLAN is: COMPLETED
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Created apply job: 5080166b0e9dd258dd7d8a094c1aa549 for workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:196: [SCHEMATICS] Starting APPLY job ...
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job APPLY to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job APPLY to complete: 2 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job APPLY is: COMPLETED
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Retrieved 13 outputs from workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:241: [SCHEMATICS] Switching to source code for UPGRADE TEST
+    tests.go:244: Starting with variable validation for branch: issue-16994 
+    schematics.go:216: [SCHEMATICS] Creating TAR file
+    schematics.go:222: [SCHEMATICS] Uploading TAR file
+    schematics.go:310: [SCHEMATICS] Uploaded TAR to workspace: us-east.workspace.wp-da-gov.53f3770d
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job TAR_WORKSPACE_UPLOAD to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job TAR_WORKSPACE_UPLOAD is: COMPLETED
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Created plan job: 22c4fd54aad67b7209035e77e716df0d for workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:262: [SCHEMATICS] Starting UPGRADE PLAN job ...
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job PLAN to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job PLAN is: COMPLETED
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Created apply job: ee44a792128849ac9722bb953a2a83e5 for workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:295: [SCHEMATICS] Starting UPGRADE APPLY job ...
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job APPLY to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job APPLY is: COMPLETED
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Retrieved 13 outputs from workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:451: Performing Teardown
+    tests.go:452: Test Passed: true
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Created destroy job: 7cadeb14328bf074317805b13028795b for workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:457: [SCHEMATICS] Starting DESTROY job ...
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job DESTROY to complete: 1 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job DESTROY to complete: 2 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] ... still waiting for job DESTROY to complete: 3 minutes
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] The status of job DESTROY is: COMPLETED
+    tests.go:484: [SCHEMATICS] Deleting Workspace
+[32mINFO[0m: [32m[CloudInfoService][0m logger.go:937 [SCHEMATICS] Deleted workspace: us-east.workspace.wp-da-gov.53f3770d
+    tests.go:507: [SCHEMATICS] Removing temp directory for upgrade test: /var/folders/vh/syq93zks0k38v_dhpnypz4hm0000gn/T/terraform-base-wp-da-gov4177450103
+TestFullyConfigurableUpgrade 2026-02-27T16:04:36+05:30 pr_test.go:259: START: Destroy (prereq resources)
+TestFullyConfigurableUpgrade 2026-02-27T16:04:36+05:30 retry.go:91: terraform [destroy -auto-approve -input=false -var prefix=wp-da-4szr5z -var region=jp-tok -var resource_tags=[] -lock=false]
+TestFullyConfigurableUpgrade 2026-02-27T16:04:36+05:30 logger.go:67: Running command terraform with args [destroy -auto-approve -input=false -var prefix=wp-da-4szr5z -var region=jp-tok -var resource_tags=[] -lock=false]
+TestFullyConfigurableUpgrade 2026-02-27T16:04:37+05:30 logger.go:67: [0m[1mmodule.resource_group.ibm_resource_group.resource_group[0]: Refreshing state... [id=761b845a07194c37aa27b7b7c0e91d43][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:41+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Refreshing state... [id=crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:44+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Refreshing state... [id=2026-02-27T10:23:45Z][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:44+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile: Refreshing state... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:46+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0]: Refreshing state... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909|crn|crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:46+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"]: Refreshing state... [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/841d5eef-663f-4cd8-a9a5-d2a7f001bf76][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:46+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"]: Refreshing state... [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/657590b3-7bd7-40b7-8da4-0e024c54c09b][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:46+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0]: Refreshing state... [id=jp-tok/7a2427cf-8858-4611-8d3a-8173de5d5494][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:46+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"]: Refreshing state... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909/ClaimRule-711f301d-28f2-3860-a948-f61100780c8c][0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: Terraform used the selected providers to generate the following execution
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: plan. Resource actions are indicated with the following symbols:
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:   [31m-[0m destroy[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: Terraform will perform the following actions:
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_config_aggregator_settings" "config_aggregator_settings" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id                          = "jp-tok/7a2427cf-8858-4611-8d3a-8173de5d5494" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m instance_id                 = "7a2427cf-8858-4611-8d3a-8173de5d5494" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m region                      = "jp-tok" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_collection_enabled = true [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_collection_regions = [
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "all",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         ] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m trusted_profile_id          = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.ibm_resource_instance.app_config[0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_resource_instance" "app_config" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m account_id              = "abac0df06b644a9cabc6e44f55b3880e" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m allow_cleanup           = false [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m created_at              = "2026-02-27T10:23:02.995Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m created_by              = "IBMid-693000KKB0" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m crn                     = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m dashboard_url           = "https://jp-tok.apprapp.cloud.ibm.com/services/apprapp" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m extensions              = {} [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m guid                    = "7a2427cf-8858-4611-8d3a-8173de5d5494" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id                      = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m last_operation          = {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "async"       = "false"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "cancelable"  = "false"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "description" = "Completed create instance operation"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "poll"        = "false"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "state"       = "succeeded"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "type"        = "create"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         } [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m location                = "jp-tok" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m locked                  = false [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m name                    = "wp-da-4szr5z-app-config" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m onetime_credentials     = false [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m plan                    = "basic" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m plan_history            = [
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:               [31m-[0m[0m resource_plan_id = "2422d1ff-4972-4bba-b4e1-374115e383a1"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:               [31m-[0m[0m start_date       = "2026-02-27T10:23:02.995Z"
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:             },
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         ] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_aliases_url    = "/v2/resource_instances/7a2427cf-8858-4611-8d3a-8173de5d5494/resource_aliases" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_bindings_url   = "/v2/resource_instances/7a2427cf-8858-4611-8d3a-8173de5d5494/resource_bindings" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_controller_url = "https://cloud.ibm.com/services/" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_crn            = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_group_crn      = "crn:v1:bluemix:public:resource-controller::a/abac0df06b644a9cabc6e44f55b3880e::resource-group:761b845a07194c37aa27b7b7c0e91d43" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_group_id       = "761b845a07194c37aa27b7b7c0e91d43" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_group_name     = "crn:v1:bluemix:public:resource-controller::a/abac0df06b644a9cabc6e44f55b3880e::resource-group:761b845a07194c37aa27b7b7c0e91d43" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_id             = "apprapp-d6aece47-d840-45b0-8ab9-ad15354deeea" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_keys_url       = "/v2/resource_instances/7a2427cf-8858-4611-8d3a-8173de5d5494/resource_keys" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_name           = "wp-da-4szr5z-app-config" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_plan_id        = "2422d1ff-4972-4bba-b4e1-374115e383a1" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_status         = "active" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m service                 = "apprapp" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m service_endpoints       = "public-and-private" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m state                   = "active" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m status                  = "active" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m tags                    = [] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m target_crn              = "crn:v1:bluemix:public:globalcatalog::::deployment:2422d1ff-4972-4bba-b4e1-374115e383a1%3Ajp-tok87075" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m type                    = "service_instance" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m update_at               = "2026-02-27T10:23:03.494Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         [90m# (5 unchanged attributes hidden)[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.time_sleep.wait[0][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "time_sleep" "wait" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m create_duration = "30s" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id              = "2026-02-27T10:23:45Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.resource_group.ibm_resource_group.resource_group[0][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_resource_group" "resource_group" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m created_at        = "2026-02-27T10:22:55.905Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m crn               = "crn:v1:bluemix:public:resource-controller::a/abac0df06b644a9cabc6e44f55b3880e::resource-group:761b845a07194c37aa27b7b7c0e91d43" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m default           = false [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id                = "761b845a07194c37aa27b7b7c0e91d43" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m name              = "wp-da-4szr5z-resource-group" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m quota_id          = "a3d7b8d01e261c24677937c29ab33f3c" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m quota_url         = "/v2/quota_definitions/a3d7b8d01e261c24677937c29ab33f3c" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_linkages = [] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m state             = "ACTIVE" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m updated_at        = "2026-02-27T10:22:55.905Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile[0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_iam_trusted_profile" "profile" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m account_id     = "abac0df06b644a9cabc6e44f55b3880e" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m created_at     = "2026-02-27T10:23:00.000Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m crn            = "crn:v1:bluemix:public:iam-identity::a/abac0df06b644a9cabc6e44f55b3880e::profile:Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m description    = "Trusted Profile for App Configuration instance 7a2427cf-8858-4611-8d3a-8173de5d5494 with required access for configuration aggregator" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m entity_tag     = "1-9061bf29cee33e7c4dd909ceee6a854a" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m history        = [] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m iam_id         = "iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id             = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m ims_account_id = 2314088 [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m ims_user_id    = 15142372 [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m modified_at    = "2026-02-27T10:23:00.000Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m name           = "wp-da-4szr5z-app-config-tp" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m profile_id     = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_iam_trusted_profile_identity" "trust_identity" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id            = "Profile-2377faa1-5d02-4062-a9b1-f74449542909|crn|crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m identifier    = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m identity_type = "crn" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m profile_id    = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m type          = "crn" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_iam_trusted_profile_link" "link" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m cr_type     = "VSI" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m created_at  = "2026-02-27T10:23:00.000Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m entity_tag  = "1-c628fb2e67bf413e4d6d8313c64f4a9d" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id          = "Profile-2377faa1-5d02-4062-a9b1-f74449542909/ClaimRule-711f301d-28f2-3860-a948-f61100780c8c" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m link_id     = "ClaimRule-711f301d-28f2-3860-a948-f61100780c8c" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m modified_at = "2026-02-27T10:23:00.000Z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m profile_id  = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m link {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m crn            = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:             name           = [90mnull[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:             [90m# (3 unchanged attributes hidden)[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_iam_trusted_profile_policy" "policy" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m account_management = true [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m description        = "All Account Management Services" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m iam_id             = "iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id                 = "iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/841d5eef-663f-4cd8-a9a5-d2a7f001bf76" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m profile_id         = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m roles              = [
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "Viewer",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "Service Configuration Reader",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         ] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m transaction_id     = "6f6469801f0f46a6b24279fc7a0508aa" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1m  # module.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"][0m will be [1m[31mdestroyed[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m  [31m-[0m[0m resource "ibm_iam_trusted_profile_policy" "policy" {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m account_management = false [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m description        = "All Identity and Access enabled services" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m iam_id             = "iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m id                 = "iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/657590b3-7bd7-40b7-8da4-0e024c54c09b" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m profile_id         = "Profile-2377faa1-5d02-4062-a9b1-f74449542909" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m roles              = [
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "Viewer",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "Service Configuration Reader",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m "Reader",
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         ] [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m transaction_id     = "927737f61130452882c511bcf2e756cc" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:       [31m-[0m[0m resource_attributes {
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m name     = "serviceType" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m operator = "stringEquals" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:           [31m-[0m[0m value    = "service" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:         }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:     }
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [1mPlan:[0m 0 to add, 0 to change, 9 to destroy.
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: Changes to Outputs:
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:   [31m-[0m[0m app_config_crn      = "crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:   [31m-[0m[0m prefix              = "wp-da-4szr5z" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:   [31m-[0m[0m region              = "jp-tok" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67:   [31m-[0m[0m resource_group_name = "wp-da-4szr5z-resource-group" [90m-> null[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0]: Destroying... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909|crn|crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"]: Destroying... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909/ClaimRule-711f301d-28f2-3860-a948-f61100780c8c][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0]: Destroying... [id=jp-tok/7a2427cf-8858-4611-8d3a-8173de5d5494][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"]: Destroying... [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/657590b3-7bd7-40b7-8da4-0e024c54c09b][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"]: Destroying... [id=iam-Profile-2377faa1-5d02-4062-a9b1-f74449542909/841d5eef-663f-4cd8-a9a5-d2a7f001bf76][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_config_aggregator_settings.config_aggregator_settings[0]: Destruction complete after 0s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Destroying... [id=2026-02-27T10:23:45Z][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:49+05:30 logger.go:67: [0m[1mmodule.app_config.time_sleep.wait[0]: Destruction complete after 0s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:50+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_identity.trust_identity[0]: Destruction complete after 1s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:50+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_link.link["config-aggregator-trusted-profile-0-0"]: Destruction complete after 1s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:51+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-0"]: Destruction complete after 2s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:51+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile_policy.policy["config-aggregator-trusted-profile-1"]: Destruction complete after 2s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:51+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile: Destroying... [id=Profile-2377faa1-5d02-4062-a9b1-f74449542909][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:53+05:30 logger.go:67: [0m[1mmodule.app_config.module.config_aggregator_trusted_profile[0].ibm_iam_trusted_profile.profile: Destruction complete after 1s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:04:53+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Destroying... [id=crn:v1:bluemix:public:apprapp:jp-tok:a/abac0df06b644a9cabc6e44f55b3880e:7a2427cf-8858-4611-8d3a-8173de5d5494::][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:03+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Still destroying... [id=crn:v1:bluemix:public:apprapp:jp-tok:a/...7a2427cf-8858-4611-8d3a-8173de5d5494::, 10s elapsed][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:05+05:30 logger.go:67: [0m[1mmodule.app_config.ibm_resource_instance.app_config: Destruction complete after 12s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:05+05:30 logger.go:67: [0m[1mmodule.resource_group.ibm_resource_group.resource_group[0]: Destroying... [id=761b845a07194c37aa27b7b7c0e91d43][0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [0m[1mmodule.resource_group.ibm_resource_group.resource_group[0]: Destruction complete after 1s[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m╷[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m[1m[33mWarning: [0m[0m[1mRedundant ignore_changes element[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m[0m  on .terraform/modules/app_config.config_aggregator_trusted_profile_template/modules/trusted-profile-template/main.tf line 137, in resource "ibm_iam_trusted_profile_template_assignment" "account_settings_template_assignment_instance":
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m 137: resource [4m"ibm_iam_trusted_profile_template_assignment"[0m "account_settings_template_assignment_instance" {[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mAdding an attribute name to ignore_changes tells Terraform to ignore future
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mchanges to the argument in configuration after the object has been created,
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mretaining the value originally configured.
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mThe attribute resources is decided by the provider alone and therefore
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mthere can be no configured value to compare with. Including this attribute
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0min ignore_changes has no effect. Remove the attribute from ignore_changes
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m│[0m [0mto quiet this warning.
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [33m╵[0m[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [0m[1m[32m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Destroy complete! Resources: 9 destroyed.
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: wp-da-4szr5z
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67:   default
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: * wp-da-4szr5z
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace list]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67:   default
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: * wp-da-4szr5z
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: 
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace select default]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace select default]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [0m[32mSwitched to workspace "default".[0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace show]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: default
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 retry.go:91: terraform [workspace delete wp-da-4szr5z]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: Running command terraform with args [workspace delete wp-da-4szr5z]
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 logger.go:67: [0m[32mDeleted workspace "wp-da-4szr5z"![0m
+TestFullyConfigurableUpgrade 2026-02-27T16:05:06+05:30 pr_test.go:262: END: Destroy (prereq resources)
+--- PASS: TestFullyConfigurableUpgrade (760.36s)
+PASS
+ok  	github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection	762.176s

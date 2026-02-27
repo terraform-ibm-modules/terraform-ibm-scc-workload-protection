@@ -180,4 +180,10 @@ resource "restapi_object" "cspm" {
   # ignore_all_server_changes prevents the provider from detecting drift on
   # fields returned by the API that weren't in our original request.
   ignore_all_server_changes = true
+
+  lifecycle {
+    # Ignore changes to data when the JSON structure is functionally equivalent
+    # This prevents unnecessary updates when account_type is re-read during apply
+    ignore_changes = [data]
+  }
 }
