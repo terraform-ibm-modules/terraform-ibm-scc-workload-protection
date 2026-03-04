@@ -19,7 +19,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -45,14 +44,6 @@ var validRegions = []string{
 	"au-syd",
 }
 var permanentResources map[string]interface{}
-
-var ignoreUpdates = []string{
-	"module.scc_wp.module.account_type_check[0].terraform_data.install_required_binaries[0]",
-}
-
-var ignoreDestroys = []string{
-	"module.scc_wp.module.account_type_check[0].terraform_data.install_required_binaries[0]",
-}
 
 // getRandomRegion returns a random region from the validRegions slice using crypto/rand
 func getRandomRegion() string {
@@ -131,12 +122,6 @@ func TestFullyConfigurable(t *testing.T) {
 			WaitJobCompleteMinutes: 60,
 			Region:                 region,
 			TerraformVersion:       terraformVersion,
-			IgnoreUpdates: testhelper.Exemptions{ // Ignore for consistency check
-				List: ignoreUpdates,
-			},
-			IgnoreDestroys: testhelper.Exemptions{ // Ignore destroy/recreate actions
-				List: ignoreDestroys,
-			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -225,12 +210,6 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			CheckApplyResultForUpgrade: true,
 			Region:                     region,
 			TerraformVersion:           terraformVersion,
-			IgnoreUpdates: testhelper.Exemptions{ // Ignore for consistency check
-				List: ignoreUpdates,
-			},
-			IgnoreDestroys: testhelper.Exemptions{ // Ignore destroy/recreate actions
-				List: ignoreDestroys,
-			},
 		})
 
 		options.TerraformVars = []testschematic.TestSchematicTerraformVar{
