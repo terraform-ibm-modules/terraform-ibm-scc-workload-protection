@@ -9,7 +9,6 @@ resource "terraform_data" "install_required_binaries" {
 
   triggers_replace = {
     account_id = var.target_account_id
-    iam_token  = var.iam_token
   }
 
   provisioner "local-exec" {
