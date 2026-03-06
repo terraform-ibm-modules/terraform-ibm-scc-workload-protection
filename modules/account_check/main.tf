@@ -7,10 +7,6 @@ locals {
 data "external" "install_required_binaries" {
   count   = var.install_required_binaries ? 1 : 0
   program = ["/bin/bash", "${path.module}/../scripts/install-binaries.sh", local.binaries_path]
-  query = {
-    account_id = var.target_account_id
-    iam_token  = var.iam_token
-  }
 }
 
 data "external" "account_check" {
