@@ -4,21 +4,17 @@ locals {
   binaries_path = "/tmp"
 }
 
-resource "terraform_data" "install_required_binaries" {
-  count = var.install_required_binaries ? 1 : 0
-
-  triggers_replace = {
+data "external" "install_required_binaries" {
+  count   = var.install_required_binaries ? 1 : 0
+  program = ["/bin/bash", "${path.module}/../scripts/install-binaries.sh", local.binaries_path]
+  query = {
     account_id = var.target_account_id
-  }
-
-  provisioner "local-exec" {
-    command     = "${path.module}/../scripts/install-binaries.sh ${local.binaries_path}"
-    interpreter = ["/bin/bash", "-c"]
+    iam_token  = var.iam_token
   }
 }
 
 data "external" "account_check" {
-  depends_on = [terraform_data.install_required_binaries]
+  depends_on = [data.external.install_required_binaries]
   program    = ["/bin/bash", "${path.module}/../scripts/account-check.sh", local.binaries_path]
   query = {
     account_id = var.target_account_id

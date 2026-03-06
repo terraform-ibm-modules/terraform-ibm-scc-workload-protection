@@ -69,3 +69,6 @@ install_jq "latest" "${DIRECTORY}" "true"
 rm -rf "$TMP_DIR"
 
 echo "Installation complete successfully"
+
+# Output JSON for data "external" compatibility
+echo '{"status":"success"}'
