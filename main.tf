@@ -177,7 +177,7 @@ resource "restapi_object" "cspm" {
 
   # The API returns many server-generated fields that would otherwise cause drift detection.
   # ignore_server_additions ensures only fields present in `data` are watched for changes,
-  # while still detecting if the server modifies a field we explicitly configured.
+  # while still detecting if the server modifies a field we explicitly configured
   # See https://github.com/Mastercard/terraform-provider-restapi/pull/336
   ignore_server_additions = true
 }
