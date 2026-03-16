@@ -175,9 +175,9 @@ resource "restapi_object" "cspm" {
   read_method    = "GET"
   read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
-  # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
-  # The API returns many server-generated fields that cause drift detection.
-  # ignore_all_server_changes prevents the provider from detecting drift on
-  # fields returned by the API that weren't in our original request.
-  ignore_all_server_changes = true
+  # The API returns many server-generated fields that would otherwise cause drift detection.
+  # ignore_server_additions ensures only fields present in `data` are watched for changes,
+  # while still detecting if the server modifies a field we explicitly configured.
+  # See https://github.com/Mastercard/terraform-provider-restapi/pull/336
+  ignore_server_additions = true
 }
