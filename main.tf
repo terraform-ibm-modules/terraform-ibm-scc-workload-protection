@@ -179,5 +179,6 @@ resource "restapi_object" "cspm" {
   # The API returns many server-generated fields that cause drift detection.
   # ignore_all_server_changes prevents the provider from detecting drift on
   # fields returned by the API that weren't in our original request.
-  ignore_all_server_changes = true
+  #ignore_all_server_changes = true
+  ignore_server_additions = true
 }
