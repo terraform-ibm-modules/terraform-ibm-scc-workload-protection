@@ -81,21 +81,6 @@ variable "region" {
   type        = string
   default     = "us-south"
   description = "The region to provision all resources in. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services."
-  validation {
-    condition = contains(["us-south",
-      "us-east",
-      "eu-de",
-      "eu-es",
-      "eu-fr2",
-      "eu-gb",
-      "jp-osa",
-      "jp-tok",
-      "br-sao",
-      "ca-tor",
-      "au-syd",
-    ], var.region)
-    error_message = "Invalid region selected. Allowed values are `us-south` ,`us-east`, `eu-de`, `eu-es`, `eu-fr2`, `eu-gb`, `jp-osa`, `jp-tok`, `br-sao`, `ca-tor`, and `au-syd`."
-  }
 }
 
 variable "scc_workload_protection_instance_tags" {
