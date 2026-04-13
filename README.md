@@ -128,7 +128,7 @@ statement instead the previous block.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, < 3.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, <3.0.0 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=2.0.1, <3.0.0 |
 
 ### Modules
@@ -136,8 +136,8 @@ statement instead the previous block.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_account_type_check"></a> [account\_type\_check](#module\_account\_type\_check) | ./modules/account_check | n/a |
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.35.19 |
-| <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 3.2.20 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.36.0 |
+| <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 3.3.0 |
 
 ### Resources
 
