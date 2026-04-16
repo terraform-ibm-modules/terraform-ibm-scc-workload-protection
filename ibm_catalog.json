@@ -218,7 +218,7 @@
             }
           ],
           "schematics_env_values": {
-            "value": "[{\"name\": \"API_DATA_IS_SENSITIVE\",\"value\": \"true\",\"secure\": false,\"hidden\": true}]"
+            "value": "[{\"name\": \"TF_LOG\",\"value\": \"TRACE\",\"secure\": false,\"hidden\": false},{\"name\": \"TF_IGNORE\",\"value\": \"TRACE\",\"secure\": false,\"hidden\": false}]"
           },
           "configuration": [
             {
