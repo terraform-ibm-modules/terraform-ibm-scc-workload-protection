@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "cloud_monitoring" {
   source            = "terraform-ibm-modules/cloud-monitoring/ibm"
-  version           = "1.15.1"
+  version           = "1.15.3"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   instance_name     = "${var.prefix}-cm"
@@ -47,7 +47,7 @@ resource "ibm_is_vpc" "example_vpc" {
 ##############################################################################
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.36.0"
+  version          = "1.36.2"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone representing VPC"
   account_id       = local.account_id
@@ -64,12 +64,12 @@ module "cbr_zone" {
 # Create new App Config instance
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.16.1"
+  version                                = "1.18.0"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
   app_config_name                        = "${var.prefix}-app-config"
-  app_config_tags                        = var.resource_tags
+  resource_tags                          = var.resource_tags
   enable_config_aggregator               = true
   config_aggregator_trusted_profile_name = "${var.prefix}-app-config-tp"
 }

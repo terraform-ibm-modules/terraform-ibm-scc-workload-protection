@@ -15,12 +15,12 @@ module "resource_group" {
 
 module "app_config" {
   source                                                     = "terraform-ibm-modules/app-configuration/ibm"
-  version                                                    = "1.16.1"
+  version                                                    = "1.18.0"
   region                                                     = var.region
   resource_group_id                                          = module.resource_group.resource_group_id
   app_config_plan                                            = "basic"
   app_config_name                                            = "${var.prefix}-app-config"
-  app_config_tags                                            = var.resource_tags
+  resource_tags                                              = var.resource_tags
   enable_config_aggregator                                   = true
   config_aggregator_trusted_profile_name                     = "${var.prefix}-app-config-tp"
   config_aggregator_resource_collection_regions              = ["all"] # supports passing list of regions, or "all" for all regions
