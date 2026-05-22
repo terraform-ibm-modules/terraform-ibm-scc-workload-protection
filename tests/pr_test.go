@@ -2,6 +2,7 @@
 package test
 
 import (
+	"context"
 	"crypto/rand"
 	"fmt"
 	"log"
@@ -74,9 +75,9 @@ func TestFullyConfigurable(t *testing.T) {
 	// Provision App Config first
 	// ------------------------------------------------------------------------------------
 
-	prefix := fmt.Sprintf("wp-da-%s", strings.ToLower(random.UniqueId()))
+	prefix := fmt.Sprintf("wp-da-%s", strings.ToLower(random.UniqueID()))
 	realTerraformDir := existingResources
-	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, fmt.Sprintf(prefix+"-%s", strings.ToLower(random.UniqueId())))
+	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, fmt.Sprintf(prefix+"-%s", strings.ToLower(random.UniqueID())))
 	tags := common.GetTagsFromTravis()
 
 	// Verify ibmcloud_api_key variable is set
@@ -98,8 +99,8 @@ func TestFullyConfigurable(t *testing.T) {
 		Upgrade: true,
 	})
 
-	terraform.WorkspaceSelectOrNew(t, existingTerraformOptions, prefix)
-	_, existErr := terraform.InitAndApplyE(t, existingTerraformOptions)
+	terraform.WorkspaceSelectOrNewContext(t, context.Background(), existingTerraformOptions, prefix)
+	_, existErr := terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
 	if existErr != nil {
 		assert.True(t, existErr == nil, "Init and Apply of pre-req resources failed in TestFullyConfigurable test")
 	} else {
@@ -132,7 +133,7 @@ func TestFullyConfigurable(t *testing.T) {
 			{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
-			{Name: "app_config_crn", Value: terraform.Output(t, existingTerraformOptions, "app_config_crn"), DataType: "string"},
+			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
 			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicTest()
@@ -146,8 +147,8 @@ func TestFullyConfigurable(t *testing.T) {
 		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
 	} else {
 		logger.Log(t, "START: Destroy (prereq resources)")
-		terraform.Destroy(t, existingTerraformOptions)
-		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
+		terraform.DestroyContext(t, context.Background(), existingTerraformOptions)
+		terraform.WorkspaceDeleteContext(t, context.Background(), existingTerraformOptions, prefix)
 		logger.Log(t, "END: Destroy (prereq resources)")
 	}
 }
@@ -161,9 +162,9 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 	// Provision App Config first
 	// ------------------------------------------------------------------------------------
 
-	prefix := fmt.Sprintf("wp-da-%s", strings.ToLower(random.UniqueId()))
+	prefix := fmt.Sprintf("wp-da-%s", strings.ToLower(random.UniqueID()))
 	realTerraformDir := existingResources
-	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, fmt.Sprintf(prefix+"-%s", strings.ToLower(random.UniqueId())))
+	tempTerraformDir, _ := files.CopyTerraformFolderToTemp(realTerraformDir, fmt.Sprintf(prefix+"-%s", strings.ToLower(random.UniqueID())))
 	tags := common.GetTagsFromTravis()
 
 	// Verify ibmcloud_api_key variable is set
@@ -185,8 +186,8 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 		Upgrade: true,
 	})
 
-	terraform.WorkspaceSelectOrNew(t, existingTerraformOptions, prefix)
-	_, existErr := terraform.InitAndApplyE(t, existingTerraformOptions)
+	terraform.WorkspaceSelectOrNewContext(t, context.Background(), existingTerraformOptions, prefix)
+	_, existErr := terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
 	if existErr != nil {
 		assert.True(t, existErr == nil, "Init and Apply of pre-req resources failed in TestFullyConfigurable test")
 	} else {
@@ -220,7 +221,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			{Name: "scc_workload_protection_resource_key_tags", Value: options.Tags, DataType: "list(string)"},
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
-			{Name: "app_config_crn", Value: terraform.Output(t, existingTerraformOptions, "app_config_crn"), DataType: "string"},
+			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
 			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicUpgradeTest()
@@ -236,8 +237,8 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
 	} else {
 		logger.Log(t, "START: Destroy (prereq resources)")
-		terraform.Destroy(t, existingTerraformOptions)
-		terraform.WorkspaceDelete(t, existingTerraformOptions, prefix)
+		terraform.DestroyContext(t, context.Background(), existingTerraformOptions)
+		terraform.WorkspaceDeleteContext(t, context.Background(), existingTerraformOptions, prefix)
 		logger.Log(t, "END: Destroy (prereq resources)")
 	}
 }
@@ -245,6 +246,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 func TestAddonDefaultConfiguration(t *testing.T) {
 	t.Parallel()
 
+	t.Skip("Skipping this test temporarily because of IAM issues https://github.ibm.com/GoldenEye/issues/issues/18432")
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing:       t,
 		Prefix:        "scc-def",
