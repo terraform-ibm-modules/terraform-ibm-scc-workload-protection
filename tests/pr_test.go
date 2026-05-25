@@ -245,8 +245,6 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 
 func TestAddonDefaultConfiguration(t *testing.T) {
 	t.Parallel()
-
-	t.Skip("Skipping this test temporarily because of IAM issues https://github.ibm.com/GoldenEye/issues/issues/18432")
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
 		Testing:       t,
 		Prefix:        "scc-def",
