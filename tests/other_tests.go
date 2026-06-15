@@ -10,6 +10,7 @@ import (
 
 const advancedExampleDir = "examples/advanced"
 const basicExampleDir = "examples/basic"
+const cdrExampleDir = "examples/cdr"
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
@@ -35,6 +36,16 @@ func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "scc-wp-adv", advancedExampleDir)
+
+	output, err := options.RunTest()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunCDRExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "scc-wp-cdr", cdrExampleDir)
 
 	output, err := options.RunTest()
 	assert.Nil(t, err, "This should not have errored")

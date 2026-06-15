@@ -181,3 +181,77 @@ resource "restapi_object" "cspm" {
   # fields returned by the API that weren't in our original request.
   ignore_all_server_changes = true
 }
+
+################################################################
+# CDR (Cloud Detection and Response)
+################################################################
+
+# # Get Sysdig environment URL from the resource key endpoint
+locals {
+  # Extract the Sysdig environment URL from the endpoint
+  # Example: "https://us-south.monitoring.cloud.ibm.com" -> "us-south.monitoring.cloud.ibm.com"
+  sysdig_endpoint = var.cdr_enabled ? trimprefix(ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Endpoint"], "https://") : ""
+}
+
+# Create CDR infrastructure if enabled
+module "cdr" {
+  count  = var.cdr_enabled ? 1 : 0
+  source = "./modules/cdr"
+  
+  # IBM Cloud Authentication
+  ibmcloud_api_key    = var.ibmcloud_api_key
+  
+  region              = var.region
+  resource_group_id   = var.resource_group_id
+  resource_tags       = var.resource_tags
+
+  # IAM Service ID
+  iam_service_id_name = var.cdr_iam_service_id_name
+  iam_service_policy_name = var.cdr_iam_service_policy_name
+
+
+  # COS
+  cos_instance_name              = var.cdr_cos_instance_name
+  cos_bucket_name                = var.cdr_cos_bucket_name
+  cos_bucket_storage_class       = var.cdr_cos_bucket_storage_class
+  cos_plan                       = var.cdr_cos_plan
+  kms_encryption_enabled         = var.cdr_kms_encryption_enabled
+  kms_key_crn                    = var.cdr_kms_key_crn
+  skip_iam_authorization_policy  = var.cdr_skip_iam_authorization_policy
+
+  # Activity Tracker
+  atracker_target_name = var.cdr_atracker_target_name
+  atracker_route_name  = var.cdr_atracker_route_name
+  atracker_locations   = var.cdr_atracker_locations
+
+  # Trusted Profile
+  trusted_profile_name = var.cdr_trusted_profile_name
+
+  # SCC Workload Protection
+  target_account_id         = local.target_account_id
+  sysdig_environment_url    = local.sysdig_endpoint
+  workload_protection_crn   = ibm_resource_instance.scc_wp.crn
+  workload_protection_guid  = ibm_resource_instance.scc_wp.guid
+
+  # Code Engine
+  ce_project_name = var.cdr_ce_project_name
+  ce_app_name = var.cdr_ce_app_name
+  ce_app_min_scale    = var.cdr_ce_app_min_scale
+  ce_app_max_scale    = var.cdr_ce_app_max_scale
+  ce_app_cpu_limit    = var.cdr_ce_app_cpu_limit
+  ce_app_memory_limit = var.cdr_ce_app_memory_limit
+  ce_app_timeout      = var.cdr_ce_app_timeout
+  ce_run_service_account = var.cdr_ce_run_service_account
+  ce_api_secret_name = var.cdr_ce_api_secret_name
+  ce_icr_secret_name = var.cdr_ce_icr_secret_name
+
+  # COS Subscription
+  subscription_name = var.cdr_subscription_name
+  install_required_binaries = var.cdr_install_required_binaries
+
+  depends_on = [
+    ibm_resource_instance.scc_wp,
+    ibm_resource_key.scc_wp_resource_key,
+    restapi_object.cspm
+  ]
+}
