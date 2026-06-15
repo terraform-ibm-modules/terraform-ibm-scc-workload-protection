@@ -28,12 +28,6 @@ variable "resource_tags" {
   default     = ["env:test", "purpose:cdr-testing"]
 }
 
-variable "cdr_app_image" {
-  description = "Docker image for the CDR notification application"
-  type        = string
-  default     = "icr.io/ext/sysdig/cdr-notification-app:latest"
-}
-
 variable "cdr_atracker_target_name" {
   description = "Custom name for Activity Tracker target (optional)"
   type        = string

@@ -81,22 +81,22 @@ module "scc_wp_cdr" {
   resource_tags     = var.resource_tags
 
   # CSPM Configuration
-  cspm_enabled                              = true
-  app_config_crn                            = module.app_config.app_config_crn
+  cspm_enabled                                 = true
+  app_config_crn                               = module.app_config.app_config_crn
   scc_workload_protection_trusted_profile_name = "${var.prefix}-wp-trusted-profile"
 
   # CDR Configuration
-  cdr_enabled            = true
-  ibmcloud_api_key       = var.ibmcloud_api_key
-  cdr_cos_instance_name  = "${var.prefix}-cdr-cos-instance"
-  cdr_cos_bucket_name    = local.bucket_name
-  cdr_cos_bucket_storage_class  = "smart"
-  cdr_trusted_profile_name = "${var.prefix}-cdr-trusted-profile"
-  cdr_iam_service_id_name = "${var.prefix}-cdr-service-id"
-  cdr_ce_project_name = "${var.prefix}-cdr-ce-project"
-  cdr_atracker_locations = ["global"]
-  cdr_atracker_target_name = var.cdr_atracker_target_name
-  cdr_atracker_route_name  = var.cdr_atracker_route_name
+  cdr_enabled                       = true
+  ibmcloud_api_key                  = var.ibmcloud_api_key
+  cdr_cos_instance_name             = "${var.prefix}-cdr-cos-instance"
+  cdr_cos_bucket_name               = local.bucket_name
+  cdr_cos_bucket_storage_class      = "smart"
+  cdr_trusted_profile_name          = "${var.prefix}-cdr-trusted-profile"
+  cdr_iam_service_id_name           = "${var.prefix}-cdr-service-id"
+  cdr_ce_project_name               = "${var.prefix}-cdr-ce-project"
+  cdr_atracker_locations            = ["global"]
+  cdr_atracker_target_name          = var.cdr_atracker_target_name
+  cdr_atracker_route_name           = var.cdr_atracker_route_name
   cdr_kms_encryption_enabled        = true
   cdr_kms_key_crn                   = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
   cdr_skip_iam_authorization_policy = false

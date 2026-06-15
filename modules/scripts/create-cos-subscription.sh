@@ -39,7 +39,7 @@ log_error() {
 # Validate required environment variables
 validate_env_vars() {
     local missing_vars=()
-    
+
     [[ -z "${IBMCLOUD_API_KEY}" ]] && missing_vars+=("IBMCLOUD_API_KEY")
     [[ -z "${REGION}" ]] && missing_vars+=("REGION")
     [[ -z "${RESOURCE_GROUP}" ]] && missing_vars+=("RESOURCE_GROUP")
@@ -47,7 +47,7 @@ validate_env_vars() {
     [[ -z "${APP_NAME}" ]] && missing_vars+=("APP_NAME")
     [[ -z "${BUCKET_NAME}" ]] && missing_vars+=("BUCKET_NAME")
     [[ -z "${SUBSCRIPTION_NAME}" ]] && missing_vars+=("SUBSCRIPTION_NAME")
-    
+
     if [[ ${#missing_vars[@]} -gt 0 ]]; then
         log_error "Missing required environment variables: ${missing_vars[*]}"
         exit 1
@@ -59,21 +59,21 @@ ibmcloud_login() {
     log_info "Logging in to IBM Cloud..."
     local max_attempts=3
     local attempt=1
-    
+
     while [ $attempt -le $max_attempts ]; do
         log_info "Login attempt ${attempt}/${max_attempts}..."
         if ibmcloud login --apikey "${IBMCLOUD_API_KEY}" -r "${REGION}" -g "${RESOURCE_GROUP}" --quiet; then
             log_info "Login successful"
             return 0
         fi
-        
+
         if [ $attempt -lt $max_attempts ]; then
             log_warn "Login failed. Retrying in 3 seconds..."
             sleep 3
         fi
         attempt=$((attempt + 1))
     done
-    
+
     log_error "Failed to login to IBM Cloud after ${max_attempts} attempts"
     exit 1
 }
@@ -102,7 +102,7 @@ create_subscription() {
     log_info "  Destination: ${APP_NAME} (app)"
     log_info "  Bucket: ${BUCKET_NAME}"
     log_info "  Event type: write"
-    
+
     if ! ibmcloud ce subscription cos create \
         --name "${SUBSCRIPTION_NAME}" \
         --destination "${APP_NAME}" \
@@ -112,25 +112,25 @@ create_subscription() {
         log_error "Failed to create COS subscription"
         exit 1
     fi
-    
+
     log_info "Subscription created successfully"
 }
 
 # Main execution
 main() {
     log_info "Starting Code Engine COS subscription creation..."
-    
+
     validate_env_vars
     ibmcloud_login
     select_project
-    
+
     if subscription_exists; then
         log_warn "Subscription '${SUBSCRIPTION_NAME}' already exists. Skipping creation."
         log_info "To update the subscription, delete it first and re-run this script."
     else
         create_subscription
     fi
-    
+
     log_info "Script completed successfully"
 }
 

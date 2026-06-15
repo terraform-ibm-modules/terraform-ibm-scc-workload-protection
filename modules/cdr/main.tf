@@ -10,8 +10,8 @@
 
 locals {
   # Build the Sysdig ingestion URL from environment URL and service ID
-  ingestion_url = "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${module.cdr_service_id.service_id}"
-  binaries_path = "/tmp"
+  ingestion_url    = "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${module.cdr_service_id.service_id}"
+  binaries_path    = "/tmp"
   cdr_ce_app_image = "icr.io/ext/sysdig/cdr-notification-app:latest"
 }
 
@@ -264,7 +264,7 @@ resource "terraform_data" "cdr_cos_subscription" {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/../scripts/create-cos-subscription.sh ${local.binaries_path}"
+    command     = "${path.module}/../scripts/create-cos-subscription.sh ${local.binaries_path}"
     interpreter = ["/bin/bash", "-c"]
     environment = {
       IBMCLOUD_API_KEY  = self.triggers_replace.ibmcloud_api_key
@@ -278,8 +278,8 @@ resource "terraform_data" "cdr_cos_subscription" {
   }
 
   provisioner "local-exec" {
-    when    = destroy
-    command = "${path.module}/../scripts/delete-cos-subscription.sh ${self.triggers_replace.binaries_path}"
+    when        = destroy
+    command     = "${path.module}/../scripts/delete-cos-subscription.sh ${self.triggers_replace.binaries_path}"
     interpreter = ["/bin/bash", "-c"]
     environment = {
       IBMCLOUD_API_KEY  = self.triggers_replace.ibmcloud_api_key
@@ -305,7 +305,7 @@ resource "terraform_data" "cdr_cos_subscription" {
 # CDR can only be enabled after the infrastructure exists
 # Similar to CSPM, we use REST API to configure CDR
 resource "restapi_object" "cdr" {
-  path  = "/v2/resource_instances/${var.workload_protection_guid}"
+  path = "/v2/resource_instances/${var.workload_protection_guid}"
 
   data = jsonencode({
     parameters = {
@@ -334,5 +334,5 @@ resource "restapi_object" "cdr" {
   # fields returned by the API that weren't in our original request.
   ignore_all_server_changes = true
 
-  depends_on = [ terraform_data.cdr_cos_subscription ]
+  depends_on = [terraform_data.cdr_cos_subscription]
 }

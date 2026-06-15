@@ -131,8 +131,8 @@ variable "atracker_locations" {
 ##############################################################################
 
 variable "trusted_profile_name" {
- type = string
- description = "The trusted profile for Workload Protection interaction with cloud object storage bucket." 
+  type        = string
+  description = "The trusted profile for Workload Protection interaction with cloud object storage bucket."
 }
 
 ##############################################################################

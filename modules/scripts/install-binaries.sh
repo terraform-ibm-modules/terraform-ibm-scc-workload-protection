@@ -62,6 +62,7 @@ rm -f "${TMP_DIR}/common-bash.tar.gz"
 # The file doesn't exist at the time shellcheck runs, so this check is skipped.
 # shellcheck disable=SC1091,SC1090
 source "${TMP_DIR}/common-bash-library-${TAG#v}/common/common.sh"
+# shellcheck disable=SC1091,SC1090
 source "${TMP_DIR}/common-bash-library-${TAG#v}/ibmcloud/cli.sh"
 
 echo "Installing jq." >&2
