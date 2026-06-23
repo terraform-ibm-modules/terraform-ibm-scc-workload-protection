@@ -54,7 +54,7 @@ resource "ibm_resource_key" "scc_wp_resource_key" {
   name                 = var.resource_key_name
   resource_instance_id = ibm_resource_instance.scc_wp.id
   role                 = "Manager"
-  tags                 = var.resource_key_tags
+  tags                 = var.resource_tags
 }
 
 ##############################################################################
@@ -62,6 +62,7 @@ resource "ibm_resource_key" "scc_wp_resource_key" {
 ##############################################################################
 
 resource "ibm_resource_tag" "scc_wp_access_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tag] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
   count       = length(var.access_tags) == 0 ? 0 : 1
   resource_id = ibm_resource_instance.scc_wp.id
   tags        = var.access_tags

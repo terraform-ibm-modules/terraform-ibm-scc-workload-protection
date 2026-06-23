@@ -32,7 +32,7 @@ module "scc_wp" {
   resource_group_id                            = module.resource_group.resource_group_id
   resource_tags                                = var.scc_workload_protection_instance_tags
   resource_key_name                            = local.scc_workload_protection_resource_key_name
-  resource_key_tags                            = var.scc_workload_protection_resource_key_tags
+  resource_tags = var.scc_workload_protection_resource_key_tags
   cloud_monitoring_instance_crn                = var.existing_monitoring_crn
   access_tags                                  = var.scc_workload_protection_access_tags
   scc_wp_service_plan                          = var.scc_workload_protection_service_plan
