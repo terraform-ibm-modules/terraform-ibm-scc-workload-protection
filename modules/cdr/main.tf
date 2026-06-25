@@ -241,7 +241,13 @@ resource "ibm_iam_authorization_policy" "ce_to_cos" {
 resource "terraform_data" "install_required_binaries" {
   count = var.install_required_binaries ? 1 : 0
   triggers_replace = {
-    script_hash = filesha256("${path.module}/../scripts/install-binaries.sh")
+        region            = var.region
+    resource_group    = var.resource_group_id
+    project_id        = module.code_engine_project.project_id
+    app_name          = module.code_engine_app.name
+    bucket_name       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+    subscription_name = var.subscription_name
+    binaries_path     = local.binaries_path
   }
   provisioner "local-exec" {
     command     = "${path.module}/../scripts/install-binaries.sh ${local.binaries_path}"
