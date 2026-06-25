@@ -52,7 +52,7 @@ variable "resource_key_name" {
   default     = "SCCWPManagerKey"
 }
 
-variable "resource_tags" {
+variable "resource_key_tags" {
   type        = list(string)
   description = "Tags associated with the IBM Cloud SCC WP resource key."
   default     = []
