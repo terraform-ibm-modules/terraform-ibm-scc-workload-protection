@@ -61,7 +61,14 @@ resource "ibm_resource_key" "scc_wp_resource_key" {
 # Attach Access Tags
 ##############################################################################
 
+# Check whether access tags are valid and exist in the account
+data "ibm_iam_access_tag" "access_tags" {
+  for_each = toset(var.access_tags)
+  name     = each.value
+}
+
 resource "ibm_resource_tag" "scc_wp_access_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tags] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
   count       = length(var.access_tags) == 0 ? 0 : 1
   resource_id = ibm_resource_instance.scc_wp.id
   tags        = var.access_tags
