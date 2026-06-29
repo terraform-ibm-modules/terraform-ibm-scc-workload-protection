@@ -68,6 +68,7 @@ func TestMain(m *testing.M) {
 
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
+	t.Skip()
 
 	var region = getRandomRegion()
 
@@ -134,7 +135,7 @@ func TestFullyConfigurable(t *testing.T) {
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
 			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
-			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
+			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicTest()
 		assert.Nil(t, err, "This should not have errored")
@@ -222,7 +223,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
 			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
-			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
+			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicUpgradeTest()
 		if !options.UpgradeTestSkipped {

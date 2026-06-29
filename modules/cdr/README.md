@@ -113,10 +113,11 @@ You need the following permissions to run this module:
 | <a name="input_atracker_locations"></a> [atracker\_locations](#input\_atracker\_locations) | List of locations to route Activity Tracker events from. Use ['*'] for all locations. Ensure that the route rule includes the `global` location in addition to your deployment region. | `list(string)` | <pre>[<br/>  "global"<br/>]</pre> | no |
 | <a name="input_atracker_route_name"></a> [atracker\_route\_name](#input\_atracker\_route\_name) | Name of the Activity Tracker route. | `string` | `null` | no |
 | <a name="input_atracker_target_name"></a> [atracker\_target\_name](#input\_atracker\_target\_name) | Name of the Activity Tracker target. | `string` | `null` | no |
+| <a name="input_cdr_ce_app_image"></a> [cdr\_ce\_app\_image](#input\_cdr\_ce\_app\_image) | The CDR notification application image hosted in IBM Cloud Container Registry. | `string` | `"icr.io/ext/sysdig/cdr-notification-app:latest"` | no |
 | <a name="input_ce_api_secret_name"></a> [ce\_api\_secret\_name](#input\_ce\_api\_secret\_name) | The name of the secret for the Code Engine application. | `string` | `"cdr-api-secret"` | no |
-| <a name="input_ce_app_cpu_limit"></a> [ce\_app\_cpu\_limit](#input\_ce\_app\_cpu\_limit) | CPU limit for Code Engine app | `string` | `"0.125"` | no |
+| <a name="input_ce_app_cpu"></a> [ce\_app\_cpu](#input\_ce\_app\_cpu) | CPU limit for Code Engine app | `string` | `"0.125"` | no |
 | <a name="input_ce_app_max_scale"></a> [ce\_app\_max\_scale](#input\_ce\_app\_max\_scale) | Maximum number of instances for Code Engine app | `number` | `10` | no |
-| <a name="input_ce_app_memory_limit"></a> [ce\_app\_memory\_limit](#input\_ce\_app\_memory\_limit) | Memory limit for Code Engine app | `string` | `"500M"` | no |
+| <a name="input_ce_app_memory"></a> [ce\_app\_memory](#input\_ce\_app\_memory) | Memory limit for Code Engine app | `string` | `"500M"` | no |
 | <a name="input_ce_app_min_scale"></a> [ce\_app\_min\_scale](#input\_ce\_app\_min\_scale) | Minimum number of instances for Code Engine app. Set to 1 to ensure the app is always ready to receive Object Storage events. | `number` | `1` | no |
 | <a name="input_ce_app_name"></a> [ce\_app\_name](#input\_ce\_app\_name) | The name of the Code Engine application for CDR. | `string` | `"ce-cdr-app"` | no |
 | <a name="input_ce_app_timeout"></a> [ce\_app\_timeout](#input\_ce\_app\_timeout) | Request timeout in seconds for Code Engine app | `number` | `60` | no |
@@ -134,6 +135,7 @@ You need the following permissions to run this module:
 | <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Enable KMS encryption for the COS bucket | `bool` | `false` | no |
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | CRN of the KMS key to use for bucket encryption. Required if kms\_encryption\_enabled is true | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where CDR resources will be deployed | `string` | n/a | yes |
+| <a name="input_resource_controller_endpoint"></a> [resource\_controller\_endpoint](#input\_resource\_controller\_endpoint) | The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account. | `string` | `"resource-controller.cloud.ibm.com"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID in which CDR resources will be provisioned | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to CDR resources | `list(string)` | `[]` | no |
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance to read the encryption key from the KMS instance | `bool` | `true` | no |
@@ -151,7 +153,7 @@ You need the following permissions to run this module:
 | <a name="output_atracker_route_id"></a> [atracker\_route\_id](#output\_atracker\_route\_id) | ID of the Activity Tracker route |
 | <a name="output_atracker_target_crn"></a> [atracker\_target\_crn](#output\_atracker\_target\_crn) | CRN of the Activity Tracker target |
 | <a name="output_atracker_target_id"></a> [atracker\_target\_id](#output\_atracker\_target\_id) | ID of the Activity Tracker target |
-| <a name="output_cdr_ingestion_url"></a> [cdr\_ingestion\_url](#output\_cdr\_ingestion\_url) | Sysdig ingestion URL for CDR events |
+| <a name="output_cdr_ingestion_endpoint"></a> [cdr\_ingestion\_endpoint](#output\_cdr\_ingestion\_endpoint) | Sysdig ingestion URL for CDR events |
 | <a name="output_code_engine_app"></a> [code\_engine\_app](#output\_code\_engine\_app) | Code Engine app details for CDR |
 | <a name="output_code_engine_app_url"></a> [code\_engine\_app\_url](#output\_code\_engine\_app\_url) | URL of the Code Engine app |
 | <a name="output_code_engine_project_id"></a> [code\_engine\_project\_id](#output\_code\_engine\_project\_id) | ID of the Code Engine project |

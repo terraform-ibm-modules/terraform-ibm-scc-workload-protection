@@ -154,7 +154,7 @@ module "trusted_profile_scc_wp" {
 # hence we cannot directly enable CSPM in the instance creation
 # and need to use a separate resource to enable it
 resource "restapi_object" "cspm" {
-  path = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+  path = "//${var.resource_controller_endpoint}/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
   data = jsonencode({
     parameters = {
@@ -173,7 +173,7 @@ resource "restapi_object" "cspm" {
   update_method  = "PATCH"
   destroy_method = "PATCH"
   read_method    = "GET"
-  read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+  read_path      = "//${var.resource_controller_endpoint}/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
   # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
   # The API returns many server-generated fields that cause drift detection.
@@ -236,10 +236,11 @@ module "cdr" {
   # Code Engine
   ce_project_name        = var.cdr_ce_project_name
   ce_app_name            = var.cdr_ce_app_name
+  cdr_ce_app_image       = var.cdr_ce_app_image
   ce_app_min_scale       = var.cdr_ce_app_min_scale
   ce_app_max_scale       = var.cdr_ce_app_max_scale
-  ce_app_cpu_limit       = var.cdr_ce_app_cpu_limit
-  ce_app_memory_limit    = var.cdr_ce_app_memory_limit
+  ce_app_cpu             = var.cdr_ce_app_cpu
+  ce_app_memory          = var.cdr_ce_app_memory
   ce_app_timeout         = var.cdr_ce_app_timeout
   ce_run_service_account = var.cdr_ce_run_service_account
   ce_api_secret_name     = var.cdr_ce_api_secret_name
@@ -248,6 +249,9 @@ module "cdr" {
   # COS Subscription
   subscription_name         = var.cdr_subscription_name
   install_required_binaries = var.cdr_install_required_binaries
+
+  # Enable CDR
+  resource_controller_endpoint = var.resource_controller_endpoint
 
   depends_on = [
     ibm_resource_instance.scc_wp,

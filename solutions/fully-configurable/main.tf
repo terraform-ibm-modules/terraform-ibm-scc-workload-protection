@@ -25,6 +25,11 @@ module "resource_group" {
 # SCC Workload Protection
 #######################################################################################################################
 
+locals {
+  # TODO: When Schematics re-platform and add support for VPE, we can change this default to be "private.resource-controller.cloud.ibm.com"
+  resource_controller_endpoint = var.provider_visibility == "private" ? "private.us-south.${var.ibmcloud_resource_controller_api_endpoint}" : var.ibmcloud_resource_controller_api_endpoint
+}
+
 module "scc_wp" {
   source                                       = "../.."
   name                                         = local.scc_workload_protection_instance_name
@@ -40,4 +45,5 @@ module "scc_wp" {
   cspm_enabled                                 = var.cspm_enabled
   app_config_crn                               = var.app_config_crn
   scc_workload_protection_trusted_profile_name = local.scc_workload_protection_trusted_profile_name
+  resource_controller_endpoint                 = local.resource_controller_endpoint
 }

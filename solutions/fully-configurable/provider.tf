@@ -9,13 +9,21 @@ provider "ibm" {
   private_endpoint_type = (var.provider_visibility == "private" && var.region == "ca-mon") ? "vpe" : null
 }
 
-data "ibm_iam_auth_token" "auth_token" {}
+data "ibm_iam_auth_token" "token_data" {
+}
 
-# Null resource replaced with restapi_object to enable CSPM
+# Data source to account settings
+data "ibm_iam_account_settings" "iam_account_settings" {
+}
+
 provider "restapi" {
-  uri = var.ibmcloud_resource_controller_api_endpoint
+  uri                   = "https:"
+  write_returns_object  = true
+  create_returns_object = false
+  debug                 = false # set to true to show detailed logs, but use carefully as it might print sensitive values.
   headers = {
-    Authorization = data.ibm_iam_auth_token.auth_token.iam_access_token
+    Account       = data.ibm_iam_account_settings.iam_account_settings.account_id
+    Authorization = data.ibm_iam_auth_token.token_data.iam_access_token
+    Content-Type  = "application/json"
   }
-  write_returns_object = true
 }

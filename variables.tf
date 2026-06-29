@@ -134,6 +134,17 @@ variable "scc_workload_protection_trusted_profile_name" {
   }
 }
 
+variable "resource_controller_endpoint" {
+  type        = string
+  description = "The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account."
+  default     = "resource-controller.cloud.ibm.com"
+
+  validation {
+    condition     = can(regex("^(private.(us-east|us-south).)?resource-controller.cloud.ibm.com$", var.resource_controller_endpoint))
+    error_message = "The endpoint must match the resource controller domain (e.g., resource-controller.cloud.ibm.com or its private us-east/us-south variants)."
+  }
+}
+
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################
@@ -283,6 +294,13 @@ variable "cdr_ce_app_name" {
   default     = "ce-cdr-app"
 }
 
+variable "cdr_ce_app_image" {
+  description = "The CDR notification application image hosted in IBM Cloud Container Registry."
+  type        = string
+  default     = "icr.io/ext/sysdig/cdr-notification-app:latest"
+
+}
+
 variable "cdr_ce_app_min_scale" {
   description = "Minimum number of instances for Code Engine app. Set to 1 to ensure the app is always ready to receive Object Storage events."
   type        = number
@@ -303,22 +321,22 @@ variable "cdr_ce_app_max_scale" {
   }
 }
 
-variable "cdr_ce_app_cpu_limit" {
+variable "cdr_ce_app_cpu" {
   description = "CPU limit for Code Engine app"
   type        = string
   default     = "0.125"
   validation {
-    condition     = contains(["0.125", "0.25", "0.5", "1", "2", "4", "6", "8"], var.cdr_ce_app_cpu_limit)
+    condition     = contains(["0.125", "0.25", "0.5", "1", "2", "4", "6", "8"], var.cdr_ce_app_cpu)
     error_message = "CPU limit must be one of: 0.125, 0.25, 0.5, 1, 2, 4, 6, 8"
   }
 }
 
-variable "cdr_ce_app_memory_limit" {
+variable "cdr_ce_app_memory" {
   description = "Memory limit for Code Engine app"
   type        = string
   default     = "500M"
   validation {
-    condition     = can(regex("^[0-9]+(M|G)$", var.cdr_ce_app_memory_limit))
+    condition     = can(regex("^[0-9]+(M|G)$", var.cdr_ce_app_memory))
     error_message = "Memory limit must be in format like '500M' or '1G'"
   }
 }

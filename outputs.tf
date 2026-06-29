@@ -136,9 +136,9 @@ output "cdr_code_engine_app_url" {
   value       = var.cdr_enabled ? module.cdr[0].code_engine_app_url : null
 }
 
-output "cdr_ingestion_url" {
+output "cdr_ingestion_endpoint" {
   description = "Sysdig ingestion URL for CDR events"
-  value       = var.cdr_enabled ? module.cdr[0].cdr_ingestion_url : null
+  value       = var.cdr_enabled ? module.cdr[0].cdr_ingestion_endpoint : null
   sensitive   = true
 }
 

@@ -109,9 +109,9 @@ output "code_engine_app_url" {
 # CDR Configuration Outputs
 ##############################################################################
 
-output "cdr_ingestion_url" {
+output "cdr_ingestion_endpoint" {
   description = "Sysdig ingestion URL for CDR events"
-  value       = local.ingestion_url
+  value       = local.cdr_ingestion_endpoint
   sensitive   = true
 }
 

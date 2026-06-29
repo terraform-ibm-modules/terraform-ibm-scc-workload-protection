@@ -69,7 +69,7 @@ data "ibm_iam_auth_token" "auth_token" {}
 
 provider "restapi" {
   # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
-  uri = "https://resource-controller.cloud.ibm.com"
+  uri = "https:"
   headers = {
     Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
   }
@@ -166,9 +166,10 @@ statement instead the previous block.
 | <a name="input_cdr_atracker_route_name"></a> [cdr\_atracker\_route\_name](#input\_cdr\_atracker\_route\_name) | Name of the Activity Tracker route. | `string` | `null` | no |
 | <a name="input_cdr_atracker_target_name"></a> [cdr\_atracker\_target\_name](#input\_cdr\_atracker\_target\_name) | Name of the Activity Tracker target. | `string` | `null` | no |
 | <a name="input_cdr_ce_api_secret_name"></a> [cdr\_ce\_api\_secret\_name](#input\_cdr\_ce\_api\_secret\_name) | The name of the secret for the Code Engine application. | `string` | `"cdr-api-secret"` | no |
-| <a name="input_cdr_ce_app_cpu_limit"></a> [cdr\_ce\_app\_cpu\_limit](#input\_cdr\_ce\_app\_cpu\_limit) | CPU limit for Code Engine app | `string` | `"0.125"` | no |
+| <a name="input_cdr_ce_app_cpu"></a> [cdr\_ce\_app\_cpu](#input\_cdr\_ce\_app\_cpu) | CPU limit for Code Engine app | `string` | `"0.125"` | no |
+| <a name="input_cdr_ce_app_image"></a> [cdr\_ce\_app\_image](#input\_cdr\_ce\_app\_image) | The CDR notification application image hosted in IBM Cloud Container Registry. | `string` | `"icr.io/ext/sysdig/cdr-notification-app:latest"` | no |
 | <a name="input_cdr_ce_app_max_scale"></a> [cdr\_ce\_app\_max\_scale](#input\_cdr\_ce\_app\_max\_scale) | Maximum number of instances for Code Engine app | `number` | `10` | no |
-| <a name="input_cdr_ce_app_memory_limit"></a> [cdr\_ce\_app\_memory\_limit](#input\_cdr\_ce\_app\_memory\_limit) | Memory limit for Code Engine app | `string` | `"500M"` | no |
+| <a name="input_cdr_ce_app_memory"></a> [cdr\_ce\_app\_memory](#input\_cdr\_ce\_app\_memory) | Memory limit for Code Engine app | `string` | `"500M"` | no |
 | <a name="input_cdr_ce_app_min_scale"></a> [cdr\_ce\_app\_min\_scale](#input\_cdr\_ce\_app\_min\_scale) | Minimum number of instances for Code Engine app. Set to 1 to ensure the app is always ready to receive Object Storage events. | `number` | `1` | no |
 | <a name="input_cdr_ce_app_name"></a> [cdr\_ce\_app\_name](#input\_cdr\_ce\_app\_name) | The name of the Code Engine application for CDR. | `string` | `"ce-cdr-app"` | no |
 | <a name="input_cdr_ce_app_timeout"></a> [cdr\_ce\_app\_timeout](#input\_cdr\_ce\_app\_timeout) | Request timeout in seconds for Code Engine app | `number` | `60` | no |
@@ -193,6 +194,7 @@ statement instead the previous block.
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | IBM Cloud API key for authenticating with IBM Cloud services. Required for CDR functionality. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the SCC Workload Protection instance that will be provisioned by this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed | `string` | `"us-south"` | no |
+| <a name="input_resource_controller_endpoint"></a> [resource\_controller\_endpoint](#input\_resource\_controller\_endpoint) | The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account. | `string` | `"resource-controller.cloud.ibm.com"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name to give the IBM Cloud SCC WP resource key. | `string` | `"SCCWPManagerKey"` | no |
 | <a name="input_resource_key_tags"></a> [resource\_key\_tags](#input\_resource\_key\_tags) | Tags associated with the IBM Cloud SCC WP resource key. | `list(string)` | `[]` | no |
@@ -220,7 +222,7 @@ statement instead the previous block.
 | <a name="output_cdr_cos_instance_crn"></a> [cdr\_cos\_instance\_crn](#output\_cdr\_cos\_instance\_crn) | CRN of the COS instance created for CDR |
 | <a name="output_cdr_cos_instance_guid"></a> [cdr\_cos\_instance\_guid](#output\_cdr\_cos\_instance\_guid) | GUID of the COS instance created for CDR |
 | <a name="output_cdr_cos_instance_id"></a> [cdr\_cos\_instance\_id](#output\_cdr\_cos\_instance\_id) | ID of the COS instance created for CDR |
-| <a name="output_cdr_ingestion_url"></a> [cdr\_ingestion\_url](#output\_cdr\_ingestion\_url) | Sysdig ingestion URL for CDR events |
+| <a name="output_cdr_ingestion_endpoint"></a> [cdr\_ingestion\_endpoint](#output\_cdr\_ingestion\_endpoint) | Sysdig ingestion URL for CDR events |
 | <a name="output_cdr_service_api_key"></a> [cdr\_service\_api\_key](#output\_cdr\_service\_api\_key) | API key for CDR service authentication |
 | <a name="output_cdr_service_id"></a> [cdr\_service\_id](#output\_cdr\_service\_id) | IAM ID of the service ID created for CDR |
 | <a name="output_cdr_service_id_crn"></a> [cdr\_service\_id\_crn](#output\_cdr\_service\_id\_crn) | CRN of the service ID created for CDR |

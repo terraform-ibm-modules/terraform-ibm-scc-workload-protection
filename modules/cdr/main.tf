@@ -10,9 +10,8 @@
 
 locals {
   # Build the Sysdig ingestion URL from environment URL and service ID
-  ingestion_url    = "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${module.cdr_service_id.service_id}"
-  binaries_path    = "/tmp"
-  cdr_ce_app_image = "icr.io/ext/sysdig/cdr-notification-app:latest"
+  cdr_ingestion_endpoint = "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${module.cdr_service_id.service_id}"
+  binaries_path          = "/tmp"
 }
 
 ##############################################################################
@@ -189,12 +188,12 @@ module "code_engine_app" {
   version               = "4.9.6"
   name                  = var.ce_app_name
   project_id            = module.code_engine_project.project_id
-  image_reference       = local.cdr_ce_app_image
+  image_reference       = var.cdr_ce_app_image
   image_secret          = var.ce_icr_secret_name
   scale_min_instances   = var.ce_app_min_scale
   scale_max_instances   = var.ce_app_max_scale
-  scale_cpu_limit       = var.ce_app_cpu_limit
-  scale_memory_limit    = var.ce_app_memory_limit
+  scale_cpu_limit       = var.ce_app_cpu
+  scale_memory_limit    = var.ce_app_memory
   scale_request_timeout = var.ce_app_timeout
   run_service_account   = var.ce_run_service_account
   run_env_variables = [
@@ -211,7 +210,7 @@ module "code_engine_app" {
     {
       name  = "FORWARD_URL"
       type  = "literal"
-      value = local.ingestion_url
+      value = local.cdr_ingestion_endpoint
     },
     {
       name      = "API_KEY"
@@ -241,7 +240,7 @@ resource "ibm_iam_authorization_policy" "ce_to_cos" {
 resource "terraform_data" "install_required_binaries" {
   count = var.install_required_binaries ? 1 : 0
   triggers_replace = {
-        region            = var.region
+    region            = var.region
     resource_group    = var.resource_group_id
     project_id        = module.code_engine_project.project_id
     app_name          = module.code_engine_app.name
@@ -311,7 +310,7 @@ resource "terraform_data" "cdr_cos_subscription" {
 # CDR can only be enabled after the infrastructure exists
 # Similar to CSPM, we use REST API to configure CDR
 resource "restapi_object" "cdr" {
-  path = "/v2/resource_instances/${var.workload_protection_guid}"
+  path = "//${var.resource_controller_endpoint}/v2/resource_instances/${var.workload_protection_guid}"
 
   data = jsonencode({
     parameters = {
@@ -322,7 +321,7 @@ resource "restapi_object" "cdr" {
           cdr_bucket_name        = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
           cdr_trusted_profile_id = module.cdr_trusted_profile.profile_id
           cdr_service_id         = module.cdr_service_id.service_id
-          cdr_ingestion_url      = local.ingestion_url
+          cdr_ingestion_url      = local.cdr_ingestion_endpoint
           account_id             = var.target_account_id
         }
       ]
@@ -332,7 +331,7 @@ resource "restapi_object" "cdr" {
   update_method  = "PATCH"
   destroy_method = "PATCH"
   read_method    = "GET"
-  read_path      = "/v2/resource_instances/${var.workload_protection_guid}"
+  read_path      = "//${var.resource_controller_endpoint}/v2/resource_instances/${var.workload_protection_guid}"
 
   # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
   # The API returns many server-generated fields that cause drift detection.
