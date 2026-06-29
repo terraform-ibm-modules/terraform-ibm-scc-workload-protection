@@ -3,18 +3,19 @@ module github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection
 go 1.26.1
 
 require (
-	github.com/gruntwork-io/terratest v1.0.0
+	github.com/gruntwork-io/terratest v1.0.1
 	github.com/stretchr/testify v1.11.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.71.5
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.76.2
 )
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20250818082648-8ebc393b4b26 // indirect
-	github.com/IBM-Cloud/power-go-client v1.15.0 // indirect
+	github.com/IBM-Cloud/power-go-client v1.16.2 // indirect
 	github.com/IBM/cloud-databases-go-sdk v0.8.1 // indirect
-	github.com/IBM/go-sdk-core/v5 v5.21.4 // indirect
-	github.com/IBM/platform-services-go-sdk v0.99.0 // indirect
+	github.com/IBM/go-sdk-core/v5 v5.22.1 // indirect
+	github.com/IBM/networking-go-sdk v0.53.5 // indirect
+	github.com/IBM/platform-services-go-sdk v0.100.0 // indirect
 	github.com/IBM/project-go-sdk v0.4.0 // indirect
 	github.com/IBM/schematics-go-sdk v0.4.0 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
@@ -115,11 +116,11 @@ require (
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/apimachinery v0.35.0 // indirect
-	k8s.io/client-go v0.35.0 // indirect
-	k8s.io/klog/v2 v2.130.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20250910181357-589584f1c912 // indirect
+	k8s.io/apimachinery v0.36.2 // indirect
+	k8s.io/client-go v0.36.2 // indirect
+	k8s.io/klog/v2 v2.140.0 // indirect
+	k8s.io/kube-openapi v0.0.0-20260317180543-43fb72c5454a // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
-	sigs.k8s.io/structured-merge-diff/v6 v6.3.0 // indirect
+	sigs.k8s.io/structured-merge-diff/v6 v6.3.2 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )

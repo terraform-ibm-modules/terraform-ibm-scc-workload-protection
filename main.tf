@@ -61,7 +61,14 @@ resource "ibm_resource_key" "scc_wp_resource_key" {
 # Attach Access Tags
 ##############################################################################
 
+# Check whether access tags are valid and exist in the account
+data "ibm_iam_access_tag" "access_tags" {
+  for_each = toset(var.access_tags)
+  name     = each.value
+}
+
 resource "ibm_resource_tag" "scc_wp_access_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tags] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
   count       = length(var.access_tags) == 0 ? 0 : 1
   resource_id = ibm_resource_instance.scc_wp.id
   tags        = var.access_tags
@@ -74,7 +81,7 @@ resource "ibm_resource_tag" "scc_wp_access_tag" {
 module "cbr_rule" {
   count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.36.5"
+  version          = "1.36.6"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
@@ -108,7 +115,7 @@ module "cbr_rule" {
 module "trusted_profile_scc_wp" {
   count                       = var.cspm_enabled ? 1 : 0
   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "4.1.0"
+  version                     = "4.2.0"
   trusted_profile_name        = var.scc_workload_protection_trusted_profile_name
   trusted_profile_description = "Trusted Profile for SCC workload Protection instance ${ibm_resource_instance.scc_wp.guid} with required access for configuration aggregator."
 
