@@ -68,7 +68,6 @@ func TestMain(m *testing.M) {
 
 func TestFullyConfigurable(t *testing.T) {
 	t.Parallel()
-	t.Skip()
 
 	var region = getRandomRegion()
 
