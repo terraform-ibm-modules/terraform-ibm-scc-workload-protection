@@ -124,7 +124,8 @@ func TestFullyConfigurable(t *testing.T) {
 			TarIncludePatterns: []string{
 				"*.tf",
 				"modules/*/*.tf",
-				"modules/*/*.sh",
+				"modules/scripts/*.sh",
+				"modules/account_check/scripts/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:          resourceGroup,
@@ -145,7 +146,7 @@ func TestFullyConfigurable(t *testing.T) {
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
 			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
-			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "resource-controller.cloud.ibm.com", DataType: "string"},
+			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicTest()
 		assert.Nil(t, err, "This should not have errored")
@@ -211,7 +212,8 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			TarIncludePatterns: []string{
 				"*.tf",
 				"modules/*/*.tf",
-				"modules/*/*.sh",
+				"modules/scripts/*.sh",
+				"modules/account_check/scripts/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:              resourceGroup,
@@ -233,7 +235,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			{Name: "scc_workload_protection_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 			{Name: "prefix", Value: options.Prefix, DataType: "string"},
 			{Name: "app_config_crn", Value: terraform.OutputContext(t, context.Background(), existingTerraformOptions, "app_config_crn"), DataType: "string"},
-			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "resource-controller.cloud.ibm.com", DataType: "string"},
+			{Name: "ibmcloud_resource_controller_api_endpoint", Value: "https://resource-controller.cloud.ibm.com", DataType: "string"},
 		}
 		err := options.RunSchematicUpgradeTest()
 		if !options.UpgradeTestSkipped {

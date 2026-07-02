@@ -53,6 +53,7 @@ variable "existing_cos_instance_id" {
 variable "cos_instance_name" {
   description = "Name of the COS instance to be used as target for Activity Tracker Event Routing events."
   type        = string
+  default     = null
 
   validation {
     condition     = var.existing_cos_instance_id == null && var.cos_instance_name == null ? false : true

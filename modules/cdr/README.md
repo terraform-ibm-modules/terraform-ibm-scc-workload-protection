@@ -126,8 +126,9 @@ You need the following permissions to run this module:
 | <a name="input_ce_run_service_account"></a> [ce\_run\_service\_account](#input\_ce\_run\_service\_account) | The name of the service account. | `string` | `"default"` | no |
 | <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | Name of the COS bucket to be used as target for Activity Tracker Event Routing events | `string` | n/a | yes |
 | <a name="input_cos_bucket_storage_class"></a> [cos\_bucket\_storage\_class](#input\_cos\_bucket\_storage\_class) | Storage class for the COS bucket. | `string` | `"smart"` | no |
-| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the COS instance to be used as target for Activity Tracker Event Routing events. | `string` | n/a | yes |
+| <a name="input_cos_instance_name"></a> [cos\_instance\_name](#input\_cos\_instance\_name) | Name of the COS instance to be used as target for Activity Tracker Event Routing events. | `string` | `null` | no |
 | <a name="input_cos_plan"></a> [cos\_plan](#input\_cos\_plan) | Plan for the COS instance. | `string` | `"standard"` | no |
+| <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | Existing COS instance to pass in. If set to `null`, a new instance will be created. | `string` | `null` | no |
 | <a name="input_iam_service_id_name"></a> [iam\_service\_id\_name](#input\_iam\_service\_id\_name) | Name of the Service ID for the Code Engine application to send events to Workload Protection instance. | `string` | n/a | yes |
 | <a name="input_iam_service_policy_name"></a> [iam\_service\_policy\_name](#input\_iam\_service\_policy\_name) | Name of the IAM Service policy having reader access for Container Registry. | `string` | `"container-registry-reader"` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | IBM Cloud API key for authenticating with IBM Cloud services | `string` | n/a | yes |
@@ -135,7 +136,6 @@ You need the following permissions to run this module:
 | <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Enable KMS encryption for the COS bucket | `bool` | `false` | no |
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | CRN of the KMS key to use for bucket encryption. Required if kms\_encryption\_enabled is true | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where CDR resources will be deployed | `string` | n/a | yes |
-| <a name="input_resource_controller_endpoint"></a> [resource\_controller\_endpoint](#input\_resource\_controller\_endpoint) | The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account. | `string` | `"resource-controller.cloud.ibm.com"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID in which CDR resources will be provisioned | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to CDR resources | `list(string)` | `[]` | no |
 | <a name="input_skip_iam_authorization_policy"></a> [skip\_iam\_authorization\_policy](#input\_skip\_iam\_authorization\_policy) | Set to true to skip the creation of an IAM authorization policy that permits the COS instance to read the encryption key from the KMS instance | `bool` | `true` | no |
