@@ -20,6 +20,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -70,7 +71,12 @@ func TestMain(m *testing.M) {
 func TestRunCDRExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "scc-wp-cdr", cdrExampleDir)
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                    t,
+		TerraformDir:               cdrExampleDir,
+		Prefix:                     "scc-wp-cdr",
+		CheckApplyResultForUpgrade: true,
+	})
 
 	output, err := options.RunTest()
 	assert.Nil(t, err, "This should not have errored")
