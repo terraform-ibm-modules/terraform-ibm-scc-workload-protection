@@ -161,7 +161,7 @@ module "trusted_profile_scc_wp" {
 # hence we cannot directly enable CSPM in the instance creation
 # and need to use a separate resource to enable it
 resource "restapi_object" "cspm" {
-  path = "//${var.resource_controller_endpoint}/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+  path = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
   data = jsonencode({
     parameters = {
@@ -180,7 +180,7 @@ resource "restapi_object" "cspm" {
   update_method  = "PATCH"
   destroy_method = "PATCH"
   read_method    = "GET"
-  read_path      = "//${var.resource_controller_endpoint}/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+  read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
 
   # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
   # The API returns many server-generated fields that cause drift detection.
@@ -256,9 +256,6 @@ module "cdr" {
   # COS Subscription
   subscription_name         = var.cdr_subscription_name
   install_required_binaries = var.cdr_install_required_binaries
-
-  # Enable CDR
-  resource_controller_endpoint = var.resource_controller_endpoint
 
   depends_on = [
     ibm_resource_instance.scc_wp,

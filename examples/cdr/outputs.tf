@@ -17,10 +17,10 @@ output "scc_wp_name" {
   value       = module.scc_wp_cdr.name
 }
 
-# output "sysdig_endpoint" {
-#   description = "endpoint."
-#   value       = module.scc_wp_cdr.sysdig_endpoint
-# }
+output "sysdig_endpoint" {
+  description = "endpoint."
+  value       = module.scc_wp_cdr.sysdig_endpoint
+}
 
 output "cdr_cos_bucket_name" {
   description = "Name of the COS bucket for Activity Tracker events"

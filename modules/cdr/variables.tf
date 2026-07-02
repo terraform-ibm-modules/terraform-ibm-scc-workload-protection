@@ -44,9 +44,20 @@ variable "iam_service_policy_name" {
 # Cloud Object Storage Configuration
 ##############################################################################
 
+variable "existing_cos_instance_id" {
+  type        = string
+  description = "Existing COS instance to pass in. If set to `null`, a new instance will be created."
+  default     = null
+}
+
 variable "cos_instance_name" {
   description = "Name of the COS instance to be used as target for Activity Tracker Event Routing events."
   type        = string
+
+  validation {
+    condition     = var.existing_cos_instance_id == null && var.cos_instance_name == null ? false : true
+    error_message = "var.existing_cos_instance_id and var.cos_instance_name cannot be both null."
+  }
 }
 
 variable "cos_bucket_name" {
@@ -264,15 +275,4 @@ variable "install_required_binaries" {
   default     = true
   description = "When set to true, a script will run to check if `jq`, the `ibmcloud` CLI, and the `code-engine` plugin exist on the runtime and if not attempt to download them from the public internet and install them to /tmp. Set to false to skip running this script."
   nullable    = false
-}
-
-variable "resource_controller_endpoint" {
-  type        = string
-  description = "The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account."
-  default     = "resource-controller.cloud.ibm.com"
-
-  validation {
-    condition     = can(regex("^(private.(us-east|us-south).)?resource-controller.cloud.ibm.com$", var.resource_controller_endpoint))
-    error_message = "The endpoint must match the resource controller domain (e.g., resource-controller.cloud.ibm.com or its private us-east/us-south variants)."
-  }
 }

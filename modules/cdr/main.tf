@@ -19,13 +19,15 @@ locals {
 ##############################################################################
 
 module "cos" {
-  source            = "terraform-ibm-modules/cos/ibm"
-  version           = "10.16.5"
-  resource_group_id = var.resource_group_id
-  cos_instance_name = var.cos_instance_name
-  cos_plan          = var.cos_plan
-  resource_tags     = var.resource_tags
-  create_cos_bucket = false
+  source                   = "terraform-ibm-modules/cos/ibm"
+  version                  = "10.16.5"
+  create_cos_instance      = var.existing_cos_instance_id != null ? false : true
+  existing_cos_instance_id = var.existing_cos_instance_id
+  resource_group_id        = var.resource_group_id
+  cos_instance_name        = var.cos_instance_name
+  cos_plan                 = var.cos_plan
+  resource_tags            = var.resource_tags
+  create_cos_bucket        = false
 }
 
 module "cos_bucket" {
@@ -269,7 +271,7 @@ resource "terraform_data" "cdr_cos_subscription" {
   }
 
   provisioner "local-exec" {
-    command     = "${path.module}/../scripts/create-cos-subscription.sh ${local.binaries_path}"
+    command     = "${path.module}/scripts/create-cos-subscription.sh ${local.binaries_path}"
     interpreter = ["/bin/bash", "-c"]
     environment = {
       IBMCLOUD_API_KEY  = self.triggers_replace.ibmcloud_api_key
@@ -284,7 +286,7 @@ resource "terraform_data" "cdr_cos_subscription" {
 
   provisioner "local-exec" {
     when        = destroy
-    command     = "${path.module}/../scripts/delete-cos-subscription.sh ${self.triggers_replace.binaries_path}"
+    command     = "${path.module}/scripts/delete-cos-subscription.sh ${self.triggers_replace.binaries_path}"
     interpreter = ["/bin/bash", "-c"]
     environment = {
       IBMCLOUD_API_KEY  = self.triggers_replace.ibmcloud_api_key
@@ -310,7 +312,7 @@ resource "terraform_data" "cdr_cos_subscription" {
 # CDR can only be enabled after the infrastructure exists
 # Similar to CSPM, we use REST API to configure CDR
 resource "restapi_object" "cdr" {
-  path = "//${var.resource_controller_endpoint}/v2/resource_instances/${var.workload_protection_guid}"
+  path = "/v2/resource_instances/${var.workload_protection_guid}"
 
   data = jsonencode({
     parameters = {
@@ -331,7 +333,7 @@ resource "restapi_object" "cdr" {
   update_method  = "PATCH"
   destroy_method = "PATCH"
   read_method    = "GET"
-  read_path      = "//${var.resource_controller_endpoint}/v2/resource_instances/${var.workload_protection_guid}"
+  read_path      = "/v2/resource_instances/${var.workload_protection_guid}"
 
   # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
   # The API returns many server-generated fields that cause drift detection.

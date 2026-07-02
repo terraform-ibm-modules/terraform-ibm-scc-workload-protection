@@ -138,17 +138,6 @@ variable "scc_workload_protection_trusted_profile_name" {
   }
 }
 
-variable "resource_controller_endpoint" {
-  type        = string
-  description = "The endpoint of the resource controller to manage the lifecycle of resources in an IBM cloud account."
-  default     = "resource-controller.cloud.ibm.com"
-
-  validation {
-    condition     = can(regex("^(private.(us-east|us-south).)?resource-controller.cloud.ibm.com$", var.resource_controller_endpoint))
-    error_message = "The endpoint must match the resource controller domain (e.g., resource-controller.cloud.ibm.com or its private us-east/us-south variants)."
-  }
-}
-
 ##############################################################
 # Context-based restriction (CBR)
 ##############################################################

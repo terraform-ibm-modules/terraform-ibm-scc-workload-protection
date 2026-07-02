@@ -27,6 +27,7 @@ import (
 Global variables
 */
 const resourceGroup = "geretain-test-resources"
+const cdrExampleDir = "examples/cdr"
 const fullyConfigurableDADir = "solutions/fully-configurable"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 const existingResources = "./existing-resources"
@@ -64,6 +65,16 @@ func TestMain(m *testing.M) {
 	}
 
 	os.Exit(m.Run())
+}
+
+func TestRunCDRExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupOptions(t, "scc-wp-cdr", cdrExampleDir)
+
+	output, err := options.RunTest()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestFullyConfigurable(t *testing.T) {
