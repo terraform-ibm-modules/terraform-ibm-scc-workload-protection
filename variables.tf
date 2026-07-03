@@ -202,12 +202,7 @@ variable "existing_cos_instance_id" {
 variable "cdr_cos_instance_name" {
   description = "Name of the COS instance to be used as target for Activity Tracker Event Routing events."
   type        = string
-  default     = null
-
-  validation {
-    condition     = var.existing_cos_instance_id == null && var.cdr_cos_instance_name == null ? false : true
-    error_message = "existing_cos_instance_id and cdr_cos_instance_name cannot be both null."
-  }
+  default     = "cdr-events-cos-instance"
 }
 
 variable "cdr_cos_bucket_name" {
