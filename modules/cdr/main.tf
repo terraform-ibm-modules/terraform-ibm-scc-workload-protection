@@ -140,6 +140,7 @@ module "cdr_trusted_profile" {
 }
 
 resource "ibm_iam_trusted_profile_identity" "service_id" {
+  depends_on    = [module.cdr_trusted_profile]
   profile_id    = module.cdr_trusted_profile.profile_id
   identity_type = "serviceid"
   identifier    = module.cdr_service_id.service_id
