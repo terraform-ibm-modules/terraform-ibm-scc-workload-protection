@@ -76,9 +76,16 @@ func TestRunCDRExample(t *testing.T) {
 		TerraformDir:               cdrExampleDir,
 		Prefix:                     "scc-wp-cdr",
 		CheckApplyResultForUpgrade: true,
+		Region:                     getRandomRegion(),
 	})
 
-	output, err := options.RunTest()
+	options.IgnoreUpdates = testhelper.Exemptions{
+		List: []string{
+			"module.scc_wp_cdr.module.cdr[0].module.code_engine_app.ibm_code_engine_app.ce_app",
+		},
+	}
+
+	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")
 }

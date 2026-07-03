@@ -19,31 +19,23 @@ locals {
 ##############################################################################
 
 module "cos" {
-  source                   = "terraform-ibm-modules/cos/ibm"
-  version                  = "10.16.5"
-  create_cos_instance      = var.existing_cos_instance_id != null ? false : true
-  existing_cos_instance_id = var.existing_cos_instance_id
-  resource_group_id        = var.resource_group_id
-  cos_instance_name        = var.cos_instance_name
-  cos_plan                 = var.cos_plan
-  resource_tags            = var.resource_tags
-  create_cos_bucket        = false
-}
+  source                        = "terraform-ibm-modules/cos/ibm"
+  version                       = "10.16.5"
+  create_cos_instance           = var.existing_cos_instance_id != null ? false : true
+  existing_cos_instance_id      = var.existing_cos_instance_id
+  resource_group_id             = var.resource_group_id
+  cos_instance_name             = var.cos_instance_name
+  cos_plan                      = var.cos_plan
+  resource_tags                 = var.resource_tags
+  add_bucket_name_suffix        = true
+  create_cos_bucket             = true
+  bucket_name                   = var.cos_bucket_name
+  kms_encryption_enabled        = var.kms_encryption_enabled
+  kms_key_crn                   = var.kms_key_crn
+  region                        = var.region
+  bucket_storage_class          = var.cos_bucket_storage_class
+  skip_iam_authorization_policy = var.skip_iam_authorization_policy
 
-module "cos_bucket" {
-  source  = "terraform-ibm-modules/cos/ibm//modules/buckets"
-  version = "10.16.5"
-  bucket_configs = [
-    {
-      bucket_name                   = var.cos_bucket_name
-      kms_encryption_enabled        = var.kms_encryption_enabled
-      kms_key_crn                   = var.kms_key_crn
-      region_location               = var.region
-      resource_instance_id          = module.cos.cos_instance_id
-      storage_class                 = var.cos_bucket_storage_class
-      skip_iam_authorization_policy = var.skip_iam_authorization_policy
-    }
-  ]
 }
 
 ##############################################################################
@@ -56,8 +48,8 @@ module "activity_tracker" {
 
   cos_targets = [
     {
-      endpoint                          = module.cos_bucket.buckets[var.cos_bucket_name].s3_endpoint_direct
-      bucket_name                       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+      endpoint                          = module.cos.s3_endpoint_direct
+      bucket_name                       = module.cos.bucket_name
       instance_id                       = module.cos.cos_instance_crn
       service_to_service_enabled        = true
       target_region                     = var.region
@@ -117,7 +109,7 @@ module "cdr_trusted_profile" {
       resources = [{
         service              = "cloud-object-storage"
         resource_type        = "bucket"
-        resource             = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+        resource             = module.cos.bucket_name
         resource_instance_id = module.cos.cos_instance_guid
       }]
     },
@@ -247,7 +239,7 @@ resource "terraform_data" "install_required_binaries" {
     resource_group    = var.resource_group_id
     project_id        = module.code_engine_project.project_id
     app_name          = module.code_engine_app.name
-    bucket_name       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+    bucket_name       = module.cos.bucket_name
     subscription_name = var.subscription_name
     binaries_path     = local.binaries_path
   }
@@ -266,7 +258,7 @@ resource "terraform_data" "cdr_cos_subscription" {
     resource_group    = var.resource_group_id
     project_id        = module.code_engine_project.project_id
     app_name          = module.code_engine_app.name
-    bucket_name       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+    bucket_name       = module.cos.bucket_name
     subscription_name = var.subscription_name
     binaries_path     = local.binaries_path
   }
@@ -321,7 +313,7 @@ resource "restapi_object" "cdr" {
       target_cdr_accounts = [
         {
           cdr_bucket_region      = var.region
-          cdr_bucket_name        = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+          cdr_bucket_name        = module.cos.bucket_name
           cdr_trusted_profile_id = module.cdr_trusted_profile.profile_id
           cdr_service_id         = module.cdr_service_id.service_id
           cdr_ingestion_url      = local.cdr_ingestion_endpoint

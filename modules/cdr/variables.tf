@@ -57,7 +57,7 @@ variable "cos_instance_name" {
 
   validation {
     condition     = var.existing_cos_instance_id == null && var.cos_instance_name == null ? false : true
-    error_message = "var.existing_cos_instance_id and var.cos_instance_name cannot be both null."
+    error_message = "existing_cos_instance_id and cos_instance_name cannot be both null."
   }
 }
 

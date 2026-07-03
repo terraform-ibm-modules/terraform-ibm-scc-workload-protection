@@ -218,6 +218,7 @@ module "cdr" {
 
 
   # COS
+  existing_cos_instance_id      = var.existing_cos_instance_id
   cos_instance_name             = var.cdr_cos_instance_name
   cos_bucket_name               = var.cdr_cos_bucket_name
   cos_bucket_storage_class      = var.cdr_cos_bucket_storage_class

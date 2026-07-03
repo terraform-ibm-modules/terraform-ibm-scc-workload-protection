@@ -23,17 +23,17 @@ output "cos_instance_guid" {
 
 output "cos_bucket_name" {
   description = "Name of the COS bucket for Activity Tracker events"
-  value       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_name
+  value       = module.cos.bucket_name
 }
 
 output "cos_bucket_id" {
   description = "ID of the COS bucket"
-  value       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_id
+  value       = module.cos.bucket_id
 }
 
 output "cos_bucket_crn" {
   description = "CRN of the COS bucket"
-  value       = module.cos_bucket.buckets[var.cos_bucket_name].bucket_crn
+  value       = module.cos.bucket_crn
 }
 
 ##############################################################################
