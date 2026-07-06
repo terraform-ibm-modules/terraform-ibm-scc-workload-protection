@@ -20,6 +20,7 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -27,6 +28,7 @@ import (
 Global variables
 */
 const resourceGroup = "geretain-test-resources"
+const cdrExampleDir = "examples/cdr"
 const fullyConfigurableDADir = "solutions/fully-configurable"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 const existingResources = "./existing-resources"
@@ -64,6 +66,28 @@ func TestMain(m *testing.M) {
 	}
 
 	os.Exit(m.Run())
+}
+
+func TestRunCDRExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                    t,
+		TerraformDir:               cdrExampleDir,
+		Prefix:                     "scc-wp-cdr",
+		CheckApplyResultForUpgrade: true,
+		Region:                     getRandomRegion(),
+	})
+
+	options.IgnoreUpdates = testhelper.Exemptions{
+		List: []string{
+			"module.scc_wp_cdr.module.cdr[0].module.code_engine_app.ibm_code_engine_app.ce_app",
+		},
+	}
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestFullyConfigurable(t *testing.T) {
@@ -113,7 +137,8 @@ func TestFullyConfigurable(t *testing.T) {
 			TarIncludePatterns: []string{
 				"*.tf",
 				"modules/*/*.tf",
-				"modules/*/*.sh",
+				"modules/scripts/*.sh",
+				"modules/account_check/scripts/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:          resourceGroup,
@@ -200,7 +225,8 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			TarIncludePatterns: []string{
 				"*.tf",
 				"modules/*/*.tf",
-				"modules/*/*.sh",
+				"modules/scripts/*.sh",
+				"modules/account_check/scripts/*.sh",
 				fullyConfigurableDADir + "/*.tf",
 			},
 			ResourceGroup:              resourceGroup,
