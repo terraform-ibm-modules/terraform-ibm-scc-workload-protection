@@ -20,7 +20,7 @@ locals {
 
 module "cos" {
   source                        = "terraform-ibm-modules/cos/ibm"
-  version                       = "10.16.5"
+  version                       = "10.17.5"
   create_cos_instance           = var.existing_cos_instance_id != null ? false : true
   existing_cos_instance_id      = var.existing_cos_instance_id
   resource_group_id             = var.resource_group_id
@@ -44,7 +44,7 @@ module "cos" {
 
 module "activity_tracker" {
   source  = "terraform-ibm-modules/activity-tracker/ibm"
-  version = "1.8.8"
+  version = "1.8.17"
 
   cos_targets = [
     {
@@ -73,7 +73,7 @@ module "activity_tracker" {
 
 module "cdr_service_id" {
   source  = "terraform-ibm-modules/iam-service-id/ibm"
-  version = "1.3.0"
+  version = "1.3.1"
 
   iam_service_id_name               = var.iam_service_id_name
   iam_service_id_description        = "Service ID for CDR event forwarding to SCC Workload Protection"
@@ -96,7 +96,7 @@ module "cdr_service_id" {
 
 module "cdr_trusted_profile" {
   source  = "terraform-ibm-modules/trusted-profile/ibm"
-  version = "4.1.0"
+  version = "4.2.0"
 
   trusted_profile_name        = var.trusted_profile_name
   trusted_profile_description = "Trusted profile for Workload Protection interaction with Cloud Object Storage bucket"
@@ -147,7 +147,7 @@ resource "ibm_iam_trusted_profile_identity" "service_id" {
 
 module "code_engine_project" {
   source  = "terraform-ibm-modules/code-engine/ibm"
-  version = "4.9.6"
+  version = "4.9.9"
 
   project_name      = var.ce_project_name
   resource_group_id = var.resource_group_id
@@ -180,7 +180,7 @@ module "code_engine_project" {
 
 module "code_engine_app" {
   source                = "terraform-ibm-modules/code-engine/ibm//modules/app"
-  version               = "4.9.6"
+  version               = "4.9.9"
   name                  = var.ce_app_name
   project_id            = module.code_engine_project.project_id
   image_reference       = var.cdr_ce_app_image

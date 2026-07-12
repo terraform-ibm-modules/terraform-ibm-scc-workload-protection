@@ -88,12 +88,12 @@ You need the following permissions to run this module:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | terraform-ibm-modules/activity-tracker/ibm | 1.8.8 |
-| <a name="module_cdr_service_id"></a> [cdr\_service\_id](#module\_cdr\_service\_id) | terraform-ibm-modules/iam-service-id/ibm | 1.3.0 |
-| <a name="module_cdr_trusted_profile"></a> [cdr\_trusted\_profile](#module\_cdr\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.1.0 |
-| <a name="module_code_engine_app"></a> [code\_engine\_app](#module\_code\_engine\_app) | terraform-ibm-modules/code-engine/ibm//modules/app | 4.9.6 |
-| <a name="module_code_engine_project"></a> [code\_engine\_project](#module\_code\_engine\_project) | terraform-ibm-modules/code-engine/ibm | 4.9.6 |
-| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 10.16.5 |
+| <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | terraform-ibm-modules/activity-tracker/ibm | 1.8.17 |
+| <a name="module_cdr_service_id"></a> [cdr\_service\_id](#module\_cdr\_service\_id) | terraform-ibm-modules/iam-service-id/ibm | 1.3.1 |
+| <a name="module_cdr_trusted_profile"></a> [cdr\_trusted\_profile](#module\_cdr\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
+| <a name="module_code_engine_app"></a> [code\_engine\_app](#module\_code\_engine\_app) | terraform-ibm-modules/code-engine/ibm//modules/app | 4.9.9 |
+| <a name="module_code_engine_project"></a> [code\_engine\_project](#module\_code\_engine\_project) | terraform-ibm-modules/code-engine/ibm | 4.9.9 |
+| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 10.17.5 |
 
 ### Resources
 
