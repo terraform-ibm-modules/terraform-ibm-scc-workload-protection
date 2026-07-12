@@ -59,7 +59,7 @@ module "key_protect_all_inclusive" {
 
 module "app_config" {
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.18.6"
+  version                                = "1.18.11"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
