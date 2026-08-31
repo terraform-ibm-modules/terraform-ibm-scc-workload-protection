@@ -39,3 +39,9 @@ variable "cdr_atracker_route_name" {
   type        = string
   default     = "cdr-test-route"
 }
+
+variable "cdr_management_endpoint_type_for_bucket" {
+  description = "Custom name for Activity Tracker route (optional)"
+  type        = string
+  default     = "private"
+}
