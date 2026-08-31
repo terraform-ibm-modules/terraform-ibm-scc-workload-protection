@@ -39,9 +39,3 @@ variable "cdr_atracker_route_name" {
   type        = string
   default     = "cdr-test-route"
 }
-
-variable "cdr_management_endpoint_type_for_bucket" {
-  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`."
-  type        = string
-  default     = "public"
-}
