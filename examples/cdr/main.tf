@@ -86,19 +86,19 @@ module "scc_wp_cdr" {
   scc_workload_protection_trusted_profile_name = "${var.prefix}-wp-trusted-profile"
 
   # CDR Configuration
-  cdr_enabled                       = true
-  ibmcloud_api_key                  = var.ibmcloud_api_key
-  cdr_cos_instance_name             = "${var.prefix}-cdr-cos-instance"
-  cdr_cos_bucket_name               = local.bucket_name
-  cdr_cos_bucket_storage_class      = "smart"
+  cdr_enabled                             = true
+  ibmcloud_api_key                        = var.ibmcloud_api_key
+  cdr_cos_instance_name                   = "${var.prefix}-cdr-cos-instance"
+  cdr_cos_bucket_name                     = local.bucket_name
+  cdr_cos_bucket_storage_class            = "smart"
   cdr_management_endpoint_type_for_bucket = var.cdr_management_endpoint_type_for_bucket
-  cdr_trusted_profile_name          = "${var.prefix}-cdr-trusted-profile"
-  cdr_iam_service_id_name           = "${var.prefix}-cdr-service-id"
-  cdr_ce_project_name               = "${var.prefix}-cdr-ce-project"
-  cdr_atracker_locations            = ["global"]
-  cdr_atracker_target_name          = var.cdr_atracker_target_name
-  cdr_atracker_route_name           = var.cdr_atracker_route_name
-  cdr_kms_encryption_enabled        = true
-  cdr_kms_key_crn                   = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
-  cdr_skip_iam_authorization_policy = false
+  cdr_trusted_profile_name                = "${var.prefix}-cdr-trusted-profile"
+  cdr_iam_service_id_name                 = "${var.prefix}-cdr-service-id"
+  cdr_ce_project_name                     = "${var.prefix}-cdr-ce-project"
+  cdr_atracker_locations                  = ["global"]
+  cdr_atracker_target_name                = var.cdr_atracker_target_name
+  cdr_atracker_route_name                 = var.cdr_atracker_route_name
+  cdr_kms_encryption_enabled              = true
+  cdr_kms_key_crn                         = module.key_protect_all_inclusive.keys["${local.key_ring_name}.${local.bucket_key_name}"].crn
+  cdr_skip_iam_authorization_policy       = false
 }

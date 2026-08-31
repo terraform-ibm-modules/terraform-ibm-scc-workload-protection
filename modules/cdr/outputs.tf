@@ -55,21 +55,6 @@ output "atracker_route_id" {
   value       = module.activity_tracker.activity_tracker_routes[var.atracker_route_name].id
 }
 
-output "cos_test_dir" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cos.s3_endpoint_direct
-}
-
-output "cos_test_pri" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cos.s3_endpoint_private
-}
-
-output "cos_test_pub" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cos.s3_endpoint_public
-}
-
 ##############################################################################
 # Service ID Outputs
 ##############################################################################

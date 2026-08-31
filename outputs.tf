@@ -69,21 +69,6 @@ output "cdr_cos_bucket_name" {
   value       = var.cdr_enabled ? module.cdr[0].cos_bucket_name : null
 }
 
-output "cos_test_dir" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cdr[0].cos_test_dir
-}
-
-output "cos_test_pri" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cdr[0].cos_test_pri
-}
-
-output "cos_test_pub" {
-  description = "ID of the Activity Tracker route"
-  value       = module.cdr[0].cos_test_pub
-}
-
 output "cdr_cos_bucket_id" {
   description = "ID of the COS bucket"
   value       = var.cdr_enabled ? module.cdr[0].cos_bucket_id : null

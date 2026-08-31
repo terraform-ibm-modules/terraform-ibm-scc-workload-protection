@@ -17,6 +17,18 @@ The module sets up an end-to-end pipeline:
 - IBM Cloud Code Engine CLI plugin installed (`ibmcloud ce version`)
 - Existing SCC Workload Protection instance with trusted profile and CSPM enabled
 
+## COS endpoint type and execution environment
+
+The `management_endpoint_type_for_bucket` variable defines the type of endpoint for the IBM Terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`. The correct value depends on where Terraform is executed.
+
+| Execution environment | Recommended value | Notes |
+|---|---|---|
+| **IBM Cloud Schematics (shared, multi-tenant)** | `public` or `direct` | Schematics workspaces run on shared infrastructure that reaches COS over the public or direct network. `direct` avoids public-internet egress charges and is the default. |
+| **IBM Cloud Schematics Agent** with a VPE gateway | `private` | A [Schematics Agent](https://cloud.ibm.com/docs/schematics?topic=schematics-agent-about-overview) deployed inside your VPC, combined with a [Virtual Private Endpoint (VPE) gateway](https://cloud.ibm.com/docs/vpc?topic=vpc-about-vpe) for COS, is required to reach the private endpoint. Without both, Terraform will fail to resolve the private hostname. |
+| **Local workstation / CI runner (public internet)** | `public` | Use the public endpoint when running Terraform outside IBM Cloud. |
+
+> **Important:** Setting `management_endpoint_type_for_bucket = "private"` on a standard Schematics workspace (without an agent and VPE gateway) will cause the Activity Tracker target creation to fail because the private endpoint is unreachable from the shared Schematics runtime.
+
 ### Usage
 
 ```hcl
@@ -134,6 +146,7 @@ You need the following permissions to run this module:
 | <a name="input_install_required_binaries"></a> [install\_required\_binaries](#input\_install\_required\_binaries) | When set to true, a script will run to check if `jq`, the `ibmcloud` CLI, and the `code-engine` plugin exist on the runtime and if not attempt to download them from the public internet and install them to /tmp. Set to false to skip running this script. | `bool` | `true` | no |
 | <a name="input_kms_encryption_enabled"></a> [kms\_encryption\_enabled](#input\_kms\_encryption\_enabled) | Enable KMS encryption for the COS bucket | `bool` | `false` | no |
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | CRN of the KMS key to use for bucket encryption. Required if kms\_encryption\_enabled is true | `string` | `null` | no |
+| <a name="input_management_endpoint_type_for_bucket"></a> [management\_endpoint\_type\_for\_bucket](#input\_management\_endpoint\_type\_for\_bucket) | The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`. | `string` | `"public"` | no |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where CDR resources will be deployed | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID in which CDR resources will be provisioned | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to CDR resources | `list(string)` | `[]` | no |

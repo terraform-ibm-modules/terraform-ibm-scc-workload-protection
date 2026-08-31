@@ -41,7 +41,7 @@ variable "cdr_atracker_route_name" {
 }
 
 variable "cdr_management_endpoint_type_for_bucket" {
-  description = "Custom name for Activity Tracker route (optional)"
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`."
   type        = string
-  default     = "private"
+  default     = "public"
 }

@@ -218,15 +218,15 @@ module "cdr" {
 
 
   # COS
-  existing_cos_instance_id      = var.existing_cos_instance_id
-  cos_instance_name             = var.cdr_cos_instance_name
-  cos_bucket_name               = var.cdr_cos_bucket_name
-  cos_bucket_storage_class      = var.cdr_cos_bucket_storage_class
-  cos_plan                      = var.cdr_cos_plan
+  existing_cos_instance_id            = var.existing_cos_instance_id
+  cos_instance_name                   = var.cdr_cos_instance_name
+  cos_bucket_name                     = var.cdr_cos_bucket_name
+  cos_bucket_storage_class            = var.cdr_cos_bucket_storage_class
+  cos_plan                            = var.cdr_cos_plan
   management_endpoint_type_for_bucket = var.cdr_management_endpoint_type_for_bucket
-  kms_encryption_enabled        = var.cdr_kms_encryption_enabled
-  kms_key_crn                   = var.cdr_kms_key_crn
-  skip_iam_authorization_policy = var.cdr_skip_iam_authorization_policy
+  kms_encryption_enabled              = var.cdr_kms_encryption_enabled
+  kms_key_crn                         = var.cdr_kms_key_crn
+  skip_iam_authorization_policy       = var.cdr_skip_iam_authorization_policy
 
   # Activity Tracker
   atracker_target_name = var.cdr_atracker_target_name
