@@ -86,6 +86,16 @@ variable "cos_plan" {
   }
 }
 
+variable "management_endpoint_type_for_bucket" {
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`."
+  type        = string
+  default     = "public"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.management_endpoint_type_for_bucket)
+    error_message = "The value isn't valid. Possible values are `public`, `private`, or `direct`."
+  }
+}
+
 ##############################################################################
 # KMS Encryption Configuration
 ##############################################################################

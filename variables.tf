@@ -231,6 +231,16 @@ variable "cdr_cos_plan" {
   }
 }
 
+variable "cdr_management_endpoint_type_for_bucket" {
+  description = "The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`."
+  type        = string
+  default     = "public"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.cdr_management_endpoint_type_for_bucket)
+    error_message = "The value isn't valid. Possible values are `public`, `private`, or `direct`."
+  }
+}
+
 variable "cdr_kms_encryption_enabled" {
   description = "Enable KMS encryption for the COS bucket"
   type        = bool

@@ -91,6 +91,7 @@ module "scc_wp_cdr" {
   cdr_cos_instance_name             = "${var.prefix}-cdr-cos-instance"
   cdr_cos_bucket_name               = local.bucket_name
   cdr_cos_bucket_storage_class      = "smart"
+  cdr_management_endpoint_type_for_bucket = "direct"
   cdr_trusted_profile_name          = "${var.prefix}-cdr-trusted-profile"
   cdr_iam_service_id_name           = "${var.prefix}-cdr-service-id"
   cdr_ce_project_name               = "${var.prefix}-cdr-ce-project"

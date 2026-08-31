@@ -82,3 +82,18 @@ output "cdr_trusted_profile_name" {
   description = "Name of the CDR trusted profile"
   value       = module.scc_wp_cdr.cdr_trusted_profile_name
 }
+
+output "cos_test_dir" {
+  description = "ID of the Activity Tracker route"
+  value       = module.scc_wp_cdr.cos_test_dir
+}
+
+output "cos_test_pri" {
+  description = "ID of the Activity Tracker route"
+  value       = module.scc_wp_cdr.cos_test_pri
+}
+
+output "cos_test_pub" {
+  description = "ID of the Activity Tracker route"
+  value       = module.scc_wp_cdr.cos_test_pub
+}

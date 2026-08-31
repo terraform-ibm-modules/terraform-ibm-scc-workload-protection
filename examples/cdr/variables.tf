@@ -13,7 +13,7 @@ variable "region" {
 variable "prefix" {
   description = "Prefix to use for naming resources"
   type        = string
-  default     = "cdr-test"
+  default     = "cdr-ny"
 }
 
 variable "resource_group" {

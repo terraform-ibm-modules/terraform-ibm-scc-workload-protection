@@ -223,6 +223,7 @@ module "cdr" {
   cos_bucket_name               = var.cdr_cos_bucket_name
   cos_bucket_storage_class      = var.cdr_cos_bucket_storage_class
   cos_plan                      = var.cdr_cos_plan
+  management_endpoint_type_for_bucket = var.cdr_management_endpoint_type_for_bucket
   kms_encryption_enabled        = var.cdr_kms_encryption_enabled
   kms_key_crn                   = var.cdr_kms_key_crn
   skip_iam_authorization_policy = var.cdr_skip_iam_authorization_policy
