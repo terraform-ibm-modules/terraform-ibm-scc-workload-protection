@@ -12,6 +12,10 @@ locals {
   # Build the Sysdig ingestion URL from environment URL and service ID
   cdr_ingestion_endpoint = "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${module.cdr_service_id.service_id}"
   binaries_path          = "/tmp"
+  # Select the COS S3 endpoint based on the management endpoint type
+  cos_s3_endpoint = var.management_endpoint_type_for_bucket == "private" ? module.cos.s3_endpoint_private : (
+    var.management_endpoint_type_for_bucket == "public" ? module.cos.s3_endpoint_public : module.cos.s3_endpoint_direct
+  )
 }
 
 ##############################################################################
@@ -19,23 +23,23 @@ locals {
 ##############################################################################
 
 module "cos" {
-  source                        = "terraform-ibm-modules/cos/ibm"
-  version                       = "10.16.5"
-  create_cos_instance           = var.existing_cos_instance_id != null ? false : true
-  existing_cos_instance_id      = var.existing_cos_instance_id
-  resource_group_id             = var.resource_group_id
-  cos_instance_name             = var.cos_instance_name
-  cos_plan                      = var.cos_plan
-  resource_tags                 = var.resource_tags
-  add_bucket_name_suffix        = true
-  create_cos_bucket             = true
-  bucket_name                   = var.cos_bucket_name
-  kms_encryption_enabled        = var.kms_encryption_enabled
-  kms_key_crn                   = var.kms_key_crn
-  region                        = var.region
-  bucket_storage_class          = var.cos_bucket_storage_class
-  skip_iam_authorization_policy = var.skip_iam_authorization_policy
-
+  source                              = "terraform-ibm-modules/cos/ibm"
+  version                             = "10.16.5"
+  create_cos_instance                 = var.existing_cos_instance_id != null ? false : true
+  existing_cos_instance_id            = var.existing_cos_instance_id
+  resource_group_id                   = var.resource_group_id
+  cos_instance_name                   = var.cos_instance_name
+  cos_plan                            = var.cos_plan
+  management_endpoint_type_for_bucket = var.management_endpoint_type_for_bucket
+  resource_tags                       = var.resource_tags
+  add_bucket_name_suffix              = true
+  create_cos_bucket                   = true
+  bucket_name                         = var.cos_bucket_name
+  kms_encryption_enabled              = var.kms_encryption_enabled
+  kms_key_crn                         = var.kms_key_crn
+  region                              = var.region
+  bucket_storage_class                = var.cos_bucket_storage_class
+  skip_iam_authorization_policy       = var.skip_iam_authorization_policy
 }
 
 ##############################################################################
@@ -48,7 +52,7 @@ module "activity_tracker" {
 
   cos_targets = [
     {
-      endpoint                          = module.cos.s3_endpoint_direct
+      endpoint                          = local.cos_s3_endpoint
       bucket_name                       = module.cos.bucket_name
       instance_id                       = module.cos.cos_instance_crn
       service_to_service_enabled        = true
