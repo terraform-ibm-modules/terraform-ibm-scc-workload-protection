@@ -24,7 +24,7 @@ locals {
 
 module "cos" {
   source                              = "terraform-ibm-modules/cos/ibm"
-  version                             = "10.17.8"
+  version                             = "10.17.11"
   create_cos_instance                 = var.existing_cos_instance_id != null ? false : true
   existing_cos_instance_id            = var.existing_cos_instance_id
   resource_group_id                   = var.resource_group_id
@@ -48,7 +48,7 @@ module "cos" {
 
 module "activity_tracker" {
   source  = "terraform-ibm-modules/activity-tracker/ibm"
-  version = "1.8.19"
+  version = "1.8.22"
 
   cos_targets = [
     {
