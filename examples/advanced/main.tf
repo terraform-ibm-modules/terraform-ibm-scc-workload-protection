@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "cloud_monitoring" {
   source            = "terraform-ibm-modules/cloud-monitoring/ibm"
-  version           = "1.15.13"
+  version           = "1.15.14"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   instance_name     = "${var.prefix}-cm"
@@ -47,7 +47,7 @@ resource "ibm_is_vpc" "example_vpc" {
 ##############################################################################
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.36.8"
+  version          = "1.36.9"
   name             = "${var.prefix}-VPC-network-zone"
   zone_description = "CBR Network zone representing VPC"
   account_id       = local.account_id
