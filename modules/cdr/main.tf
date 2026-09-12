@@ -151,7 +151,7 @@ resource "ibm_iam_trusted_profile_identity" "service_id" {
 
 module "code_engine_project" {
   source  = "terraform-ibm-modules/code-engine/ibm"
-  version = "4.9.9"
+  version = "4.9.10"
 
   project_name      = var.ce_project_name
   resource_group_id = var.resource_group_id
@@ -184,7 +184,7 @@ module "code_engine_project" {
 
 module "code_engine_app" {
   source                = "terraform-ibm-modules/code-engine/ibm//modules/app"
-  version               = "4.9.9"
+  version               = "4.9.10"
   name                  = var.ce_app_name
   project_id            = module.code_engine_project.project_id
   image_reference       = var.cdr_ce_app_image
