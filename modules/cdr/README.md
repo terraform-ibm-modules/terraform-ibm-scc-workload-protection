@@ -105,7 +105,7 @@ You need the following permissions to run this module:
 | <a name="module_cdr_trusted_profile"></a> [cdr\_trusted\_profile](#module\_cdr\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
 | <a name="module_code_engine_app"></a> [code\_engine\_app](#module\_code\_engine\_app) | terraform-ibm-modules/code-engine/ibm//modules/app | 4.9.14 |
 | <a name="module_code_engine_project"></a> [code\_engine\_project](#module\_code\_engine\_project) | terraform-ibm-modules/code-engine/ibm | 4.9.14 |
-| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 10.17.18 |
+| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 10.17.19 |
 
 ### Resources
 
