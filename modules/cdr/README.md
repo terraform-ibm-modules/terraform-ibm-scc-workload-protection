@@ -42,6 +42,7 @@ module "cdr" {
   # Basic Configuration
   region            = "us-south"
   resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  resource_tags     = ["cdr-tag"]
 
   # IAM Service ID
   iam_service_id_name = "cdr-service-id"
