@@ -48,7 +48,7 @@ module "cos" {
 
 module "activity_tracker" {
   source  = "terraform-ibm-modules/activity-tracker/ibm"
-  version = "2.0.0"
+  version = "2.1.0"
 
   cos_targets = [
     {
