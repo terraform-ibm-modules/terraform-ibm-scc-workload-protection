@@ -24,7 +24,7 @@ locals {
 
 module "cos" {
   source                              = "terraform-ibm-modules/cos/ibm"
-  version                             = "11.0.0"
+  version                             = "11.1.0"
   create_cos_instance                 = var.existing_cos_instance_id != null ? false : true
   existing_cos_instance_id            = var.existing_cos_instance_id
   resource_group_id                   = var.resource_group_id
@@ -48,7 +48,7 @@ module "cos" {
 
 module "activity_tracker" {
   source  = "terraform-ibm-modules/activity-tracker/ibm"
-  version = "2.1.0"
+  version = "2.1.1"
 
   cos_targets = [
     {
@@ -151,7 +151,7 @@ resource "ibm_iam_trusted_profile_identity" "service_id" {
 
 module "code_engine_project" {
   source  = "terraform-ibm-modules/code-engine/ibm"
-  version = "4.9.14"
+  version = "4.9.15"
 
   project_name      = var.ce_project_name
   resource_group_id = var.resource_group_id
@@ -184,7 +184,7 @@ module "code_engine_project" {
 
 module "code_engine_app" {
   source                = "terraform-ibm-modules/code-engine/ibm//modules/app"
-  version               = "4.9.14"
+  version               = "4.9.15"
   name                  = var.ce_app_name
   project_id            = module.code_engine_project.project_id
   image_reference       = var.cdr_ce_app_image
