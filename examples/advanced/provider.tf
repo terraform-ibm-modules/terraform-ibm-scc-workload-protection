@@ -7,16 +7,6 @@ provider "ibm" {
   region           = var.region
 }
 
-data "ibm_iam_auth_token" "auth_token" {}
-
-provider "restapi" {
-  uri = "https://resource-controller.cloud.ibm.com" # See https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for all possible endpoints
-  headers = {
-    Authorization = data.ibm_iam_auth_token.auth_token.iam_access_token
-  }
-  write_returns_object = true
-}
-
 provider "sysdig" {
   sysdig_secure_team_name = "Secure Operations"
   sysdig_secure_url       = "https://${var.region}.monitoring.cloud.ibm.com"

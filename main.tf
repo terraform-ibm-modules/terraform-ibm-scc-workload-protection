@@ -160,33 +160,27 @@ module "trusted_profile_scc_wp" {
 # but profile can only exist after instance has been created
 # hence we cannot directly enable CSPM in the instance creation
 # and need to use a separate resource to enable it
-resource "restapi_object" "cspm" {
-  path = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
-
-  data = jsonencode({
-    parameters = {
-      enable_cspm = var.cspm_enabled
-      target_accounts = var.cspm_enabled ? [
-        {
-          account_id         = ibm_resource_instance.scc_wp.account_id
-          account_type       = module.account_type_check[0].account_type
-          config_crn         = var.app_config_crn
-          trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
-        }
-      ] : []
-    }
+resource "ibm_resource_instance_parameters" "cspm" {
+  resource_instance_id = ibm_resource_instance.scc_wp.guid
+  parameters = jsonencode({
+    enable_cspm = var.cspm_enabled
+    target_accounts = var.cspm_enabled ? [
+      {
+        account_id         = ibm_resource_instance.scc_wp.account_id
+        account_type       = module.account_type_check[0].account_type
+        config_crn         = var.app_config_crn
+        trusted_profile_id = module.trusted_profile_scc_wp[0].profile_id
+      }
+    ] : []
   })
-  create_method  = "PATCH"
-  update_method  = "PATCH"
-  destroy_method = "PATCH"
-  read_method    = "GET"
-  read_path      = "/v2/resource_instances/${ibm_resource_instance.scc_wp.guid}"
+}
 
-  # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
-  # The API returns many server-generated fields that cause drift detection.
-  # ignore_all_server_changes prevents the provider from detecting drift on
-  # fields returned by the API that weren't in our original request.
-  ignore_all_server_changes = true
+# Drop the old restapi object from state without calling its destroy.
+removed {
+  from = restapi_object.cspm
+  lifecycle {
+    destroy = false
+  }
 }
 
 ################################################################
@@ -262,6 +256,6 @@ module "cdr" {
   depends_on = [
     ibm_resource_instance.scc_wp,
     ibm_resource_key.scc_wp_resource_key,
-    restapi_object.cspm
+    ibm_resource_instance_parameters.cspm
   ]
 }

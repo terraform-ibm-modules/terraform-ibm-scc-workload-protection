@@ -65,17 +65,6 @@ unless real values don't help users know what to change.
 -->
 
 ```hcl
-data "ibm_iam_auth_token" "auth_token" {}
-
-provider "restapi" {
-  # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
-  uri = "https:"
-  headers = {
-    Authorization  = data.ibm_iam_auth_token.auth_token.iam_access_token
-  }
-  write_returns_object = true
-}
-
 module "scc_wp" {
   source                        = "terraform-ibm-modules/scc-workload-protection/ibm"
   version                       = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
@@ -89,18 +78,13 @@ module "scc_wp" {
 }
 ```
 
-### Known limitations
+### Upgrading from versions that used the restapi provider
 
-#### CSPM configuration drift detection
+CSPM is now enabled with the `ibm_resource_instance_parameters` resource from the IBM provider (`>= 2.9.0`) instead of the `Mastercard/restapi` provider. You no longer need to configure a `restapi` provider.
 
-When CSPM is enabled (`cspm_enabled = true`), the module uses the `restapi` provider to configure the CSPM parameters. Due to a [workaround](https://github.com/Mastercard/terraform-provider-restapi/issues/319) for the restapi provider, Terraform will **not detect drift** if the following parameters are changed outside of Terraform (e.g., via the console, CLI, or API):
+On the first apply after upgrading, Terraform drops the old `restapi_object.cspm` from state without calling its destroy, and the new resource applies the same CSPM parameters again. The PATCH is idempotent, so the instance is not changed.
 
-- `enable_cspm`
-- `target_accounts` (including `account_id`, `account_type`, `config_crn`, `trusted_profile_id`)
-
-This means the CSPM configuration should be fully managed by Terraform. Any out-of-band changes will not be detected or reverted.
-
-This limitation will be resolved when the module is updated to use restapi provider v3.0.0 with `ignore_server_additions`.
+Drift on `enable_cspm` and `target_accounts` is now detected. Only the parameter keys this module sets are compared, so fields the service adds never show as changes.
 
 ### Required IAM access policies
 
@@ -134,8 +118,7 @@ statement instead the previous block.
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, <3.0.0 |
-| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=2.0.1, <3.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 2.9.0, <3.0.0 |
 
 ### Modules
 
@@ -153,7 +136,7 @@ statement instead the previous block.
 | [ibm_resource_instance.scc_wp](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.scc_wp_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.scc_wp_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
-| [restapi_object.cspm](https://registry.terraform.io/providers/Mastercard/restapi/latest/docs/resources/object) | resource |
+| [ibm_resource_instance_parameters.cspm](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance_parameters) | resource |
 | [ibm_iam_access_tag.access_tags](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_access_tag) | data source |
 | [ibm_iam_auth_token.token](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_auth_token) | data source |
 

@@ -94,8 +94,7 @@ You need the following permissions to run this module:
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, <3.0.0 |
-| <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=2.0.1, <3.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 2.9.0, <3.0.0 |
 
 ### Modules
 
@@ -114,7 +113,7 @@ You need the following permissions to run this module:
 | ---- | ---- |
 | [ibm_iam_authorization_policy.ce_to_cos](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_trusted_profile_identity.service_id](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_trusted_profile_identity) | resource |
-| [restapi_object.cdr](https://registry.terraform.io/providers/Mastercard/restapi/latest/docs/resources/object) | resource |
+| [ibm_resource_instance_parameters.cdr](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance_parameters) | resource |
 | [terraform_data.cdr_cos_subscription](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [terraform_data.install_required_binaries](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 

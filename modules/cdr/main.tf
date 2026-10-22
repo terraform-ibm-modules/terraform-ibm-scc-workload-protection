@@ -307,36 +307,30 @@ resource "terraform_data" "cdr_cos_subscription" {
 ################################################################
 
 # CDR can only be enabled after the infrastructure exists
-# Similar to CSPM, we use REST API to configure CDR
-resource "restapi_object" "cdr" {
-  path = "/v2/resource_instances/${var.workload_protection_guid}"
-
-  data = jsonencode({
-    parameters = {
-      enable_cdr = true
-      target_cdr_accounts = [
-        {
-          cdr_bucket_region      = var.region
-          cdr_bucket_name        = module.cos.bucket_name
-          cdr_trusted_profile_id = module.cdr_trusted_profile.profile_id
-          cdr_service_id         = module.cdr_service_id.service_id
-          cdr_ingestion_url      = local.cdr_ingestion_endpoint
-          account_id             = var.target_account_id
-        }
-      ]
-    }
+# Similar to CSPM, CDR is set through the resource instance parameters
+resource "ibm_resource_instance_parameters" "cdr" {
+  resource_instance_id = var.workload_protection_guid
+  parameters = jsonencode({
+    enable_cdr = true
+    target_cdr_accounts = [
+      {
+        cdr_bucket_region      = var.region
+        cdr_bucket_name        = module.cos.bucket_name
+        cdr_trusted_profile_id = module.cdr_trusted_profile.profile_id
+        cdr_service_id         = module.cdr_service_id.service_id
+        cdr_ingestion_url      = local.cdr_ingestion_endpoint
+        account_id             = var.target_account_id
+      }
+    ]
   })
-  create_method  = "PATCH"
-  update_method  = "PATCH"
-  destroy_method = "PATCH"
-  read_method    = "GET"
-  read_path      = "/v2/resource_instances/${var.workload_protection_guid}"
-
-  # Workaround for https://github.com/Mastercard/terraform-provider-restapi/issues/319
-  # The API returns many server-generated fields that cause drift detection.
-  # ignore_all_server_changes prevents the provider from detecting drift on
-  # fields returned by the API that weren't in our original request.
-  ignore_all_server_changes = true
 
   depends_on = [terraform_data.cdr_cos_subscription]
+}
+
+# Drop the old restapi object from state without calling its destroy.
+removed {
+  from = restapi_object.cdr
+  lifecycle {
+    destroy = false
+  }
 }
