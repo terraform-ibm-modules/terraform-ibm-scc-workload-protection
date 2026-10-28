@@ -149,11 +149,10 @@ variable "app_config_crn" {
   }
 }
 
-# tflint-ignore: terraform_unused_declarations
 variable "ibmcloud_resource_controller_api_endpoint" {
-  description = "Deprecated and ignored. CSPM is now enabled through the IBM provider, which picks the resource controller endpoint from `provider_visibility`. Kept so existing deployments can upgrade without removing the input."
+  description = "The IBM Cloud [resource controller endpoint](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url) used by the `restapi` provider. CSPM is now enabled through the IBM provider, which picks the endpoint from `provider_visibility`. This value is only used to remove the old `restapi_object.cspm` from the state of existing deployments during upgrade, and will be removed in a later release."
   type        = string
-  default     = null
+  default     = "https://private.us-south.resource-controller.cloud.ibm.com"
 }
 
 variable "scc_workload_protection_trusted_profile_name" {

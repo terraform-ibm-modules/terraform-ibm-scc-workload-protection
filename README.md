@@ -80,11 +80,19 @@ module "scc_wp" {
 
 ### Upgrading from versions that used the restapi provider
 
-CSPM is now enabled with the `ibm_resource_instance_parameters` resource from the IBM provider (`>= 2.9.0`) instead of the `Mastercard/restapi` provider. You no longer need to configure a `restapi` provider.
+CSPM is now enabled with the `ibm_resource_instance_parameters` resource from the IBM provider (`>= 2.9.0`) instead of the `Mastercard/restapi` provider. The module no longer declares the `restapi` provider.
 
-On the first apply after upgrading, Terraform drops the old `restapi_object.cspm` from state without calling its destroy, and the new resource applies the same CSPM parameters again. The PATCH is idempotent, so the instance is not changed.
+The old `restapi_object.cspm` (and `restapi_object.cdr` when CDR is enabled) is still in your state after you bump the module version. A `removed` block drops it from state on the first apply without calling its destroy, and the new resource sends the same CSPM parameters again. The update is idempotent, so the instance is not changed.
 
-Drift on `enable_cspm` and `target_accounts` is now detected. Only the parameter keys this module sets are compared, so fields the service adds never show as changes.
+Terraform still needs a configured `restapi` provider to forget a resource that is in state. So keep your existing `restapi` provider configuration for one apply, then remove it:
+
+1. Bump the module version and keep the `restapi` entry in `required_providers` and the `provider "restapi"` block in your root module as they are.
+2. Run `terraform init -upgrade`, then `terraform apply`. The plan shows `restapi_object.cspm will no longer be managed by Terraform, but will not be destroyed` and `ibm_resource_instance_parameters.cspm` being created. Nothing else changes.
+3. Remove the `restapi` entry from `required_providers`, the `provider "restapi"` block and the `ibm_iam_auth_token` data source it used. Run `terraform init -upgrade` again. The next plan shows no changes.
+
+If you remove the `restapi` provider configuration before the first apply, the plan fails with `Provider "registry.terraform.io/mastercard/restapi" requires explicit configuration`. Add the configuration back, or drop the old object from state by hand with `terraform state rm 'module.<name>.restapi_object.cspm'` (and `'module.<name>.module.cdr[0].restapi_object.cdr'` when CDR is enabled).
+
+Drift on `enable_cspm` and `target_accounts` is now detected. Only the parameter keys this module sets are compared, so fields the service adds at the top level never show as changes.
 
 ### Required IAM access policies
 

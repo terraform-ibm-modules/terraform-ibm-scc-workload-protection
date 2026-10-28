@@ -6,5 +6,10 @@ terraform {
       source  = "IBM-Cloud/ibm"
       version = "2.9.0"
     }
+    # Only needed to remove the old restapi_object.cspm from the state of existing deployments.
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = "2.0.1"
+    }
   }
 }
