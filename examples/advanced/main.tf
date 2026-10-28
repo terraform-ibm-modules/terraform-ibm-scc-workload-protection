@@ -135,18 +135,24 @@ locals {
   ]
 }
 
-# create a new zone and add the FedRAMP policies to it
-resource "sysdig_secure_posture_zone" "example" {
+# create a new zone
+resource "sysdig_secure_zone" "example" {
   name        = "${var.prefix}-zone"
   description = "Zone description"
-  policy_ids  = [for p in local.fedramp_policies : p.id]
 
   # you can use a scope to only target a set of accounts, e.g.
-  scopes {
-    scope {
-      target_type = "ibm"
-      rules       = "account in (\"${local.account_id}\")"
+  scope {
+    target_type = "ibm"
+    expression {
+      field    = "account"
+      operator = "in"
+      values   = [local.account_id]
     }
   }
+}
 
+# add the FedRAMP policies to the zone
+resource "sysdig_secure_zone_posture_policy_assignment" "example" {
+  zone_id    = sysdig_secure_zone.example.id
+  policy_ids = [for p in local.fedramp_policies : p.id]
 }
