@@ -35,6 +35,9 @@ func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
 
 	options := setupOptions(t, "scc-wp-adv", advancedExampleDir)
+	options.TerraformVars = map[string]any{
+		"existing_app_config_crn": permanentResources["app_config_crn"],
+	}
 
 	output, err := options.RunTest()
 	assert.Nil(t, err, "This should not have errored")
