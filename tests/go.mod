@@ -1,21 +1,21 @@
 module github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection
 
-go 1.27
+go 1.27.3
 
 require (
 	github.com/gruntwork-io/terratest v1.0.1
 	github.com/stretchr/testify v1.12.1
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.80.5
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.80.8
 )
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20250818082648-8ebc393b4b26 // indirect
 	github.com/IBM-Cloud/power-go-client v1.17.0 // indirect
-	github.com/IBM/cloud-databases-go-sdk v0.8.2 // indirect
-	github.com/IBM/go-sdk-core/v5 v5.25.1 // indirect
-	github.com/IBM/networking-go-sdk v0.56.0 // indirect
-	github.com/IBM/platform-services-go-sdk v0.103.5 // indirect
+	github.com/IBM/cloud-databases-go-sdk v0.8.3 // indirect
+	github.com/IBM/go-sdk-core/v5 v5.25.2 // indirect
+	github.com/IBM/networking-go-sdk v0.56.2 // indirect
+	github.com/IBM/platform-services-go-sdk v0.103.6 // indirect
 	github.com/IBM/project-go-sdk v0.4.0 // indirect
 	github.com/IBM/schematics-go-sdk v0.4.1 // indirect
 	github.com/IBM/vpc-go-sdk v1.0.2 // indirect
@@ -29,7 +29,7 @@ require (
 	github.com/cloudflare/circl v1.6.5 // indirect
 	github.com/cyphar/filepath-securejoin v0.7.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/fxamacker/cbor/v2 v2.9.6 // indirect
+	github.com/fxamacker/cbor/v2 v2.10.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.16 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
@@ -42,8 +42,8 @@ require (
 	github.com/go-openapi/jsonpointer v1.0.2 // indirect
 	github.com/go-openapi/jsonreference v1.0.3 // indirect
 	github.com/go-openapi/loads v0.25.3 // indirect
-	github.com/go-openapi/runtime v0.33.3 // indirect
-	github.com/go-openapi/runtime/server-middleware v0.33.3 // indirect
+	github.com/go-openapi/runtime v0.33.4 // indirect
+	github.com/go-openapi/runtime/server-middleware v0.33.4 // indirect
 	github.com/go-openapi/spec v1.0.1 // indirect
 	github.com/go-openapi/strfmt v0.27.4 // indirect
 	github.com/go-openapi/swag v0.29.2 // indirect
@@ -106,7 +106,7 @@ require (
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/mod v0.42.0 // indirect
-	golang.org/x/net v0.61.0 // indirect
+	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sync v0.24.0 // indirect
 	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.43.0 // indirect
@@ -114,8 +114,8 @@ require (
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/apimachinery v0.37.1 // indirect
-	k8s.io/client-go v0.37.1 // indirect
+	k8s.io/apimachinery v0.37.2 // indirect
+	k8s.io/client-go v0.37.2 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260721132016-d427ff9ee9ad // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect

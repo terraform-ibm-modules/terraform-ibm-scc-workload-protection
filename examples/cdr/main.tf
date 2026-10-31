@@ -30,7 +30,7 @@ locals {
 
 module "key_protect_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.6.15"
+  version                   = "5.6.17"
   key_protect_instance_name = "${var.prefix}-kp"
   resource_group_id         = module.resource_group.resource_group_id
   enable_metrics            = false
@@ -61,7 +61,7 @@ module "key_protect_all_inclusive" {
 module "app_config" {
   count                                  = var.existing_app_config_crn == null ? 1 : 0
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.19.5"
+  version                                = "1.20.0"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"
