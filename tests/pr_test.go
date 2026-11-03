@@ -78,6 +78,9 @@ func TestRunCDRExample(t *testing.T) {
 		CheckApplyResultForUpgrade: true,
 		Region:                     getRandomRegion(),
 	})
+	options.TerraformVars = map[string]any{
+		"existing_app_config_crn": permanentResources["app_config_crn"],
+	}
 
 	options.IgnoreUpdates = testhelper.Exemptions{
 		List: []string{

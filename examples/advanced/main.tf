@@ -61,8 +61,9 @@ module "cbr_zone" {
 # App Config
 ########################################################################################################################
 
-# Create new App Config instance
+# Only create a new App Config instance if an existing one is not passed in
 module "app_config" {
+  count                                  = var.existing_app_config_crn == null ? 1 : 0
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
   version                                = "1.19.5"
   region                                 = var.region
@@ -72,6 +73,10 @@ module "app_config" {
   resource_tags                          = var.resource_tags
   enable_config_aggregator               = true
   config_aggregator_trusted_profile_name = "${var.prefix}-app-config-tp"
+}
+
+locals {
+  app_config_crn = var.existing_app_config_crn != null ? var.existing_app_config_crn : module.app_config[0].app_config_crn
 }
 
 ########################################################################################################################
@@ -87,7 +92,7 @@ module "scc_wp" {
   access_tags                                  = var.access_tags
   cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
   cspm_enabled                                 = true
-  app_config_crn                               = module.app_config.app_config_crn
+  app_config_crn                               = local.app_config_crn
   scc_workload_protection_trusted_profile_name = "${var.prefix}-wp-tp"
 
   cbr_rules = [
