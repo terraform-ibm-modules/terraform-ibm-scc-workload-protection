@@ -48,7 +48,7 @@ module "resource_group" {
 
 module "app_config" {
   source  = "terraform-ibm-modules/app-configuration/ibm"
-  version = "1.18.6"
+  version = "1.20.4"
 
   region            = var.region
   resource_group_id = module.resource_group.resource_group_id
@@ -74,7 +74,7 @@ module "app_config" {
 
 module "event_notifications" {
   source  = "terraform-ibm-modules/event-notifications/ibm"
-  version = "2.12.40"
+  version = "3.1.9"
 
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
@@ -141,9 +141,4 @@ module "scc_wp" {
   rt_cspm_atracker_target_name = "${var.prefix}-rt-cspm-at-target"
   rt_cspm_atracker_route_name  = "${var.prefix}-rt-cspm-at-route"
   rt_cspm_atracker_locations   = ["global", "*"]
-
-  # The rt_cspm_cos_*, rt_cspm_iam_*, rt_cspm_trusted_profile_name and
-  # rt_cspm_ce_* inputs are only used when CDR is disabled. With CDR enabled,
-  # RT CSPM reuses the CDR bucket, Service ID, trusted profile, Code Engine
-  # project/app and COS subscription, so none of them need to be set here.
 }

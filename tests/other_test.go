@@ -72,7 +72,6 @@ func TestRunCDRExample(t *testing.T) {
 }
 
 func TestRunRTCSPMExample(t *testing.T) {
-	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                    t,
@@ -84,7 +83,7 @@ func TestRunRTCSPMExample(t *testing.T) {
 
 	options.IgnoreUpdates = testhelper.Exemptions{
 		List: []string{
-			"module.scc_wp.module.rt_cspm[0].module.code_engine_app.ibm_code_engine_app.ce_app",
+			"module.scc_wp.module.rt_cspm[0].module.code_engine_app[0].ibm_code_engine_app.ce_app",
 		},
 	}
 

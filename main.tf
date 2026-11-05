@@ -352,7 +352,6 @@ module "rt_cspm" {
   depends_on = [
     ibm_resource_instance.scc_wp,
     ibm_resource_key.scc_wp_resource_key,
-    restapi_object.cspm,
-    module.cdr
+    restapi_object.cspm
   ]
 }
