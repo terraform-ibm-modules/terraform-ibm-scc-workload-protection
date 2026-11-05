@@ -2,7 +2,7 @@
 ##############################################################################
 # Create Code Engine COS Subscription
 #
-# This script creates a Code Engine COS subscription that triggers the CDR
+# This script creates a Code Engine COS subscription that triggers the RT CSPM
 # application when objects are written to the COS bucket.
 #
 # Required Environment Variables:

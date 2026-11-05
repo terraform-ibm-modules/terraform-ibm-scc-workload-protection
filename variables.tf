@@ -4,7 +4,7 @@
 ##############################################################################
 
 variable "ibmcloud_api_key" {
-  description = "IBM Cloud API key for authenticating with IBM Cloud services. Required for CDR functionality."
+  description = "IBM Cloud API key for authenticating with IBM Cloud services. Required when CDR or RT CSPM is enabled."
   type        = string
   sensitive   = true
   default     = null

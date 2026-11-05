@@ -84,7 +84,7 @@ locals {
 module "cos" {
   count                               = local.create_cos ? 1 : 0
   source                              = "terraform-ibm-modules/cos/ibm"
-  version                             = "10.17.15"
+  version                             = "11.2.5"
   create_cos_instance                 = var.existing_cos_instance_id != null ? false : true
   existing_cos_instance_id            = var.existing_cos_instance_id
   resource_group_id                   = var.resource_group_id
@@ -296,7 +296,7 @@ locals {
 module "code_engine_project" {
   count   = local.create_ce_project ? 1 : 0
   source  = "terraform-ibm-modules/code-engine/ibm"
-  version = "4.9.13"
+  version = "4.9.19"
 
   project_name      = var.ce_project_name
   resource_group_id = var.resource_group_id
@@ -335,7 +335,7 @@ locals {
 module "code_engine_app" {
   count                 = local.create_cos ? 1 : 0
   source                = "terraform-ibm-modules/code-engine/ibm//modules/app"
-  version               = "4.9.13"
+  version               = "4.9.19"
   name                  = var.ce_app_name
   project_id            = local.effective_ce_project_id
   image_reference       = var.rt_cspm_ce_app_image
@@ -411,7 +411,7 @@ resource "terraform_data" "rt_cspm_cos_subscription" {
   # Trigger replacement when key configuration changes
   # Store values in triggers_replace so they can be referenced in destroy provisioner via self
   triggers_replace = {
-    ibmcloud_api_key  = var.ibmcloud_api_key
+    ibmcloud_api_key  = sensitive(var.ibmcloud_api_key)
     region            = var.region
     resource_group    = var.resource_group_id
     project_id        = local.effective_ce_project_id

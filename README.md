@@ -20,6 +20,7 @@ A module for configuring an [IBM Cloud Security and Compliance Center Workload P
     <ul>
       <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/modules/account_check">account_check</a></li>
       <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/modules/cdr">cdr</a></li>
+      <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/modules/rt_cspm">rt_cspm</a></li>
     </ul>
   </li>
   <li><a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples">Examples</a>
@@ -97,6 +98,38 @@ module "scc_wp" {
 }
 ```
 
+#### Real-Time CSPM (RT CSPM)
+
+Set `rt_cspm_enabled = true` to stream configuration changes to Workload Protection in real time. Events flow from Activity Tracker Event Routing to the App Configuration config aggregator, then through Event Notifications and a COS bucket to a Code Engine app that forwards them to Workload Protection.
+
+Prerequisites:
+
+- `cspm_enabled = true`.
+- An App Configuration instance with the configuration aggregator enabled, passed in `app_config_crn`.
+- An Event Notifications instance that App Configuration is integrated with, passed in `rt_cspm_event_notifications_crn`.
+- `ibmcloud_api_key`, used to create the Code Engine COS subscription.
+
+```hcl
+module "scc_wp" {
+  source                          = "terraform-ibm-modules/scc-workload-protection/ibm"
+  version                         = "X.X.X" # Replace "X.X.X" with a release version to lock into a specific release
+  name                            = "my-scc-wp-service"
+  region                          = "us-south"
+  resource_group_id               = "65xxxxxxxxxxxxxxxa3fd"
+  ibmcloud_api_key                = "xxXXXXXXXXXXXXXxxxXxX" # pragma: allowlist secret
+  cspm_enabled                    = true
+  app_config_crn                  = "crn:v1:bluemix:public:apprapp:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+  rt_cspm_enabled                 = true
+  rt_cspm_event_notifications_crn = "crn:v1:bluemix:public:event-notifications:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
+}
+```
+
+RT CSPM can be enabled together with CDR (`cdr_enabled = true`). The module then reuses the CDR COS bucket, Service ID, trusted profile, Code Engine project and app, and COS subscription. It creates only the Activity Tracker and Event Notifications resources. The RT CSPM inputs for those shared resources (`rt_cspm_cos_*`, `rt_cspm_iam_*`, `rt_cspm_trusted_profile_name` and `rt_cspm_ce_*`) are then ignored.
+
+See the [RT CSPM](./examples/rt_cspm) and [CDR and RT CSPM](./examples/cdr_and_rt_cspm) examples.
+
+
+
 ### Known limitations
 
 #### CSPM configuration drift detection
@@ -109,6 +142,15 @@ When CSPM is enabled (`cspm_enabled = true`), the module uses the `restapi` prov
 This means the CSPM configuration should be fully managed by Terraform. Any out-of-band changes will not be detected or reverted.
 
 This limitation will be resolved when the module is updated to use restapi provider v3.0.0 with `ignore_server_additions`.
+
+#### RT CSPM
+
+- **The module manages the App Configuration aggregator settings.** When `rt_cspm_enabled = true`, the module creates an `ibm_config_aggregator_settings` resource for the App Configuration instance in `app_config_crn` and sets `realtime_config_enabled = true`. An App Configuration instance has only one set of aggregator settings. If another Terraform configuration manages the same settings without also setting `realtime_config_enabled = true`, the two will conflict, and applying the other configuration turns real-time collection off. Make sure only one configuration manages these settings, or that all of them set `realtime_config_enabled = true`.
+- **The App Configuration instance must already have the configuration aggregator enabled** with a trusted profile. The plan fails with a clear message if it does not.
+- **If the App Configuration instance is created in the same configuration as this module**, use a version of the [App Configuration module](https://github.com/terraform-ibm-modules/terraform-ibm-app-configuration) that supports real-time collection. Older versions manage the same aggregator settings without it, so every plan tries to replace them.
+- **The Event Notifications instance must already exist** and must be the one that App Configuration is integrated with (`rt_cspm_event_notifications_crn`).
+- **The IBM Cloud API key is stored in the Terraform state.** The COS event subscription is created and deleted by a local script, which needs `ibmcloud_api_key`. The key is kept in the `terraform_data` resource triggers so that it is available at destroy time. It is marked sensitive in the plan output, but it is still stored in plain text in the state file. Protect the state accordingly. Changing the key replaces the subscription.
+- **Local script requirements.** The subscription script needs `bash`, `jq`, the `ibmcloud` CLI and its `code-engine` plugin. When `rt_cspm_install_required_binaries` is `true` (the default), the module installs any that are missing.
 
 ### Required IAM access policies
 
@@ -204,7 +246,7 @@ statement instead the previous block.
 | <a name="input_cloud_monitoring_instance_crn"></a> [cloud\_monitoring\_instance\_crn](#input\_cloud\_monitoring\_instance\_crn) | To collect and analyze metrics and security data on hosts using both Monitoring and Workload Protection, pass the CRN of an existing IBM Cloud Monitoring instance to create the connection. Once the connection is created, the Monitoring instance CRN cannot be changed. | `string` | `null` | no |
 | <a name="input_cspm_enabled"></a> [cspm\_enabled](#input\_cspm\_enabled) | Enable Cloud Security Posture Management (CSPM) for the Workload Protection instance. This will create a trusted profile associated with the SCC Workload Protection instance that has viewer / reader access to the App Config service and viewer access to the Enterprise service. [Learn more](https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-about). | `bool` | `true` | no |
 | <a name="input_existing_cos_instance_id"></a> [existing\_cos\_instance\_id](#input\_existing\_cos\_instance\_id) | Existing COS instance to pass in. If set to `null`, a new instance will be created. | `string` | `null` | no |
-| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | IBM Cloud API key for authenticating with IBM Cloud services. Required for CDR functionality. | `string` | `null` | no |
+| <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | IBM Cloud API key for authenticating with IBM Cloud services. Required when CDR or RT CSPM is enabled. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name to give the SCC Workload Protection instance that will be provisioned by this module. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where all resources will be deployed | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID where resources will be provisioned. | `string` | n/a | yes |
