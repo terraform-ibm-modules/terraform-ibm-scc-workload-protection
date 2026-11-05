@@ -496,8 +496,18 @@ resource "restapi_object" "cdr" {
 }
 
 ################################################################
-# Enable CDR for SCC Workload Protection instance
+# Enable real-time config collection on the App Configuration aggregator
 ################################################################
+
+resource "time_sleep" "wait_for_atracker_target_propagation" {
+  depends_on      = [ibm_atracker_target.appconfig, ibm_atracker_route.rt_cspm]
+  create_duration = "60s"
+
+  triggers = {
+    target_id = ibm_atracker_target.appconfig.id
+    route_id  = ibm_atracker_route.rt_cspm.id
+  }
+}
 
 data "ibm_config_aggregator_settings" "config_aggregator_settings" {
   instance_id = local.app_config_guid
@@ -513,8 +523,7 @@ resource "ibm_config_aggregator_settings" "config_aggregator_settings_instance" 
   trusted_profile_id          = data.ibm_config_aggregator_settings.config_aggregator_settings.trusted_profile_id
 
   depends_on = [
-    ibm_atracker_target.appconfig,
-    ibm_atracker_route.rt_cspm,
+    time_sleep.wait_for_atracker_target_propagation,
     ibm_iam_authorization_policy.atracker_to_appconfig,
     restapi_object.cdr
   ]
