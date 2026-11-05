@@ -37,3 +37,9 @@ variable "access_tags" {
   description = "Optional list of access management tags to add to the SCC WP instance"
   default     = []
 }
+
+variable "existing_app_config_crn" {
+  type        = string
+  description = "The CRN of an existing App Configuration instance to use. If not specified, a new App Configuration instance is created."
+  default     = null
+}

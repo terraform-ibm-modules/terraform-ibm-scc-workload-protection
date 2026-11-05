@@ -90,7 +90,8 @@ module "scc_wp" {
   name                          = "my-scc-wp-service"
   region                        = "us-south"
   resource_group_id             = "65xxxxxxxxxxxxxxxa3fd"
-  resource_key_tags             = ["scc-wp-tag"]
+  resource_tags                 = ["scc-wp-tag"]
+  resource_key_tags             = ["scc-wp-key-tag"]
   cloud_monitoring_instance_crn = "crn:v1:bluemix:public:sysdig-monitor:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
   app_config_crn                = "crn:v1:bluemix:public:apprap:us-south:a/xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX:xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX::"
 }
@@ -149,7 +150,7 @@ statement instead the previous block.
 | Name | Source | Version |
 | ---- | ------ | ------- |
 | <a name="module_account_type_check"></a> [account\_type\_check](#module\_account\_type\_check) | ./modules/account_check | n/a |
-| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.36.9 |
+| <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.37.2 |
 | <a name="module_cdr"></a> [cdr](#module\_cdr) | ./modules/cdr | n/a |
 | <a name="module_rt_cspm"></a> [rt\_cspm](#module\_rt\_cspm) | ./modules/rt_cspm | n/a |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |

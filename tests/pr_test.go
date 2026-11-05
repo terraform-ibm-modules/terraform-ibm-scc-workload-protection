@@ -71,8 +71,16 @@ func TestMain(m *testing.M) {
 func TestRunCDRAndRTCSPMExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "cdr-rtcspm", cdrAndRtCspmExampleDir)
-	options.Region = getRandomRegion()
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                    t,
+		TerraformDir:               cdrExampleDir,
+		Prefix:                     "scc-wp-cdr",
+		CheckApplyResultForUpgrade: true,
+		Region:                     getRandomRegion(),
+	})
+	options.TerraformVars = map[string]any{
+		"existing_app_config_crn": permanentResources["app_config_crn"],
+	}
 
 	options.IgnoreUpdates = testhelper.Exemptions{
 		List: []string{

@@ -39,3 +39,9 @@ variable "cdr_atracker_route_name" {
   type        = string
   default     = "cdr-test-route"
 }
+
+variable "existing_app_config_crn" {
+  type        = string
+  description = "The CRN of an existing App Configuration instance to use. If not specified, a new App Configuration instance is created."
+  default     = null
+}
