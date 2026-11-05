@@ -91,7 +91,7 @@ You need the following permissions to run this module:
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, <3.0.0 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=2.0.1, <3.0.0 |
@@ -99,7 +99,7 @@ You need the following permissions to run this module:
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_activity_tracker"></a> [activity\_tracker](#module\_activity\_tracker) | terraform-ibm-modules/activity-tracker/ibm | 1.8.26 |
 | <a name="module_cdr_service_id"></a> [cdr\_service\_id](#module\_cdr\_service\_id) | terraform-ibm-modules/iam-service-id/ibm | 1.3.1 |
 | <a name="module_cdr_trusted_profile"></a> [cdr\_trusted\_profile](#module\_cdr\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
@@ -110,7 +110,7 @@ You need the following permissions to run this module:
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_iam_authorization_policy.ce_to_cos](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_authorization_policy) | resource |
 | [ibm_iam_trusted_profile_identity.service_id](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/iam_trusted_profile_identity) | resource |
 | [restapi_object.cdr](https://registry.terraform.io/providers/Mastercard/restapi/latest/docs/resources/object) | resource |
@@ -120,7 +120,7 @@ You need the following permissions to run this module:
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_atracker_locations"></a> [atracker\_locations](#input\_atracker\_locations) | List of locations to route Activity Tracker events from. Use ['*'] for all locations. Ensure that the route rule includes the `global` location in addition to your deployment region. | `list(string)` | <pre>[<br/>  "global"<br/>]</pre> | no |
 | <a name="input_atracker_route_name"></a> [atracker\_route\_name](#input\_atracker\_route\_name) | Name of the Activity Tracker route. | `string` | `null` | no |
 | <a name="input_atracker_target_name"></a> [atracker\_target\_name](#input\_atracker\_target\_name) | Name of the Activity Tracker target. | `string` | `null` | no |
@@ -161,7 +161,7 @@ You need the following permissions to run this module:
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_atracker_route_id"></a> [atracker\_route\_id](#output\_atracker\_route\_id) | ID of the Activity Tracker route |
 | <a name="output_atracker_target_crn"></a> [atracker\_target\_crn](#output\_atracker\_target\_crn) | CRN of the Activity Tracker target |
 | <a name="output_atracker_target_id"></a> [atracker\_target\_id](#output\_atracker\_target\_id) | ID of the Activity Tracker target |
@@ -176,6 +176,7 @@ You need the following permissions to run this module:
 | <a name="output_cos_instance_crn"></a> [cos\_instance\_crn](#output\_cos\_instance\_crn) | CRN of the COS instance created for CDR |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | GUID of the COS instance created for CDR |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | ID of the COS instance created for CDR |
+| <a name="output_cos_s3_endpoint"></a> [cos\_s3\_endpoint](#output\_cos\_s3\_endpoint) | S3 endpoint (without https://) of the CDR COS bucket, selected by management\_endpoint\_type\_for\_bucket |
 | <a name="output_service_api_key"></a> [service\_api\_key](#output\_service\_api\_key) | API key for CDR service authentication |
 | <a name="output_service_id"></a> [service\_id](#output\_service\_id) | IAM ID of the service ID created for CDR |
 | <a name="output_service_id_crn"></a> [service\_id\_crn](#output\_service\_id\_crn) | CRN of the service ID created for CDR |

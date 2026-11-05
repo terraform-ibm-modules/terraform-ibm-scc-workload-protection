@@ -28,7 +28,7 @@ import (
 Global variables
 */
 const resourceGroup = "geretain-test-resources"
-const cdrExampleDir = "examples/cdr"
+const cdrAndRtCspmExampleDir = "examples/cdr_and_rt_cspm"
 const fullyConfigurableDADir = "solutions/fully-configurable"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 const existingResources = "./existing-resources"
@@ -68,20 +68,15 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestRunCDRExample(t *testing.T) {
+func TestRunCDRAndRTCSPMExample(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:                    t,
-		TerraformDir:               cdrExampleDir,
-		Prefix:                     "scc-wp-cdr",
-		CheckApplyResultForUpgrade: true,
-		Region:                     getRandomRegion(),
-	})
+	options := setupOptions(t, "cdr-rtcspm", cdrAndRtCspmExampleDir)
+	options.Region = getRandomRegion()
 
 	options.IgnoreUpdates = testhelper.Exemptions{
 		List: []string{
-			"module.scc_wp_cdr.module.cdr[0].module.code_engine_app.ibm_code_engine_app.ce_app",
+			"module.scc_wp.module.cdr[0].module.code_engine_app.ibm_code_engine_app.ce_app",
 		},
 	}
 

@@ -9,8 +9,8 @@ variable "ibmcloud_api_key" {
   sensitive   = true
   default     = null
   validation {
-    condition     = var.cdr_enabled ? var.ibmcloud_api_key != null : true
-    error_message = "ibmcloud_api_key must be provided when CDR is enabled."
+    condition     = (var.cdr_enabled || var.rt_cspm_enabled) ? var.ibmcloud_api_key != null : true
+    error_message = "ibmcloud_api_key must be provided when CDR or RT CSPM is enabled."
   }
 }
 
@@ -388,5 +388,276 @@ variable "cdr_install_required_binaries" {
   type        = bool
   default     = true
   description = "When set to true, a script will run to check if `jq`, the `ibmcloud` CLI, and the `code-engine` plugin exist on the runtime and if not attempt to download them from the public internet and install them to /tmp. Set to false to skip running this script."
+  nullable    = false
+}
+
+##############################################################
+# RT CSPM (Real-Time Cloud Security Posture Management)
+##############################################################
+
+variable "rt_cspm_enabled" {
+  description = "Enable Real-Time Cloud Security Posture Management (RT CSPM) for the Workload Protection instance. Creates an Activity Tracker route to App Configuration and wires Event Notifications → COS → Code Engine for real-time config-change event forwarding. Requires CSPM to be enabled."
+  type        = bool
+  default     = false
+  nullable    = false
+  validation {
+    condition     = var.rt_cspm_enabled ? var.cspm_enabled : true
+    error_message = "CSPM must be enabled (cspm_enabled = true) when RT CSPM is enabled."
+  }
+}
+
+variable "rt_cspm_event_notifications_crn" {
+  description = "CRN of the existing Event Notifications instance to use for RT CSPM. Required when rt_cspm_enabled is true."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.rt_cspm_enabled ? var.rt_cspm_event_notifications_crn != null : true
+    error_message = "rt_cspm_event_notifications_crn must be provided when rt_cspm_enabled is true."
+  }
+  validation {
+    condition = anytrue([
+      can(regex("^crn:(.*:){3}event-notifications:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$", var.rt_cspm_event_notifications_crn)),
+      var.rt_cspm_event_notifications_crn == null,
+    ])
+    error_message = "The provided Event Notifications instance CRN is not valid."
+  }
+}
+
+variable "rt_cspm_event_notifications_topic_name" {
+  description = "Name of the Event Notifications topic for RT CSPM App Configuration aggregator events."
+  type        = string
+  default     = "rt-cspm-appconfig-topic"
+}
+
+variable "rt_cspm_enable_topic_rule" {
+  description = "Whether to enable the rule on the Event Notifications topic source."
+  type        = bool
+  default     = true
+}
+
+variable "rt_cspm_event_type_filter" {
+  description = "Event type filter for the Event Notifications topic rule."
+  type        = string
+  default     = "$.*"
+}
+
+variable "rt_cspm_notification_filter" {
+  description = "Notification filter JSONPath regex pattern for filtering App Configuration aggregator events."
+  type        = string
+  default     = "$.type =~ 'com.ibm.cloud.apprapp.config_aggregator.*'"
+}
+
+variable "rt_cspm_event_notifications_destination_name" {
+  description = "Name of the Event Notifications COS destination for RT CSPM."
+  type        = string
+  default     = "rt-cspm-cos-destination"
+}
+
+variable "rt_cspm_event_notifications_subscription_name" {
+  description = "Name of the Event Notifications COS subscription for RT CSPM."
+  type        = string
+  default     = "rt-cspm-cos-subscription"
+}
+
+variable "rt_cspm_atracker_target_name" {
+  description = "Name of the Activity Tracker App Config target for RT CSPM."
+  type        = string
+  default     = null
+}
+
+variable "rt_cspm_atracker_route_name" {
+  description = "Name of the Activity Tracker route for RT CSPM."
+  type        = string
+  default     = null
+}
+
+variable "rt_cspm_atracker_locations" {
+  description = "List of locations to route Activity Tracker events from for RT CSPM. Ensure the route includes the `global` location."
+  type        = list(string)
+  default     = ["global", "*"]
+}
+
+variable "rt_cspm_iam_service_id_name" {
+  description = "Name of the IAM Service ID for the RT CSPM Code Engine application. Not used when CDR is also enabled (the CDR Service ID is reused)."
+  type        = string
+  default     = "rt-cspm-ce-service-id"
+}
+
+variable "rt_cspm_iam_service_policy_name" {
+  description = "Name of the IAM Service policy with Container Registry reader access for RT CSPM."
+  type        = string
+  default     = "rt-cspm-container-registry-reader"
+}
+
+variable "rt_cspm_cos_bucket_name" {
+  description = "Name of the COS bucket for RT CSPM Event Notifications archives."
+  type        = string
+  default     = "rt-cspm-events-bucket"
+}
+
+variable "rt_cspm_cos_bucket_storage_class" {
+  description = "Storage class for the RT CSPM COS bucket."
+  type        = string
+  default     = "smart"
+  validation {
+    condition     = can(regex("^standard$|^vault$|^cold$|^smart$|^onerate_active", var.rt_cspm_cos_bucket_storage_class))
+    error_message = "The value isn't valid. Possible values are 'standard', 'vault', 'cold', 'smart', or 'onerate_active'."
+  }
+}
+
+variable "rt_cspm_cos_instance_name" {
+  description = "Name of the COS instance for RT CSPM. Not used when existing_cos_instance_id is also provided."
+  type        = string
+  default     = "rt-cspm-cos-instance"
+}
+
+variable "rt_cspm_cos_plan" {
+  description = "Plan for the RT CSPM COS instance."
+  type        = string
+  default     = "standard"
+  validation {
+    condition     = contains(["standard", "lite"], var.rt_cspm_cos_plan)
+    error_message = "COS plan must be either 'standard' or 'lite'."
+  }
+}
+
+variable "rt_cspm_management_endpoint_type_for_bucket" {
+  description = "Endpoint type for the IBM Terraform provider to manage the RT CSPM COS bucket. Possible values are `public`, `private`, or `direct`."
+  type        = string
+  default     = "public"
+  validation {
+    condition     = contains(["public", "private", "direct"], var.rt_cspm_management_endpoint_type_for_bucket)
+    error_message = "The value isn't valid. Possible values are `public`, `private`, or `direct`."
+  }
+}
+
+variable "rt_cspm_kms_encryption_enabled" {
+  description = "Enable KMS encryption for the RT CSPM COS bucket."
+  type        = bool
+  default     = false
+}
+
+variable "rt_cspm_kms_key_crn" {
+  description = "CRN of the KMS key for RT CSPM COS bucket encryption. Required when rt_cspm_kms_encryption_enabled is true."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.rt_cspm_kms_encryption_enabled ? var.rt_cspm_kms_key_crn != null : true
+    error_message = "rt_cspm_kms_key_crn is required when rt_cspm_kms_encryption_enabled is true."
+  }
+}
+
+variable "rt_cspm_skip_iam_authorization_policy" {
+  description = "Set to true to skip the IAM authorization policy that allows the RT CSPM COS instance to read the KMS encryption key."
+  type        = bool
+  default     = true
+  validation {
+    condition     = var.rt_cspm_kms_encryption_enabled ? var.rt_cspm_skip_iam_authorization_policy != true : true
+    error_message = "rt_cspm_skip_iam_authorization_policy cannot be true when rt_cspm_kms_encryption_enabled is true."
+  }
+}
+
+variable "rt_cspm_trusted_profile_name" {
+  description = "Name of the trusted profile for RT CSPM Workload Protection interaction with COS. Not used when CDR is also enabled (the CDR trusted profile is reused)."
+  type        = string
+  default     = "rt-cspm-wp-trusted-profile"
+}
+
+variable "rt_cspm_ce_project_name" {
+  description = "Name of the Code Engine project for RT CSPM. Not used when CDR is also enabled (the CDR Code Engine project is reused)."
+  type        = string
+  default     = "rt-cspm-ce-project"
+}
+
+variable "rt_cspm_ce_app_name" {
+  description = "Name of the Code Engine application for RT CSPM."
+  type        = string
+  default     = "ce-rt-cspm-app"
+}
+
+variable "rt_cspm_ce_app_image" {
+  description = "Container image for the RT CSPM notification application."
+  type        = string
+  default     = "icr.io/ext/sysdig/cdr-notification-app:latest"
+}
+
+variable "rt_cspm_ce_app_min_scale" {
+  description = "Minimum number of instances for the RT CSPM Code Engine app."
+  type        = number
+  default     = 1
+  validation {
+    condition     = var.rt_cspm_ce_app_min_scale >= 1 && var.rt_cspm_ce_app_min_scale <= 250
+    error_message = "Minimum scale must be between 1 and 250."
+  }
+}
+
+variable "rt_cspm_ce_app_max_scale" {
+  description = "Maximum number of instances for the RT CSPM Code Engine app."
+  type        = number
+  default     = 10
+  validation {
+    condition     = var.rt_cspm_ce_app_max_scale >= 1 && var.rt_cspm_ce_app_max_scale <= 250
+    error_message = "Maximum scale must be between 1 and 250."
+  }
+}
+
+variable "rt_cspm_ce_app_cpu" {
+  description = "CPU limit for the RT CSPM Code Engine app."
+  type        = string
+  default     = "0.125"
+  validation {
+    condition     = contains(["0.125", "0.25", "0.5", "1", "2", "4", "6", "8"], var.rt_cspm_ce_app_cpu)
+    error_message = "CPU limit must be one of: 0.125, 0.25, 0.5, 1, 2, 4, 6, 8."
+  }
+}
+
+variable "rt_cspm_ce_app_memory" {
+  description = "Memory limit for the RT CSPM Code Engine app."
+  type        = string
+  default     = "500M"
+  validation {
+    condition     = can(regex("^[0-9]+(M|G)$", var.rt_cspm_ce_app_memory))
+    error_message = "Memory limit must be in format like '500M' or '1G'."
+  }
+}
+
+variable "rt_cspm_ce_app_timeout" {
+  description = "Request timeout in seconds for the RT CSPM Code Engine app."
+  type        = number
+  default     = 60
+  validation {
+    condition     = var.rt_cspm_ce_app_timeout >= 1 && var.rt_cspm_ce_app_timeout <= 600
+    error_message = "Timeout must be between 1 and 600 seconds."
+  }
+}
+
+variable "rt_cspm_ce_run_service_account" {
+  description = "Service account name for the RT CSPM Code Engine app."
+  type        = string
+  default     = "default"
+}
+
+variable "rt_cspm_ce_api_secret_name" {
+  description = "Name of the Code Engine generic secret holding the RT CSPM API key."
+  type        = string
+  default     = "rt-cspm-api-secret"
+}
+
+variable "rt_cspm_ce_icr_secret_name" {
+  description = "Name of the Code Engine registry secret for pulling RT CSPM images."
+  type        = string
+  default     = "rt-cspm-icr-secret"
+}
+
+variable "rt_cspm_subscription_name" {
+  description = "Name of the COS event subscription to Code Engine for RT CSPM."
+  type        = string
+  default     = "rt-cspm-cos-ce-subscription"
+}
+
+variable "rt_cspm_install_required_binaries" {
+  description = "When set to true, a script will run to install `jq`, the `ibmcloud` CLI, and the `code-engine` plugin if not already present."
+  type        = bool
+  default     = true
   nullable    = false
 }

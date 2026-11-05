@@ -37,8 +37,16 @@ A module for configuring an [IBM Cloud Security and Compliance Center Workload P
         <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=scc-workload-protection-cdr-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/cdr"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
       </li>
       <li>
+        <a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/cdr_and_rt_cspm">CDR and RT CSPM example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=scc-workload-protection-cdr_and_rt_cspm-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/cdr_and_rt_cspm"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
         <a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/enterprise">Enterprise example with CSPM enabled</a>
         <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=scc-workload-protection-enterprise-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/enterprise"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+      </li>
+      <li>
+        <a href="https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/rt_cspm">RT CSPM example</a>
+        <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=scc-workload-protection-rt_cspm-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-scc-workload-protection/tree/main/examples/rt_cspm"><img src="https://img.shields.io/badge/Deploy%20with%20IBM%20Cloud%20Schematics-0f62fe?style=flat&logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
       </li>
     </ul>
     ℹ️ Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab.
@@ -131,24 +139,25 @@ statement instead the previous block.
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.89.0, <3.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 2.8.3, <3.0.0 |
 | <a name="requirement_restapi"></a> [restapi](#requirement\_restapi) | >=2.0.1, <3.0.0 |
 
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_account_type_check"></a> [account\_type\_check](#module\_account\_type\_check) | ./modules/account_check | n/a |
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.36.9 |
 | <a name="module_cdr"></a> [cdr](#module\_cdr) | ./modules/cdr | n/a |
+| <a name="module_rt_cspm"></a> [rt\_cspm](#module\_rt\_cspm) | ./modules/rt_cspm | n/a |
 | <a name="module_trusted_profile_scc_wp"></a> [trusted\_profile\_scc\_wp](#module\_trusted\_profile\_scc\_wp) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
 
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_resource_instance.scc_wp](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_instance) | resource |
 | [ibm_resource_key.scc_wp_resource_key](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_key) | resource |
 | [ibm_resource_tag.scc_wp_access_tag](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/resources/resource_tag) | resource |
@@ -159,7 +168,7 @@ statement instead the previous block.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the SCC WP instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). | `list(string)` | `[]` | no |
 | <a name="input_app_config_crn"></a> [app\_config\_crn](#input\_app\_config\_crn) | The CRN of an existing App Config instance to use with the SCC Workload Protection instance. Required if `cspm_enabled` is true. NOTE: Ensure the App Config instance has configuration aggregator enabled. | `string` | `null` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The context-based restrictions rule to create. Only one rule is allowed. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    tags = optional(list(object({<br/>      name  = string<br/>      value = string<br/>    })), [])<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>  }))</pre> | `[]` | no |
@@ -201,13 +210,48 @@ statement instead the previous block.
 | <a name="input_resource_key_name"></a> [resource\_key\_name](#input\_resource\_key\_name) | The name to give the IBM Cloud SCC WP resource key. | `string` | `"SCCWPManagerKey"` | no |
 | <a name="input_resource_key_tags"></a> [resource\_key\_tags](#input\_resource\_key\_tags) | Tags associated with the IBM Cloud SCC WP resource key. | `list(string)` | `[]` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Add user resource tags to the SCC WP instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). | `list(string)` | `[]` | no |
+| <a name="input_rt_cspm_atracker_locations"></a> [rt\_cspm\_atracker\_locations](#input\_rt\_cspm\_atracker\_locations) | List of locations to route Activity Tracker events from for RT CSPM. Ensure the route includes the `global` location. | `list(string)` | <pre>[<br/>  "global",<br/>  "*"<br/>]</pre> | no |
+| <a name="input_rt_cspm_atracker_route_name"></a> [rt\_cspm\_atracker\_route\_name](#input\_rt\_cspm\_atracker\_route\_name) | Name of the Activity Tracker route for RT CSPM. | `string` | `null` | no |
+| <a name="input_rt_cspm_atracker_target_name"></a> [rt\_cspm\_atracker\_target\_name](#input\_rt\_cspm\_atracker\_target\_name) | Name of the Activity Tracker App Config target for RT CSPM. | `string` | `null` | no |
+| <a name="input_rt_cspm_ce_api_secret_name"></a> [rt\_cspm\_ce\_api\_secret\_name](#input\_rt\_cspm\_ce\_api\_secret\_name) | Name of the Code Engine generic secret holding the RT CSPM API key. | `string` | `"rt-cspm-api-secret"` | no |
+| <a name="input_rt_cspm_ce_app_cpu"></a> [rt\_cspm\_ce\_app\_cpu](#input\_rt\_cspm\_ce\_app\_cpu) | CPU limit for the RT CSPM Code Engine app. | `string` | `"0.125"` | no |
+| <a name="input_rt_cspm_ce_app_image"></a> [rt\_cspm\_ce\_app\_image](#input\_rt\_cspm\_ce\_app\_image) | Container image for the RT CSPM notification application. | `string` | `"icr.io/ext/sysdig/cdr-notification-app:latest"` | no |
+| <a name="input_rt_cspm_ce_app_max_scale"></a> [rt\_cspm\_ce\_app\_max\_scale](#input\_rt\_cspm\_ce\_app\_max\_scale) | Maximum number of instances for the RT CSPM Code Engine app. | `number` | `10` | no |
+| <a name="input_rt_cspm_ce_app_memory"></a> [rt\_cspm\_ce\_app\_memory](#input\_rt\_cspm\_ce\_app\_memory) | Memory limit for the RT CSPM Code Engine app. | `string` | `"500M"` | no |
+| <a name="input_rt_cspm_ce_app_min_scale"></a> [rt\_cspm\_ce\_app\_min\_scale](#input\_rt\_cspm\_ce\_app\_min\_scale) | Minimum number of instances for the RT CSPM Code Engine app. | `number` | `1` | no |
+| <a name="input_rt_cspm_ce_app_name"></a> [rt\_cspm\_ce\_app\_name](#input\_rt\_cspm\_ce\_app\_name) | Name of the Code Engine application for RT CSPM. | `string` | `"ce-rt-cspm-app"` | no |
+| <a name="input_rt_cspm_ce_app_timeout"></a> [rt\_cspm\_ce\_app\_timeout](#input\_rt\_cspm\_ce\_app\_timeout) | Request timeout in seconds for the RT CSPM Code Engine app. | `number` | `60` | no |
+| <a name="input_rt_cspm_ce_icr_secret_name"></a> [rt\_cspm\_ce\_icr\_secret\_name](#input\_rt\_cspm\_ce\_icr\_secret\_name) | Name of the Code Engine registry secret for pulling RT CSPM images. | `string` | `"rt-cspm-icr-secret"` | no |
+| <a name="input_rt_cspm_ce_project_name"></a> [rt\_cspm\_ce\_project\_name](#input\_rt\_cspm\_ce\_project\_name) | Name of the Code Engine project for RT CSPM. Not used when CDR is also enabled (the CDR Code Engine project is reused). | `string` | `"rt-cspm-ce-project"` | no |
+| <a name="input_rt_cspm_ce_run_service_account"></a> [rt\_cspm\_ce\_run\_service\_account](#input\_rt\_cspm\_ce\_run\_service\_account) | Service account name for the RT CSPM Code Engine app. | `string` | `"default"` | no |
+| <a name="input_rt_cspm_cos_bucket_name"></a> [rt\_cspm\_cos\_bucket\_name](#input\_rt\_cspm\_cos\_bucket\_name) | Name of the COS bucket for RT CSPM Event Notifications archives. | `string` | `"rt-cspm-events-bucket"` | no |
+| <a name="input_rt_cspm_cos_bucket_storage_class"></a> [rt\_cspm\_cos\_bucket\_storage\_class](#input\_rt\_cspm\_cos\_bucket\_storage\_class) | Storage class for the RT CSPM COS bucket. | `string` | `"smart"` | no |
+| <a name="input_rt_cspm_cos_instance_name"></a> [rt\_cspm\_cos\_instance\_name](#input\_rt\_cspm\_cos\_instance\_name) | Name of the COS instance for RT CSPM. Not used when existing\_cos\_instance\_id is also provided. | `string` | `"rt-cspm-cos-instance"` | no |
+| <a name="input_rt_cspm_cos_plan"></a> [rt\_cspm\_cos\_plan](#input\_rt\_cspm\_cos\_plan) | Plan for the RT CSPM COS instance. | `string` | `"standard"` | no |
+| <a name="input_rt_cspm_enable_topic_rule"></a> [rt\_cspm\_enable\_topic\_rule](#input\_rt\_cspm\_enable\_topic\_rule) | Whether to enable the rule on the Event Notifications topic source. | `bool` | `true` | no |
+| <a name="input_rt_cspm_enabled"></a> [rt\_cspm\_enabled](#input\_rt\_cspm\_enabled) | Enable Real-Time Cloud Security Posture Management (RT CSPM) for the Workload Protection instance. Creates an Activity Tracker route to App Configuration and wires Event Notifications → COS → Code Engine for real-time config-change event forwarding. Requires CSPM to be enabled. | `bool` | `false` | no |
+| <a name="input_rt_cspm_event_notifications_crn"></a> [rt\_cspm\_event\_notifications\_crn](#input\_rt\_cspm\_event\_notifications\_crn) | CRN of the existing Event Notifications instance to use for RT CSPM. Required when rt\_cspm\_enabled is true. | `string` | `null` | no |
+| <a name="input_rt_cspm_event_notifications_destination_name"></a> [rt\_cspm\_event\_notifications\_destination\_name](#input\_rt\_cspm\_event\_notifications\_destination\_name) | Name of the Event Notifications COS destination for RT CSPM. | `string` | `"rt-cspm-cos-destination"` | no |
+| <a name="input_rt_cspm_event_notifications_subscription_name"></a> [rt\_cspm\_event\_notifications\_subscription\_name](#input\_rt\_cspm\_event\_notifications\_subscription\_name) | Name of the Event Notifications COS subscription for RT CSPM. | `string` | `"rt-cspm-cos-subscription"` | no |
+| <a name="input_rt_cspm_event_notifications_topic_name"></a> [rt\_cspm\_event\_notifications\_topic\_name](#input\_rt\_cspm\_event\_notifications\_topic\_name) | Name of the Event Notifications topic for RT CSPM App Configuration aggregator events. | `string` | `"rt-cspm-appconfig-topic"` | no |
+| <a name="input_rt_cspm_event_type_filter"></a> [rt\_cspm\_event\_type\_filter](#input\_rt\_cspm\_event\_type\_filter) | Event type filter for the Event Notifications topic rule. | `string` | `"$.*"` | no |
+| <a name="input_rt_cspm_iam_service_id_name"></a> [rt\_cspm\_iam\_service\_id\_name](#input\_rt\_cspm\_iam\_service\_id\_name) | Name of the IAM Service ID for the RT CSPM Code Engine application. Not used when CDR is also enabled (the CDR Service ID is reused). | `string` | `"rt-cspm-ce-service-id"` | no |
+| <a name="input_rt_cspm_iam_service_policy_name"></a> [rt\_cspm\_iam\_service\_policy\_name](#input\_rt\_cspm\_iam\_service\_policy\_name) | Name of the IAM Service policy with Container Registry reader access for RT CSPM. | `string` | `"rt-cspm-container-registry-reader"` | no |
+| <a name="input_rt_cspm_install_required_binaries"></a> [rt\_cspm\_install\_required\_binaries](#input\_rt\_cspm\_install\_required\_binaries) | When set to true, a script will run to install `jq`, the `ibmcloud` CLI, and the `code-engine` plugin if not already present. | `bool` | `true` | no |
+| <a name="input_rt_cspm_kms_encryption_enabled"></a> [rt\_cspm\_kms\_encryption\_enabled](#input\_rt\_cspm\_kms\_encryption\_enabled) | Enable KMS encryption for the RT CSPM COS bucket. | `bool` | `false` | no |
+| <a name="input_rt_cspm_kms_key_crn"></a> [rt\_cspm\_kms\_key\_crn](#input\_rt\_cspm\_kms\_key\_crn) | CRN of the KMS key for RT CSPM COS bucket encryption. Required when rt\_cspm\_kms\_encryption\_enabled is true. | `string` | `null` | no |
+| <a name="input_rt_cspm_management_endpoint_type_for_bucket"></a> [rt\_cspm\_management\_endpoint\_type\_for\_bucket](#input\_rt\_cspm\_management\_endpoint\_type\_for\_bucket) | Endpoint type for the IBM Terraform provider to manage the RT CSPM COS bucket. Possible values are `public`, `private`, or `direct`. | `string` | `"public"` | no |
+| <a name="input_rt_cspm_notification_filter"></a> [rt\_cspm\_notification\_filter](#input\_rt\_cspm\_notification\_filter) | Notification filter JSONPath regex pattern for filtering App Configuration aggregator events. | `string` | `"$.type =~ 'com.ibm.cloud.apprapp.config_aggregator.*'"` | no |
+| <a name="input_rt_cspm_skip_iam_authorization_policy"></a> [rt\_cspm\_skip\_iam\_authorization\_policy](#input\_rt\_cspm\_skip\_iam\_authorization\_policy) | Set to true to skip the IAM authorization policy that allows the RT CSPM COS instance to read the KMS encryption key. | `bool` | `true` | no |
+| <a name="input_rt_cspm_subscription_name"></a> [rt\_cspm\_subscription\_name](#input\_rt\_cspm\_subscription\_name) | Name of the COS event subscription to Code Engine for RT CSPM. | `string` | `"rt-cspm-cos-ce-subscription"` | no |
+| <a name="input_rt_cspm_trusted_profile_name"></a> [rt\_cspm\_trusted\_profile\_name](#input\_rt\_cspm\_trusted\_profile\_name) | Name of the trusted profile for RT CSPM Workload Protection interaction with COS. Not used when CDR is also enabled (the CDR trusted profile is reused). | `string` | `"rt-cspm-wp-trusted-profile"` | no |
 | <a name="input_scc_workload_protection_trusted_profile_name"></a> [scc\_workload\_protection\_trusted\_profile\_name](#input\_scc\_workload\_protection\_trusted\_profile\_name) | The name to give the trusted profile that is created by this module if `cspm_enabled` is `true. Must begin with a letter.` | `string` | `"workload-protection-trusted-profile"` | no |
 | <a name="input_scc_wp_service_plan"></a> [scc\_wp\_service\_plan](#input\_scc\_wp\_service\_plan) | IBM service pricing plan. | `string` | `"free-trial"` | no |
 
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_access_key"></a> [access\_key](#output\_access\_key) | Workload Protection instance access key. |
 | <a name="output_account_id"></a> [account\_id](#output\_account\_id) | Account ID of created SCC WP instance. |
 | <a name="output_api_endpoint"></a> [api\_endpoint](#output\_api\_endpoint) | API endpoint. |
@@ -237,6 +281,25 @@ statement instead the previous block.
 | <a name="output_id"></a> [id](#output\_id) | ID of created SCC WP instance. |
 | <a name="output_ingestion_endpoint"></a> [ingestion\_endpoint](#output\_ingestion\_endpoint) | Ingestion endpoint. |
 | <a name="output_name"></a> [name](#output\_name) | Name of created SCC WP instance. |
+| <a name="output_rt_cspm_atracker_route_id"></a> [rt\_cspm\_atracker\_route\_id](#output\_rt\_cspm\_atracker\_route\_id) | ID of the RT CSPM Activity Tracker route |
+| <a name="output_rt_cspm_atracker_target_crn"></a> [rt\_cspm\_atracker\_target\_crn](#output\_rt\_cspm\_atracker\_target\_crn) | CRN of the RT CSPM Activity Tracker target |
+| <a name="output_rt_cspm_atracker_target_id"></a> [rt\_cspm\_atracker\_target\_id](#output\_rt\_cspm\_atracker\_target\_id) | ID of the Activity Tracker target that delivers events to App Configuration |
+| <a name="output_rt_cspm_code_engine_app"></a> [rt\_cspm\_code\_engine\_app](#output\_rt\_cspm\_code\_engine\_app) | Name of the Code Engine app that forwards RT CSPM events |
+| <a name="output_rt_cspm_code_engine_app_url"></a> [rt\_cspm\_code\_engine\_app\_url](#output\_rt\_cspm\_code\_engine\_app\_url) | URL of the RT CSPM Code Engine app |
+| <a name="output_rt_cspm_code_engine_project_id"></a> [rt\_cspm\_code\_engine\_project\_id](#output\_rt\_cspm\_code\_engine\_project\_id) | ID of the Code Engine project used by RT CSPM |
+| <a name="output_rt_cspm_cos_bucket_crn"></a> [rt\_cspm\_cos\_bucket\_crn](#output\_rt\_cspm\_cos\_bucket\_crn) | CRN of the RT CSPM COS bucket |
+| <a name="output_rt_cspm_cos_bucket_id"></a> [rt\_cspm\_cos\_bucket\_id](#output\_rt\_cspm\_cos\_bucket\_id) | ID of the RT CSPM COS bucket |
+| <a name="output_rt_cspm_cos_bucket_name"></a> [rt\_cspm\_cos\_bucket\_name](#output\_rt\_cspm\_cos\_bucket\_name) | Name of the COS bucket that stores RT CSPM notification archives |
+| <a name="output_rt_cspm_cos_instance_crn"></a> [rt\_cspm\_cos\_instance\_crn](#output\_rt\_cspm\_cos\_instance\_crn) | CRN of the COS instance used for RT CSPM |
+| <a name="output_rt_cspm_cos_instance_guid"></a> [rt\_cspm\_cos\_instance\_guid](#output\_rt\_cspm\_cos\_instance\_guid) | GUID of the COS instance used for RT CSPM |
+| <a name="output_rt_cspm_cos_instance_id"></a> [rt\_cspm\_cos\_instance\_id](#output\_rt\_cspm\_cos\_instance\_id) | ID of the COS instance used for RT CSPM |
+| <a name="output_rt_cspm_event_notifications_destination_id"></a> [rt\_cspm\_event\_notifications\_destination\_id](#output\_rt\_cspm\_event\_notifications\_destination\_id) | ID of the Event Notifications COS destination |
+| <a name="output_rt_cspm_event_notifications_subscription_id"></a> [rt\_cspm\_event\_notifications\_subscription\_id](#output\_rt\_cspm\_event\_notifications\_subscription\_id) | ID of the Event Notifications COS subscription |
+| <a name="output_rt_cspm_event_notifications_topic_id"></a> [rt\_cspm\_event\_notifications\_topic\_id](#output\_rt\_cspm\_event\_notifications\_topic\_id) | ID of the Event Notifications topic that filters App Configuration aggregator events |
+| <a name="output_rt_cspm_ingestion_endpoint"></a> [rt\_cspm\_ingestion\_endpoint](#output\_rt\_cspm\_ingestion\_endpoint) | Sysdig ingestion URL for RT CSPM events |
+| <a name="output_rt_cspm_service_api_key"></a> [rt\_cspm\_service\_api\_key](#output\_rt\_cspm\_service\_api\_key) | API key of the service ID used by RT CSPM |
+| <a name="output_rt_cspm_service_id"></a> [rt\_cspm\_service\_id](#output\_rt\_cspm\_service\_id) | ID of the service ID used by RT CSPM |
+| <a name="output_rt_cspm_trusted_profile_id"></a> [rt\_cspm\_trusted\_profile\_id](#output\_rt\_cspm\_trusted\_profile\_id) | ID of the trusted profile used by RT CSPM |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
