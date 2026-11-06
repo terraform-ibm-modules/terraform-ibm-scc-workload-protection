@@ -213,7 +213,7 @@ You need the following permissions to run this module:
 | <a name="input_kms_key_crn"></a> [kms\_key\_crn](#input\_kms\_key\_crn) | CRN of the KMS key to use for bucket encryption. Required if kms\_encryption\_enabled is true | `string` | `null` | no |
 | <a name="input_management_endpoint_type_for_bucket"></a> [management\_endpoint\_type\_for\_bucket](#input\_management\_endpoint\_type\_for\_bucket) | The type of endpoint for the IBM terraform provider to manage the bucket. Possible values are `public`, `private`, or `direct`. | `string` | `"public"` | no |
 | <a name="input_notification_filter"></a> [notification\_filter](#input\_notification\_filter) | Notification filter JSONPath regex pattern for filtering App Configuration aggregator events. | `string` | `"$.type =~ 'com.ibm.cloud.apprapp.config_aggregator.*'"` | no |
-| <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where RT CSPM resources will be deployed | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | IBM Cloud region where RT CSPM resources will be deployed | `string` | `"us-south"` | no |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The resource group ID in which RT CSPM resources will be provisioned | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to RT CSPM resources | `list(string)` | `[]` | no |
 | <a name="input_rt_cspm_ce_app_image"></a> [rt\_cspm\_ce\_app\_image](#input\_rt\_cspm\_ce\_app\_image) | The RT CSPM notification application image hosted in IBM Cloud Container Registry. | `string` | `"icr.io/ext/sysdig/cdr-notification-app:latest"` | no |

@@ -9,8 +9,6 @@ resource "ibm_atracker_target" "appconfig" {
     target_crn = var.app_config_crn
   }
 
-  # The target creation performs a test write to App Config, so the S2S
-  # authorization must exist and have propagated first.
   depends_on = [time_sleep.wait_for_atracker_to_appconfig_auth_policy]
 }
 
@@ -28,8 +26,6 @@ resource "ibm_atracker_route" "rt_cspm" {
 ##############################################################################
 
 locals {
-  # Build the Sysdig ingestion URL from environment URL and the effective service ID.
-  # Null when use_cdr_infrastructure is true (CDR owns the forwarding app and Service ID).
   rt_cspm_ingestion_endpoint = local.effective_service_id == null ? null : "https://${var.sysdig_environment_url}/api/cloudingestion/webhooks/ibm/v1/${local.effective_service_id}"
   app_config_guid            = module.app_config_crn_parser.service_instance
 }
@@ -75,7 +71,6 @@ locals {
     var.management_endpoint_type_for_bucket == "public" ? module.cos[0].s3_endpoint_public : module.cos[0].s3_endpoint_direct
   ))
 
-  # Effective COS target for Event Notifications: CDR's bucket or this module's own.
   cos_instance_guid = local.create_cos ? module.cos[0].cos_instance_guid : var.cdr_cos_instance_guid
   cos_bucket_name   = local.create_cos ? module.cos[0].bucket_name : var.cdr_cos_bucket_name
   cos_s3_endpoint   = local.create_cos ? local.own_cos_s3_endpoint : var.cdr_cos_s3_endpoint
@@ -177,13 +172,6 @@ resource "ibm_en_subscription_cos" "cos" {
 }
 
 ##############################################################################
-# Standalone mode only (use_cdr_infrastructure = false)
-#
-# Everything below forwards the COS bucket events to SCC Workload Protection.
-# In CDR mode the CDR module already provides all of it, so none is created.
-##############################################################################
-
-##############################################################################
 # Service ID and API Key for RT CSPM Application
 # Skipped when CDR infrastructure is used or an existing Service ID is passed in.
 ##############################################################################
@@ -267,13 +255,10 @@ module "rt_cspm_trusted_profile" {
 }
 
 locals {
-  # Resolve the effective trusted profile ID. Null in CDR mode.
   effective_trusted_profile_id = local.create_cos ? (var.existing_trusted_profile_id != null ? var.existing_trusted_profile_id : module.rt_cspm_trusted_profile[0].profile_id) : null
 }
 
 resource "ibm_iam_trusted_profile_identity" "service_id" {
-  # Only attach the service ID identity when the trusted profile was created by this module.
-  # When an existing profile is reused it already has its own identity bindings.
   count         = local.create_trusted_profile ? 1 : 0
   depends_on    = [module.rt_cspm_trusted_profile]
   profile_id    = local.effective_trusted_profile_id
@@ -324,7 +309,6 @@ module "code_engine_project" {
 }
 
 locals {
-  # Resolve the effective Code Engine project ID. Null in CDR mode.
   effective_ce_project_id = local.create_cos ? (var.existing_ce_project_id != null ? var.existing_ce_project_id : module.code_engine_project[0].project_id) : null
 }
 
@@ -407,9 +391,6 @@ resource "terraform_data" "install_required_binaries" {
 
 resource "terraform_data" "rt_cspm_cos_subscription" {
   count = local.create_cos ? 1 : 0
-
-  # Trigger replacement when key configuration changes
-  # Store values in triggers_replace so they can be referenced in destroy provisioner via self
   triggers_replace = {
     ibmcloud_api_key  = sensitive(var.ibmcloud_api_key)
     region            = var.region

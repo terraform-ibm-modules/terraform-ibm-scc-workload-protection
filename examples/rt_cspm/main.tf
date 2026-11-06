@@ -1,44 +1,4 @@
 ##############################################################################
-# SCC Workload Protection — RT CSPM Only Example
-#
-# Enables Real-Time Cloud Security Posture Management (RT CSPM) without CDR.
-#
-# Flow:
-#   IBM Cloud service actions
-#          │
-#          ▼
-#   Activity Tracker Event Routing  (AT → AppConfig target)
-#          │
-#          ▼
-#   App Configuration (config aggregator)
-#          │
-#          ▼
-#   Event Notifications  (topic + COS destination)
-#          │
-#          ▼
-#   Cloud Object Storage bucket  (EN notification archive)
-#          │
-#          ▼
-#   Code Engine app  (COS event subscription → SCC-WP ingestion webhook)
-#
-# Resources created by this example:
-#   • Resource group (new or existing)
-#   • App Configuration instance  (config aggregator + EN integration)
-#   • Event Notifications instance
-#   • SCC Workload Protection instance  (CSPM + RT CSPM enabled, CDR disabled)
-#     ├── AT app_config target + route
-#     ├── S2S policy: AT → AppConfig
-#     ├── EN topic (AppConfig aggregator filter)
-#     ├── COS instance + bucket  (EN notification archive)
-#     ├── S2S policy: EN → COS
-#     ├── EN COS destination + subscription
-#     ├── IAM Service ID + API key
-#     ├── Trusted profile (WP → COS bucket)
-#     ├── Code Engine project + app
-#     └── COS event subscription → CE app
-##############################################################################
-
-##############################################################################
 # Resource Group
 ##############################################################################
 
@@ -54,6 +14,7 @@ module "resource_group" {
 ##############################################################################
 
 module "event_notifications" {
+  count   = var.existing_event_notifications_crn == null ? 1 : 0
   source  = "terraform-ibm-modules/event-notifications/ibm"
   version = "3.1.9"
 
@@ -65,11 +26,18 @@ module "event_notifications" {
   service_endpoints = "public-and-private"
 }
 
+locals {
+  event_notifications_crn = var.existing_event_notifications_crn != null ? var.existing_event_notifications_crn : module.event_notifications[0].crn
+  # Only used when this example also creates App Configuration (i.e. both existing CRNs are null)
+  event_notifications_endpoint_url = var.existing_event_notifications_crn != null ? null : module.event_notifications[0].event_notifications_public_endpoint
+}
+
 ##############################################################################
 # App Configuration  (config aggregator + EN integration)
 ##############################################################################
 
 module "app_config" {
+  count   = var.existing_app_config_crn == null ? 1 : 0
   source  = "terraform-ibm-modules/app-configuration/ibm"
   version = "1.20.4"
 
@@ -85,9 +53,13 @@ module "app_config" {
 
   # EN integration — creates AppConfig → EN S2S policy and source registration
   enable_event_notifications                 = true
-  existing_event_notifications_instance_crn  = module.event_notifications.crn
-  event_notifications_endpoint_url           = module.event_notifications.event_notifications_public_endpoint
+  existing_event_notifications_instance_crn  = local.event_notifications_crn
+  event_notifications_endpoint_url           = local.event_notifications_endpoint_url
   app_config_event_notifications_source_name = "${var.prefix}-appconfig-source"
+}
+
+locals {
+  app_config_crn = var.existing_app_config_crn != null ? var.existing_app_config_crn : module.app_config[0].app_config_crn
 }
 
 ##############################################################################
@@ -103,7 +75,7 @@ module "scc_wp" {
   resource_group_id                            = module.resource_group.resource_group_id
   resource_tags                                = var.resource_tags
   cspm_enabled                                 = true
-  app_config_crn                               = module.app_config.app_config_crn
+  app_config_crn                               = local.app_config_crn
   scc_workload_protection_trusted_profile_name = "${var.prefix}-wp-trusted-profile"
 
   # CDR disabled
@@ -113,7 +85,7 @@ module "scc_wp" {
   rt_cspm_enabled  = true
   ibmcloud_api_key = var.ibmcloud_api_key
 
-  rt_cspm_event_notifications_crn               = module.event_notifications.crn
+  rt_cspm_event_notifications_crn               = local.event_notifications_crn
   rt_cspm_event_notifications_topic_name        = "${var.prefix}-rt-cspm-topic"
   rt_cspm_event_notifications_destination_name  = "${var.prefix}-rt-cspm-cos-destination"
   rt_cspm_event_notifications_subscription_name = "${var.prefix}-rt-cspm-cos-subscription"

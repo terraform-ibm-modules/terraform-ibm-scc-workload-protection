@@ -25,5 +25,3 @@ An end-to-end example that demonstrates Real-Time Cloud Security Posture Managem
   - Code Engine project and application for event forwarding
   - COS event subscription to trigger the Code Engine app
   - Integration with SCC Workload Protection for security event analysis
-
-An `ibmcloud_api_key` is required to manage the Code Engine COS subscription.

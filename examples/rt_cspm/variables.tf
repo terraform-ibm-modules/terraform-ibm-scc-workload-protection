@@ -25,5 +25,17 @@ variable "resource_group" {
 variable "resource_tags" {
   description = "List of tags to apply to all resources."
   type        = list(string)
-  default     = ["env:test", "purpose:rt-cspm"]
+  default     = []
+}
+
+variable "existing_app_config_crn" {
+  type        = string
+  description = "CRN of an existing App Configuration instance (enterprise plan, with config aggregator enabled). If null, a new instance is created. If set, `existing_event_notifications_crn` must also be set."
+  default     = null
+}
+
+variable "existing_event_notifications_crn" {
+  type        = string
+  description = "CRN of an existing Event Notifications instance. If null, a new instance is created. If set, `existing_app_config_crn` must also be set."
+  default     = null
 }

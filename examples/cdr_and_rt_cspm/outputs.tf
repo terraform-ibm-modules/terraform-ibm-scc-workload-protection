@@ -23,7 +23,7 @@ output "scc_wp_crn" {
 
 output "app_config_crn" {
   description = "CRN of the App Configuration instance."
-  value       = module.app_config.app_config_crn
+  value       = local.app_config_crn
 }
 
 ##############################################################################
@@ -32,7 +32,7 @@ output "app_config_crn" {
 
 output "event_notifications_crn" {
   description = "CRN of the Event Notifications instance."
-  value       = module.event_notifications.crn
+  value       = local.event_notifications_crn
 }
 
 ##############################################################################

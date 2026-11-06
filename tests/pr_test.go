@@ -28,10 +28,13 @@ import (
 Global variables
 */
 const resourceGroup = "geretain-test-resources"
+const cdrExampleDir = "examples/cdr"
+const rtCspmExampleDir = "examples/rt_cspm"
 const cdrAndRtCspmExampleDir = "examples/cdr_and_rt_cspm"
 const fullyConfigurableDADir = "solutions/fully-configurable"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 const existingResources = "./existing-resources"
+const existingResourcesRTCSPM = "./existing-resources-rt-cspm"
 const terraformVersion = "terraform_v1.12.2" // This should match the version in the ibm_catalog.json
 
 var validRegions = []string{
@@ -57,6 +60,12 @@ func getRandomRegion() string {
 	return validRegions[n.Int64()]
 }
 
+var (
+	rtCspmRegion       string
+	rtCspmAppConfigCRN string
+	rtCspmENCRN        string
+)
+
 func TestMain(m *testing.M) {
 	// Read the YAML file contents
 	var err error
@@ -65,19 +74,139 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 
-	os.Exit(m.Run())
+	// ------------------------------------------------------------------------------------
+	// Provision the shared enterprise App Config and Event Notifications instances
+	// ------------------------------------------------------------------------------------
+	t := &testing.T{}
+	rtCspmRegion = getRandomRegion()
+	prefix := fmt.Sprintf("rt-cspm-pre-%s", strings.ToLower(random.UniqueID()))
+	tempTerraformDir, err := files.CopyTerraformFolderToTemp(existingResourcesRTCSPM, prefix)
+	if err != nil {
+		log.Fatal(err)
+	}
+	logger.Log(t, "Tempdir: ", tempTerraformDir)
+
+	existingTerraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+		TerraformDir: tempTerraformDir,
+		Vars: map[string]any{
+			"prefix":        prefix,
+			"region":        rtCspmRegion,
+			"resource_tags": common.GetTagsFromTravis(),
+		},
+		// Set Upgrade to true to ensure latest version of providers and modules are used by terratest.
+		// This is the same as setting the -upgrade=true flag with terraform.
+		Upgrade: true,
+	})
+
+	_, err = terraform.WorkspaceSelectOrNewContextE(t, context.Background(), existingTerraformOptions, prefix)
+	if err == nil {
+		_, err = terraform.InitAndApplyContextE(t, context.Background(), existingTerraformOptions)
+	}
+	if err == nil {
+		rtCspmAppConfigCRN, err = terraform.OutputContextE(t, context.Background(), existingTerraformOptions, "app_config_crn")
+	}
+	if err == nil {
+		rtCspmENCRN, err = terraform.OutputContextE(t, context.Background(), existingTerraformOptions, "event_notifications_crn")
+	}
+
+	code := 1
+	if err != nil {
+		log.Printf("Provisioning of shared RT CSPM pre-req resources failed: %v", err)
+	} else {
+		code = m.Run()
+	}
+
+	// ------------------------------------------------------------------------------------
+	// Destroy the shared resources
+	// ------------------------------------------------------------------------------------
+	envVal, _ := os.LookupEnv("DO_NOT_DESTROY_ON_FAILURE")
+	if code != 0 && strings.ToLower(envVal) == "true" {
+		fmt.Println("Terratest failed. Debug the test and delete resources manually.")
+	} else {
+		logger.Log(t, "START: Destroy (prereq resources)")
+		if _, destroyErr := terraform.DestroyContextE(t, context.Background(), existingTerraformOptions); destroyErr != nil {
+			log.Printf("Destroy of shared RT CSPM pre-req resources failed: %v", destroyErr)
+			code = 1
+		} else if _, wsErr := terraform.WorkspaceDeleteContextE(t, context.Background(), existingTerraformOptions, prefix); wsErr != nil {
+			log.Printf("Delete of workspace %s failed: %v", prefix, wsErr)
+		}
+		logger.Log(t, "END: Destroy (prereq resources)")
+	}
+
+	os.Exit(code)
+}
+
+func TestRunCDRExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                    t,
+		TerraformDir:               cdrExampleDir,
+		Prefix:                     "scc-wp-cdr",
+		CheckApplyResultForUpgrade: true,
+		Region:                     getRandomRegion(),
+	})
+	options.TerraformVars = map[string]any{
+		"prefix":                  options.Prefix,
+		"existing_app_config_crn": permanentResources["app_config_crn"],
+	}
+
+	options.IgnoreUpdates = testhelper.Exemptions{
+		List: []string{
+			"module.scc_wp_cdr.module.cdr[0].module.code_engine_app.ibm_code_engine_app.ce_app",
+		},
+	}
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
+}
+
+func TestRunRTCSPMExample(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
+		Testing:                    t,
+		TerraformDir:               rtCspmExampleDir,
+		Prefix:                     "rt-cspm",
+		CheckApplyResultForUpgrade: true,
+		Region:                     rtCspmRegion,
+	})
+
+	options.TerraformVars = map[string]any{
+		"prefix":                           options.Prefix,
+		"existing_app_config_crn":          rtCspmAppConfigCRN,
+		"existing_event_notifications_crn": rtCspmENCRN,
+		"region":                           rtCspmRegion,
+	}
+
+	options.IgnoreUpdates = testhelper.Exemptions{
+		List: []string{
+			"module.scc_wp.module.rt_cspm[0].module.code_engine_app[0].ibm_code_engine_app.ce_app",
+		},
+	}
+
+	output, err := options.RunTestConsistency()
+	assert.Nil(t, err, "This should not have errored")
+	assert.NotNil(t, output, "Expected some output")
 }
 
 func TestRunCDRAndRTCSPMExample(t *testing.T) {
-	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                    t,
 		TerraformDir:               cdrAndRtCspmExampleDir,
 		Prefix:                     "cdr-rt-cspm",
 		CheckApplyResultForUpgrade: true,
-		Region:                     getRandomRegion(),
+		Region:                     rtCspmRegion,
 	})
+
+	options.TerraformVars = map[string]any{
+		"prefix":                           options.Prefix,
+		"existing_app_config_crn":          rtCspmAppConfigCRN,
+		"existing_event_notifications_crn": rtCspmENCRN,
+		"region":                           rtCspmRegion,
+	}
 
 	options.IgnoreUpdates = testhelper.Exemptions{
 		List: []string{
@@ -235,7 +364,7 @@ func TestFullyConfigurableUpgrade(t *testing.T) {
 			DeleteWorkspaceOnFail:      false,
 			WaitJobCompleteMinutes:     60,
 			CheckApplyResultForUpgrade: true,
-			Region:                     region,
+			Region:                     rtCspmRegion,
 			TerraformVersion:           terraformVersion,
 		})
 

@@ -11,6 +11,7 @@ variable "ibmcloud_api_key" {
 variable "region" {
   description = "IBM Cloud region where RT CSPM resources will be deployed"
   type        = string
+  default     = "us-south"
 }
 
 variable "resource_group_id" {
