@@ -177,6 +177,7 @@ You need the following permissions to run this module:
 | <a name="output_cos_instance_crn"></a> [cos\_instance\_crn](#output\_cos\_instance\_crn) | CRN of the COS instance created for CDR |
 | <a name="output_cos_instance_guid"></a> [cos\_instance\_guid](#output\_cos\_instance\_guid) | GUID of the COS instance created for CDR |
 | <a name="output_cos_instance_id"></a> [cos\_instance\_id](#output\_cos\_instance\_id) | ID of the COS instance created for CDR |
+| <a name="output_cos_s3_endpoint"></a> [cos\_s3\_endpoint](#output\_cos\_s3\_endpoint) | S3 endpoint (without https://) of the CDR COS bucket, selected by management\_endpoint\_type\_for\_bucket |
 | <a name="output_service_api_key"></a> [service\_api\_key](#output\_service\_api\_key) | API key for CDR service authentication |
 | <a name="output_service_id"></a> [service\_id](#output\_service\_id) | IAM ID of the service ID created for CDR |
 | <a name="output_service_id_crn"></a> [service\_id\_crn](#output\_service\_id\_crn) | CRN of the service ID created for CDR |

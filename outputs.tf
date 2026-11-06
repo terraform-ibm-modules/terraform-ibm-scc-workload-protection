@@ -156,3 +156,104 @@ output "cdr_trusted_profile_policies" {
   description = "List of policies attached to the CDR trusted profile"
   value       = var.cdr_enabled ? module.cdr[0].trusted_profile_policies : null
 }
+
+##############################################################################
+# RT CSPM Module Outputs
+##############################################################################
+
+output "rt_cspm_cos_instance_id" {
+  description = "ID of the COS instance used for RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_instance_id : null
+}
+
+output "rt_cspm_cos_instance_crn" {
+  description = "CRN of the COS instance used for RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_instance_crn : null
+}
+
+output "rt_cspm_cos_instance_guid" {
+  description = "GUID of the COS instance used for RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_instance_guid : null
+}
+
+output "rt_cspm_cos_bucket_name" {
+  description = "Name of the COS bucket that stores RT CSPM notification archives"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_bucket_name : null
+}
+
+output "rt_cspm_cos_bucket_id" {
+  description = "ID of the RT CSPM COS bucket"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_bucket_id : null
+}
+
+output "rt_cspm_cos_bucket_crn" {
+  description = "CRN of the RT CSPM COS bucket"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].cos_bucket_crn : null
+}
+
+output "rt_cspm_atracker_target_id" {
+  description = "ID of the Activity Tracker target that delivers events to App Configuration"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].atracker_target_id : null
+}
+
+output "rt_cspm_atracker_target_crn" {
+  description = "CRN of the RT CSPM Activity Tracker target"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].atracker_target_crn : null
+}
+
+output "rt_cspm_atracker_route_id" {
+  description = "ID of the RT CSPM Activity Tracker route"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].atracker_route_id : null
+}
+
+output "rt_cspm_event_notifications_topic_id" {
+  description = "ID of the Event Notifications topic that filters App Configuration aggregator events"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].event_notifications_topic_id : null
+}
+
+output "rt_cspm_event_notifications_destination_id" {
+  description = "ID of the Event Notifications COS destination"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].event_notifications_destination_id : null
+}
+
+output "rt_cspm_event_notifications_subscription_id" {
+  description = "ID of the Event Notifications COS subscription"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].event_notifications_subscription_id : null
+}
+
+output "rt_cspm_service_id" {
+  description = "ID of the service ID used by RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].service_id : null
+}
+
+output "rt_cspm_service_api_key" {
+  description = "API key of the service ID used by RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].service_api_key : null
+  sensitive   = true
+}
+
+output "rt_cspm_trusted_profile_id" {
+  description = "ID of the trusted profile used by RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].trusted_profile_id : null
+}
+
+output "rt_cspm_code_engine_project_id" {
+  description = "ID of the Code Engine project used by RT CSPM"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].code_engine_project_id : null
+}
+
+output "rt_cspm_code_engine_app" {
+  description = "Name of the Code Engine app that forwards RT CSPM events"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].code_engine_app : null
+}
+
+output "rt_cspm_code_engine_app_url" {
+  description = "URL of the RT CSPM Code Engine app"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].code_engine_app_url : null
+}
+
+output "rt_cspm_ingestion_endpoint" {
+  description = "Sysdig ingestion URL for RT CSPM events"
+  value       = var.rt_cspm_enabled ? module.rt_cspm[0].rt_cspm_ingestion_endpoint : null
+  sensitive   = true
+}

@@ -197,7 +197,7 @@ resource "restapi_object" "cspm" {
 locals {
   # Extract the Sysdig environment URL from the endpoint
   # Example: "https://us-south.monitoring.cloud.ibm.com" -> "us-south.monitoring.cloud.ibm.com"
-  sysdig_endpoint = var.cdr_enabled ? trimprefix(ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Endpoint"], "https://") : ""
+  sysdig_endpoint = (var.cdr_enabled || var.rt_cspm_enabled) ? trimprefix(ibm_resource_key.scc_wp_resource_key.credentials["Sysdig Endpoint"], "https://") : ""
 }
 
 # Create CDR infrastructure if enabled
@@ -258,6 +258,96 @@ module "cdr" {
   # COS Subscription
   subscription_name         = var.cdr_subscription_name
   install_required_binaries = var.cdr_install_required_binaries
+
+  depends_on = [
+    ibm_resource_instance.scc_wp,
+    ibm_resource_key.scc_wp_resource_key,
+    restapi_object.cspm
+  ]
+}
+
+################################################################
+# RT CSPM (Real-Time Cloud Security Posture Management)
+################################################################
+
+# When CDR is also enabled, RT CSPM creates only the Activity Tracker and Event
+# Notifications resources. Event Notifications writes into the CDR COS bucket,
+# and the CDR Service ID, trusted profile, Code Engine project/app, COS
+# subscription and CDR enablement already cover it.
+module "rt_cspm" {
+  count  = var.rt_cspm_enabled ? 1 : 0
+  source = "./modules/rt_cspm"
+
+  # IBM Cloud Authentication
+  ibmcloud_api_key = var.ibmcloud_api_key
+
+  region            = var.region
+  resource_group_id = var.resource_group_id
+  resource_tags     = var.resource_tags
+
+  # App Configuration
+  app_config_crn = var.app_config_crn
+
+  # Event Notifications
+  event_notifications_crn               = var.rt_cspm_event_notifications_crn
+  event_notifications_topic_name        = var.rt_cspm_event_notifications_topic_name
+  enable_topic_rule                     = var.rt_cspm_enable_topic_rule
+  event_type_filter                     = var.rt_cspm_event_type_filter
+  notification_filter                   = var.rt_cspm_notification_filter
+  event_notifications_destination_name  = var.rt_cspm_event_notifications_destination_name
+  event_notifications_subscription_name = var.rt_cspm_event_notifications_subscription_name
+
+  # Activity Tracker
+  atracker_target_name = var.rt_cspm_atracker_target_name
+  atracker_route_name  = var.rt_cspm_atracker_route_name
+  atracker_locations   = var.rt_cspm_atracker_locations
+
+  # CDR integration: reuse the CDR COS bucket instead of creating RT CSPM's own
+  use_cdr_infrastructure = var.cdr_enabled
+  cdr_cos_instance_guid  = var.cdr_enabled ? module.cdr[0].cos_instance_guid : null
+  cdr_cos_bucket_name    = var.cdr_enabled ? module.cdr[0].cos_bucket_name : null
+  cdr_cos_s3_endpoint    = var.cdr_enabled ? module.cdr[0].cos_s3_endpoint : null
+
+  # COS (standalone mode only)
+  existing_cos_instance_id            = var.cdr_enabled ? null : var.existing_cos_instance_id
+  cos_instance_name                   = var.rt_cspm_cos_instance_name
+  cos_bucket_name                     = var.rt_cspm_cos_bucket_name
+  cos_bucket_storage_class            = var.rt_cspm_cos_bucket_storage_class
+  cos_plan                            = var.rt_cspm_cos_plan
+  management_endpoint_type_for_bucket = var.rt_cspm_management_endpoint_type_for_bucket
+  kms_encryption_enabled              = var.rt_cspm_kms_encryption_enabled
+  kms_key_crn                         = var.rt_cspm_kms_key_crn
+  skip_iam_authorization_policy       = var.rt_cspm_skip_iam_authorization_policy
+
+  # IAM Service ID (standalone mode only; CDR's is used otherwise)
+  iam_service_id_name     = var.rt_cspm_iam_service_id_name
+  iam_service_policy_name = var.rt_cspm_iam_service_policy_name
+
+  # Trusted Profile (standalone mode only; CDR's is used otherwise)
+  trusted_profile_name = var.rt_cspm_trusted_profile_name
+
+  # Code Engine (standalone mode only; CDR's project and app are used otherwise)
+  ce_project_name        = var.rt_cspm_ce_project_name
+  ce_app_name            = var.rt_cspm_ce_app_name
+  rt_cspm_ce_app_image   = var.rt_cspm_ce_app_image
+  ce_app_min_scale       = var.rt_cspm_ce_app_min_scale
+  ce_app_max_scale       = var.rt_cspm_ce_app_max_scale
+  ce_app_cpu             = var.rt_cspm_ce_app_cpu
+  ce_app_memory          = var.rt_cspm_ce_app_memory
+  ce_app_timeout         = var.rt_cspm_ce_app_timeout
+  ce_run_service_account = var.rt_cspm_ce_run_service_account
+  ce_api_secret_name     = var.rt_cspm_ce_api_secret_name
+  ce_icr_secret_name     = var.rt_cspm_ce_icr_secret_name
+
+  # SCC Workload Protection
+  target_account_id        = local.target_account_id
+  sysdig_environment_url   = local.sysdig_endpoint
+  workload_protection_crn  = ibm_resource_instance.scc_wp.crn
+  workload_protection_guid = ibm_resource_instance.scc_wp.guid
+
+  # COS Subscription
+  subscription_name         = var.rt_cspm_subscription_name
+  install_required_binaries = var.rt_cspm_install_required_binaries
 
   depends_on = [
     ibm_resource_instance.scc_wp,

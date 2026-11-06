@@ -36,6 +36,11 @@ output "cos_bucket_crn" {
   value       = module.cos.bucket_crn
 }
 
+output "cos_s3_endpoint" {
+  description = "S3 endpoint (without https://) of the CDR COS bucket, selected by management_endpoint_type_for_bucket"
+  value       = local.cos_s3_endpoint
+}
+
 ##############################################################################
 # Activity Tracker Outputs
 ##############################################################################
