@@ -34,6 +34,7 @@ module "app_config" {
   existing_event_notifications_instance_crn  = local.event_notifications_crn
   event_notifications_endpoint_url           = local.event_notifications_endpoint_url
   app_config_event_notifications_source_name = "${var.prefix}-appconfig-source"
+  app_config_service_endpoints               = "public-and-private"
 }
 
 locals {
@@ -55,7 +56,7 @@ module "event_notifications" {
   plan              = "standard"
   region            = var.region
   resource_tags     = var.resource_tags
-  service_endpoints = "public-and-private"
+  service_endpoints = "private"
 }
 
 locals {
@@ -93,7 +94,7 @@ module "scc_wp" {
   cdr_cos_instance_name                   = "${var.prefix}-cdr-cos"
   cdr_cos_bucket_name                     = "${var.prefix}-cdr-events"
   cdr_cos_bucket_storage_class            = "smart"
-  cdr_management_endpoint_type_for_bucket = "public"
+  cdr_management_endpoint_type_for_bucket = "private"
 
   cdr_atracker_target_name = "${var.prefix}-cdr-at-target"
   cdr_atracker_route_name  = "${var.prefix}-cdr-at-route"
