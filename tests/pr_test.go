@@ -163,7 +163,6 @@ func TestRunCDRExample(t *testing.T) {
 }
 
 func TestRunRTCSPMExample(t *testing.T) {
-	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:                    t,
