@@ -16,7 +16,7 @@ module "resource_group" {
 module "event_notifications" {
   count   = var.existing_event_notifications_crn == null ? 1 : 0
   source  = "terraform-ibm-modules/event-notifications/ibm"
-  version = "3.1.9"
+  version = "3.1.10"
 
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
