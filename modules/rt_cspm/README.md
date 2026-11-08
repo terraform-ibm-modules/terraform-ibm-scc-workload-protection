@@ -140,9 +140,9 @@ You need the following permissions to run this module:
 | Name | Source | Version |
 | ---- | ------ | ------- |
 | <a name="module_app_config_crn_parser"></a> [app\_config\_crn\_parser](#module\_app\_config\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
-| <a name="module_code_engine_app"></a> [code\_engine\_app](#module\_code\_engine\_app) | terraform-ibm-modules/code-engine/ibm//modules/app | 4.9.19 |
-| <a name="module_code_engine_project"></a> [code\_engine\_project](#module\_code\_engine\_project) | terraform-ibm-modules/code-engine/ibm | 4.9.19 |
-| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 11.2.5 |
+| <a name="module_code_engine_app"></a> [code\_engine\_app](#module\_code\_engine\_app) | terraform-ibm-modules/code-engine/ibm//modules/app | 4.9.20 |
+| <a name="module_code_engine_project"></a> [code\_engine\_project](#module\_code\_engine\_project) | terraform-ibm-modules/code-engine/ibm | 4.9.20 |
+| <a name="module_cos"></a> [cos](#module\_cos) | terraform-ibm-modules/cos/ibm | 11.2.8 |
 | <a name="module_event_notification_crn_parser"></a> [event\_notification\_crn\_parser](#module\_event\_notification\_crn\_parser) | terraform-ibm-modules/common-utilities/ibm//modules/crn-parser | 1.9.0 |
 | <a name="module_rt_cspm_service_id"></a> [rt\_cspm\_service\_id](#module\_rt\_cspm\_service\_id) | terraform-ibm-modules/iam-service-id/ibm | 1.3.1 |
 | <a name="module_rt_cspm_trusted_profile"></a> [rt\_cspm\_trusted\_profile](#module\_rt\_cspm\_trusted\_profile) | terraform-ibm-modules/trusted-profile/ibm | 4.2.0 |
