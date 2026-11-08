@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "cloud_monitoring" {
   source            = "terraform-ibm-modules/cloud-monitoring/ibm"
-  version           = "1.17.1"
+  version           = "1.17.2"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   instance_name     = "${var.prefix}-cm"
@@ -65,7 +65,7 @@ module "cbr_zone" {
 module "app_config" {
   count                                  = var.existing_app_config_crn == null ? 1 : 0
   source                                 = "terraform-ibm-modules/app-configuration/ibm"
-  version                                = "1.20.4"
+  version                                = "1.20.5"
   region                                 = var.region
   resource_group_id                      = module.resource_group.resource_group_id
   app_config_plan                        = "basic"

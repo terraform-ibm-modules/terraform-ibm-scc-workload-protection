@@ -79,7 +79,7 @@ locals {
 module "cos" {
   count                               = local.create_cos ? 1 : 0
   source                              = "terraform-ibm-modules/cos/ibm"
-  version                             = "11.2.5"
+  version                             = "11.2.8"
   create_cos_instance                 = var.existing_cos_instance_id != null ? false : true
   existing_cos_instance_id            = var.existing_cos_instance_id
   resource_group_id                   = var.resource_group_id
@@ -281,7 +281,7 @@ locals {
 module "code_engine_project" {
   count   = local.create_ce_project ? 1 : 0
   source  = "terraform-ibm-modules/code-engine/ibm"
-  version = "4.9.19"
+  version = "4.9.20"
 
   project_name      = var.ce_project_name
   resource_group_id = var.resource_group_id
@@ -319,7 +319,7 @@ locals {
 module "code_engine_app" {
   count                 = local.create_cos ? 1 : 0
   source                = "terraform-ibm-modules/code-engine/ibm//modules/app"
-  version               = "4.9.19"
+  version               = "4.9.20"
   name                  = var.ce_app_name
   project_id            = local.effective_ce_project_id
   image_reference       = var.rt_cspm_ce_app_image

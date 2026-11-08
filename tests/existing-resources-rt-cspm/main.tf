@@ -16,7 +16,7 @@ module "resource_group" {
 
 module "event_notifications" {
   source  = "terraform-ibm-modules/event-notifications/ibm"
-  version = "3.1.10"
+  version = "3.1.11"
 
   resource_group_id = module.resource_group.resource_group_id
   name              = "${var.prefix}-en"
@@ -32,7 +32,7 @@ module "event_notifications" {
 
 module "app_config" {
   source  = "terraform-ibm-modules/app-configuration/ibm"
-  version = "1.20.4"
+  version = "1.20.5"
 
   region            = var.region
   resource_group_id = module.resource_group.resource_group_id
