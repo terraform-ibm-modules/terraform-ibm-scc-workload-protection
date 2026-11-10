@@ -1,0 +1,1 @@
+The terraform code in this directory creates the enterprise App Configuration and Event Notifications instances shared by the RT CSPM example tests (TestRunRTCSPMExample and TestRunCDRAndRTCSPMExample).
