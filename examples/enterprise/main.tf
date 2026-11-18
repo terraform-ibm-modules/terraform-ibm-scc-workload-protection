@@ -68,18 +68,37 @@ locals {
   ]
 }
 
-# create a new zone and add the FedRAMP policies to it
-resource "sysdig_secure_posture_zone" "example" {
+data "ibm_iam_account_settings" "iam_account_settings" {}
+
+# create a new zone
+resource "sysdig_secure_zone" "example" {
   name        = "${var.prefix}-zone"
   description = "Zone description"
-  policy_ids  = [for p in local.fedramp_policies : p.id]
 
-  # you can use a scope to only target a set of sub-accounts by uncommenting the below code and updating the account IDs
+  # scope is required, by default the zone targets the current account
+  scope {
+    target_type = "ibm"
+    expression {
+      field    = "account"
+      operator = "in"
+      values   = [data.ibm_iam_account_settings.iam_account_settings.account_id]
+    }
+  }
 
-  # scopes {
-  #   scope {
-  #     target_type = "ibm"
-  #     rules       = "account in (\"nbac0df06b644a9cabc6e44f55b3880h\", \"5f9af00a96104f49b6509aa715f9d6a4\")"
+  # you can use a scope to only target a set of sub-accounts by uncommenting the below code (and removing the above scope) and updating the account IDs
+
+  # scope {
+  #   target_type = "ibm"
+  #   expression {
+  #     field    = "account"
+  #     operator = "in"
+  #     values   = ["nbac0df06b644a9cabc6e44f55b3880h", "5f9af00a96104f49b6509aa715f9d6a4"] # pragma: allowlist secret
   #   }
   # }
+}
+
+# add the FedRAMP policies to the zone
+resource "sysdig_secure_zone_posture_policy_assignment" "example" {
+  zone_id    = sysdig_secure_zone.example.id
+  policy_ids = [for p in local.fedramp_policies : p.id]
 }
